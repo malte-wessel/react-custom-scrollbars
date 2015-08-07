@@ -165,8 +165,8 @@ export default class Scrollbars extends Component {
     getSize() {
         const $el = findDOMNode(this);
         return {
-            width: $el.offsetWidth + SCROLLBAR_WIDTH,
-            height: $el.offsetHeight + SCROLLBAR_WIDTH
+            width: $el.offsetWidth + SCROLLBAR_WIDTH + 1,
+            height: $el.offsetHeight + SCROLLBAR_WIDTH + 1
         };
     }
 
@@ -259,7 +259,8 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
-        this.update();
+        const { width, height } = this.getSize();
+        this.setState({ width, height }, this.update);
     }
 
     dragStart(event) {
