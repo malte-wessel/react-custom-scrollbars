@@ -111,8 +111,7 @@ export default class Scrollbars extends Component {
         }
 
         this.addListeners();
-        const { width, height } = this.getSize();
-        this.setState({ width, height }, this.update);
+        this.update();
     }
 
     componentWillReceiveProps() {
@@ -182,13 +181,14 @@ export default class Scrollbars extends Component {
         if (SCROLLBAR_WIDTH === 0) return;
 
         const size = this.getSize();
-        const sizeInnerPercentage = this.getInnerSizePercentage();
-        const position = this.getPosition();
 
-        this.setState({
-            ...size,
-            ...sizeInnerPercentage,
-            ...position
+        this.setState(size, () => {
+            const sizeInnerPercentage = this.getInnerSizePercentage();
+            const position = this.getPosition();
+            this.setState({
+                ...sizeInnerPercentage,
+                ...position
+            });
         });
     }
 
@@ -259,8 +259,7 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
-        const { width, height } = this.getSize();
-        this.setState({ width, height }, this.update);
+        this.update();
     }
 
     dragStart(event) {
