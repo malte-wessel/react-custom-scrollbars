@@ -36,10 +36,6 @@ const stylesheet = [
 function getDefaultScrollbarHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
-        right: 2,
-        bottom: 2,
-        left: 2,
-        height: 6,
         borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
@@ -48,10 +44,6 @@ function getDefaultScrollbarHorizontal({ style, ...props }) {
 function getDefaultScrollbarVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
-        right: 2,
-        bottom: 2,
-        top: 2,
-        width: 6,
         borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
@@ -348,11 +340,27 @@ export default class Scrollbars extends Component {
             zIndex: 1
         };
 
+        const scrollbarHorizontalStyle = {
+            ...scrollbarStyle,
+            right: 2,
+            bottom: 2,
+            left: 2,
+            height: 6
+        };
+
+        const scrollbarVerticalStyle = {
+            ...scrollbarStyle,
+            right: 2,
+            bottom: 2,
+            top: 2,
+            width: 6
+        };
+
         return (
             <div {...props} style={containerStyle}>
                 {
                     cloneElement(
-                        scrollbarHorizontal({ style: scrollbarStyle }),
+                        scrollbarHorizontal({ style: scrollbarHorizontalStyle }),
                         { ref: 'barHorizontal' },
                         cloneElement(
                             thumbHorizontal({ style: thumbHorizontalStyle }),
@@ -362,7 +370,7 @@ export default class Scrollbars extends Component {
                 }
                 {
                     cloneElement(
-                        scrollbarVertical({ style: scrollbarStyle }),
+                        scrollbarVertical({ style: scrollbarVerticalStyle }),
                         { ref: 'barVertical' },
                         cloneElement(
                             thumbVertical({ style: thumbVerticalStyle }),
