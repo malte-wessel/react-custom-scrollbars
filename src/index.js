@@ -1,2 +1,2 @@
-import Scroller from './Scroller';
-export { Scroller };
+import Scrollbars from './Scrollbars';
+export { Scrollbars };

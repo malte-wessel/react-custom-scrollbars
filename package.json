@@ -1,12 +1,12 @@
 {
-  "name": "library-boilerplate",
-  "version": "1.0.0",
-  "description": "library-boilerplate-description",
+  "name": "react-custom-scrollbars",
+  "version": "0.1.0",
+  "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib dist",
     "build": "babel src --out-dir lib",
-    "build:umd": "webpack src/index.js dist/library-boilerplate.js && NODE_ENV=production webpack src/index.js dist/library-boilerplate.min.js",
+    "build:umd": "webpack src/index.js dist/react-custom-scrollbars.js && NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
     "lint": "eslint src test examples",
     "test": "NODE_ENV=test mocha --compilers js:babel/register --recursive",
     "test:watch": "NODE_ENV=test mocha --compilers js:babel/register --recursive --watch",
@@ -15,17 +15,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/library-boilerplate-author/library-boilerplate.git"
+    "url": "https://github.com/malte-wessel/react-custom-scrollbars.git"
   },
   "keywords": [
-    "library-boilerplate-keywords"
+    "scroll",
+    "scroller",
+    "scrollbars",
+    "react",
+    "custom"
   ],
-  "author": "library-boilerplate-author",
+  "author": "Malte Wessel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/library-boilerplate-author/library-boilerplate/issues"
+    "url": "https://github.com/malte-wessel/react-custom-scrollbars/issues"
   },
-  "homepage": "https://github.com/library-boilerplate-author/library-boilerplate",
+  "homepage": "https://github.com/malte-wessel/react-custom-scrollbars",
   "devDependencies": {
     "babel": "^5.5.8",
     "babel-core": "^5.6.18",
@@ -43,7 +47,9 @@
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
-  "dependencies": {
-    "invariant": "^2.0.0"
-  }
+  "peerDependencies": {
+      "react": "^0.14.0-beta3",
+      "react-dom": "^0.14.0-beta3"
+  },
+  "dependencies": {}
 }

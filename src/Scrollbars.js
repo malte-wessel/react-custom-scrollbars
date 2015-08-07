@@ -1,4 +1,4 @@
-import React, { isValidElement, Component, PropTypes, cloneElement } from 'react';
+import React, { Component, PropTypes, cloneElement } from 'react';
 import { findDOMNode } from 'react-dom';
 import addClass from './utils/addClass';
 import removeClass from './utils/removeClass';
@@ -9,8 +9,8 @@ import returnFalse from './utils/returnFalse';
 let SCROLLBAR_WIDTH = false;
 
 const classnames = {
-    testScrollbar: 'react-scroller-test-scrollbar',
-    disableSelection: 'react-scroller-disable-selection'
+    testScrollbar: 'react-custom-scrollbars-test-scrollbar',
+    disableSelection: 'react-custom-scrollbars-disable-selection'
 };
 
 const stylesheet = [
@@ -80,7 +80,7 @@ function getDefaultView({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export default class Scroller extends Component {
+export default class Scrollbars extends Component {
 
     static propTypes = {
         scrollbarHorizontal: PropTypes.func,
@@ -380,5 +380,4 @@ export default class Scroller extends Component {
             </div>
         );
     }
-
 }
