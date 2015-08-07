@@ -36,17 +36,16 @@ class App extends Component {
 class CustomScrollbars extends Component {
   render() {
     return (
-        <Scrollbars
-          className="container"
-          scrollbarHorizontal={props => <div {...props} className="scrollbar-horizontal" />}
-          scrollbarVertical={props => <div {...props} className="scrollbar-vertical"/>}
-          thumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
-          thumbVertical={props => <div {...props} className="thumb-vertical"/>}
-          view={props => <div {...props} className="view"/>}
-        >
-          {this.props.children}
-        </Scrollbars>
-      </div>
+      <Scrollbars
+        className="container"
+        scrollbarHorizontal={props => <div {...props} className="scrollbar-horizontal" />}
+        scrollbarVertical={props => <div {...props} className="scrollbar-vertical"/>}
+        thumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
+        thumbVertical={props => <div {...props} className="thumb-vertical"/>}
+        view={props => <div {...props} className="view"/>}
+      >
+        {this.props.children}
+      </Scrollbars>
     );
   }
 }
