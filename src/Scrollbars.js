@@ -115,6 +115,10 @@ export default class Scrollbars extends Component {
         this.setState({ width, height }, this.update);
     }
 
+    componentWillReceiveProps() {
+        this.update();
+    }
+
     componentWillUnmount() {
         this.removeListeners();
     }
@@ -297,11 +301,11 @@ export default class Scrollbars extends Component {
         const thumbTranslateY = 'translateY(' + y + '%)';
 
         const containerStyle = {
-            ...style,
             position: 'relative',
             overflow: 'hidden',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            ...style
         };
 
         const thumbStyle = {
