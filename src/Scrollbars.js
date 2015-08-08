@@ -96,10 +96,10 @@ export default class Scrollbars extends Component {
         this.state = {
             x: 0,
             y: 0,
-            width: 0,
-            height: 0,
-            heightPercentageInner: 0,
-            widthPercentageInner: 0
+            width: '100%',
+            height: '100%',
+            heightPercentageInner: 100,
+            widthPercentageInner: 100
         };
     }
 
@@ -349,7 +349,7 @@ export default class Scrollbars extends Component {
             right: 2,
             bottom: 2,
             left: 2,
-            height: 6
+            height: widthPercentageInner < 100 ? 6 : 0
         };
 
         const scrollbarVerticalStyle = {
@@ -357,7 +357,7 @@ export default class Scrollbars extends Component {
             right: 2,
             bottom: 2,
             top: 2,
-            width: 6
+            width: heightPercentageInner < 100 ? 6 : 0
         };
 
         return (

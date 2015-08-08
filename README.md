@@ -5,8 +5,10 @@ react-custom-scrollbars
 * inspired by noeldelgado's great [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar)
 * native scrolling for mobile devices
 * fully customizable
+* no dependencies
 * IE9+ support
 * ^react@0.14.0-beta3
+* [check out the demo](http://malte-wessel.github.io/react-custom-scrollbars/)
 
 ## Installation
 ```bash
