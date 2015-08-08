@@ -1,6 +1,6 @@
 {
   "name": "react-custom-scrollbars",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "scroll",
     "scroller",
     "scrollbars",
+    "react-component",
     "react",
     "custom"
   ],
