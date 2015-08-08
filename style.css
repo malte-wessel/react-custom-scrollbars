@@ -2,3 +2,14 @@ body {
     font-family: sans-serif;
     line-height: 1.5;
 }
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}
