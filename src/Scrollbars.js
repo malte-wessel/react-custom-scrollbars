@@ -317,7 +317,7 @@ export default class Scrollbars extends Component {
         const thumbHorizontalStyle = {
             ...thumbStyle,
             height: '100%',
-            width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
+            width: widthPercentageInner < 100 ? (widthPercentageInner + '%') : 0,
             MsTransform: thumbTranslateX,
             WebkitTransform: thumbTranslateX,
             transform: thumbTranslateX
@@ -326,7 +326,7 @@ export default class Scrollbars extends Component {
         const thumbVerticalStyle = {
             ...thumbStyle,
             width: '100%',
-            height: (heightPercentageInner < 100) ? (heightPercentageInner + '%') : 0,
+            height: heightPercentageInner < 100 ? (heightPercentageInner + '%') : 0,
             MsTransform: thumbTranslateY,
             WebkitTransform: thumbTranslateY,
             transform: thumbTranslateY
