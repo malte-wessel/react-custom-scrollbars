@@ -83,15 +83,15 @@ class App extends Component {
 
 #### Props
 
-The following properties expect a react component to be returned. You can customize the component to your needs. 
+The following properties expect a react element to be returned. You can customize the element to your needs. 
 
-* `scrollbarHorizontal`: (Function) Horizontal scrollbar component
-* `scrollbarVertical`: (Function) Vertical scrollbar component
-* `thumbHorizontal`: (Function) Horizontal thumb component
-* `thumbVertical`: (Function) Vertical thumb component
-* `view`: (Function) The component your content will be rendered in
+* `scrollbarHorizontal`: (Function) Horizontal scrollbar element
+* `scrollbarVertical`: (Function) Vertical scrollbar element
+* `thumbHorizontal`: (Function) Horizontal thumb element
+* `thumbVertical`: (Function) Vertical thumb element
+* `view`: (Function) The element your content will be rendered in
 
-**Don't forget to pass the received props to your custom component. Example:**
+**Don't forget to pass the received props to your custom element. Example:**
 
 ```javascript
 class CustomScrollbars extends Component {
