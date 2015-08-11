@@ -36,6 +36,9 @@ const stylesheet = [
 function getDefaultScrollbarHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
+        right: 2,
+        bottom: 2,
+        left: 2,
         borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
@@ -44,6 +47,9 @@ function getDefaultScrollbarHorizontal({ style, ...props }) {
 function getDefaultScrollbarVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
+        right: 2,
+        bottom: 2,
+        top: 2,
         borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
@@ -52,6 +58,7 @@ function getDefaultScrollbarVertical({ style, ...props }) {
 function getDefaultThumbHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
+        cursor: 'pointer',
         borderRadius: 'inherit',
         backgroundColor: 'rgba(0,0,0,.2)'
     };
@@ -61,6 +68,7 @@ function getDefaultThumbHorizontal({ style, ...props }) {
 function getDefaultThumbVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
+        cursor: 'pointer',
         borderRadius: 'inherit',
         backgroundColor: 'rgba(0,0,0,.2)'
     };
@@ -310,8 +318,7 @@ export default class Scrollbars extends Component {
 
         const thumbStyle = {
             position: 'relative',
-            display: 'block',
-            cursor: 'pointer'
+            display: 'block'
         };
 
         const thumbHorizontalStyle = {
@@ -346,17 +353,11 @@ export default class Scrollbars extends Component {
 
         const scrollbarHorizontalStyle = {
             ...scrollbarStyle,
-            right: 2,
-            bottom: 2,
-            left: 2,
             height: widthPercentageInner < 100 ? 6 : 0
         };
 
         const scrollbarVerticalStyle = {
             ...scrollbarStyle,
-            right: 2,
-            bottom: 2,
-            top: 2,
             width: heightPercentageInner < 100 ? 6 : 0
         };
 
