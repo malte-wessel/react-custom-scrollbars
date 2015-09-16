@@ -11,9 +11,8 @@ react-custom-scrollbars
 * no extra stylesheets
 * fully customizable
 * IE9+ support
-* ^react@0.14.0-beta3
-* inspired by noeldelgado's great [gemini-scrollbar](https://github.com/noeldelgado/gemini-scrollbar)
-* [check out the demo](http://malte-wessel.github.io/react-custom-scrollbars/)
+* react@0.14.0-rc1
+* **[check out the demo](http://malte-wessel.github.io/react-custom-scrollbars/)**
 
 ## Table of Contents
 
@@ -45,10 +44,12 @@ class App extends Component {
 }
 ```
 
-Don't forget to set the `viewport` meta tag:
+Don't forget to set the `viewport` meta tag, if you want to support mobile devices
 
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 ```
 
 ## Customization
