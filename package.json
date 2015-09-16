@@ -42,15 +42,15 @@
     "expect": "^1.6.0",
     "isparta": "^3.0.3",
     "mocha": "^2.2.5",
-    "react": "^0.14.0-beta3",
-    "react-dom": "^0.14.0-beta3",
+    "react": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
     "rimraf": "^2.3.4",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
   "peerDependencies": {
-      "react": "^0.14.0-beta3",
-      "react-dom": "^0.14.0-beta3"
+      "react": "^0.14.0-rc1",
+      "react-dom": "^0.14.0-rc1"
   },
   "dependencies": {}
 }
