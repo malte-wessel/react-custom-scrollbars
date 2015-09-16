@@ -2,7 +2,7 @@ react-custom-scrollbars
 =========================
 
 [![npm](https://img.shields.io/badge/npm-react--custom--scrollbars-brightgreen.svg?style=flat-square)]()
-[![npm version](https://img.shields.io/npm/v/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars) 
+[![npm version](https://img.shields.io/npm/v/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 [![npm downloads](https://img.shields.io/npm/dm/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 
 * lightweight scrollbars made of 100% react goodness
@@ -45,6 +45,12 @@ class App extends Component {
 }
 ```
 
+Don't forget to set the `viewport` meta tag:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+```
+
 ## Customization
 ```javascript
 class CustomScrollbars extends Component {
@@ -83,7 +89,7 @@ class App extends Component {
 
 #### Props
 
-The following properties expect a react element to be returned. You can customize the element to your needs. 
+The following properties expect a react element to be returned. You can customize the element to your needs.
 
 * `scrollbarHorizontal`: (Function) Horizontal scrollbar element
 * `scrollbarVertical`: (Function) Vertical scrollbar element
