@@ -162,23 +162,13 @@ export default class Scrollbars extends Component {
         window.removeEventListener('resize', this.handleWindowResize);
     }
 
-    getPosition() {
-        const $view = findDOMNode(this.refs.view);
+    getPosition($view = this.refs.view) {
         const y = ($view.scrollTop * 100) / $view.clientHeight;
         const x = ($view.scrollLeft * 100) / $view.clientWidth;
         return { x, y };
     }
 
-    getSize() {
-        const $el = findDOMNode(this);
-        return {
-            width: $el.offsetWidth + SCROLLBAR_WIDTH + 1,
-            height: $el.offsetHeight + SCROLLBAR_WIDTH + 1
-        };
-    }
-
-    getInnerSizePercentage() {
-        const $view = findDOMNode(this.refs.view);
+    getInnerSizePercentage($view = this.refs.view) {
         return {
             widthPercentageInner: $view.clientWidth * 100 / $view.scrollWidth,
             heightPercentageInner: $view.clientHeight * 100 / $view.scrollHeight
@@ -187,16 +177,12 @@ export default class Scrollbars extends Component {
 
     update() {
         if (SCROLLBAR_WIDTH === 0) return;
-
-        const size = this.getSize();
-
-        this.setState(size, () => {
-            const sizeInnerPercentage = this.getInnerSizePercentage();
-            const position = this.getPosition();
-            this.setState({
-                ...sizeInnerPercentage,
-                ...position
-            });
+        const $view = this.refs.view;
+        const sizeInnerPercentage = this.getInnerSizePercentage($view);
+        const position = this.getPosition($view);
+        this.setState({
+            ...sizeInnerPercentage,
+            ...position
         });
     }
 
@@ -289,7 +275,6 @@ export default class Scrollbars extends Component {
     render() {
         const {
             x, y,
-            width, height,
             widthPercentageInner,
             heightPercentageInner
         } = this.state;
@@ -339,9 +324,18 @@ export default class Scrollbars extends Component {
             transform: thumbTranslateY
         };
 
-        const viewStyle = {
-            width,
-            height,
+        const viewStyle = SCROLLBAR_WIDTH > 0 ? {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: -SCROLLBAR_WIDTH,
+            bottom: -SCROLLBAR_WIDTH,
+            overflow: 'scroll',
+            WebkitOverflowScrolling: 'touch'
+        } : {
+            position: 'relative',
+            width: '100%',
+            height: '100%',
             overflow: 'scroll',
             WebkitOverflowScrolling: 'touch'
         };
