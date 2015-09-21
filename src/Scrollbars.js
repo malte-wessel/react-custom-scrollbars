@@ -1,9 +1,8 @@
 import React, { Component, PropTypes, cloneElement } from 'react';
-import { findDOMNode } from 'react-dom';
 import addClass from './utils/addClass';
 import removeClass from './utils/removeClass';
-import getScrollbarWidth from './utils/getScrollbarWidth';
 import addStyleSheet from './utils/addStyleSheet';
+import getScrollbarWidth from './utils/getScrollbarWidth';
 import returnFalse from './utils/returnFalse';
 
 let SCROLLBAR_WIDTH = false;
@@ -31,7 +30,6 @@ const stylesheet = [
         user-select: none;
     }`
 ].join('').replace(/(\s|\n)/g, '');
-
 
 function getDefaultScrollbarHorizontal({ style, ...props }) {
     const finalStyle = {
@@ -100,7 +98,14 @@ export default class Scrollbars extends Component {
 
     constructor(props, context) {
         super(props, context);
+
+        addStyleSheet(stylesheet);
+        if (SCROLLBAR_WIDTH === false) {
+            SCROLLBAR_WIDTH = getScrollbarWidth(classnames.testScrollbar);
+        }
+
         this.bindHandlers();
+        this.needsUpdate = true;
         this.state = {
             x: 0,
             y: 0,
@@ -112,17 +117,15 @@ export default class Scrollbars extends Component {
     }
 
     componentDidMount() {
-        addStyleSheet(stylesheet);
-
-        if (SCROLLBAR_WIDTH === false) {
-            SCROLLBAR_WIDTH = getScrollbarWidth(classnames.testScrollbar);
-        }
-
         this.addListeners();
         this.update();
     }
 
     componentWillReceiveProps() {
+        this.needsUpdate = true;
+    }
+
+    componentDidUpdate() {
         this.update();
     }
 
@@ -143,21 +146,21 @@ export default class Scrollbars extends Component {
     }
 
     addListeners() {
-        findDOMNode(this.refs.view).addEventListener('scroll', this.handleScroll);
-        findDOMNode(this.refs.barVertical).addEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        findDOMNode(this.refs.barHorizontal).addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        findDOMNode(this.refs.thumbVertical).addEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        findDOMNode(this.refs.thumbHorizontal).addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        this.refs.view.addEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.addEventListener('mouseup', this.handleDocumentMouseUp);
         window.addEventListener('resize', this.handleWindowResize);
     }
 
     removeListeners() {
-        findDOMNode(this.refs.view).removeEventListener('scroll', this.handleScroll);
-        findDOMNode(this.refs.barVertical).removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        findDOMNode(this.refs.barHorizontal).removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        findDOMNode(this.refs.thumbVertical).removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        findDOMNode(this.refs.thumbHorizontal).removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        this.refs.view.removeEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
     }
@@ -177,9 +180,11 @@ export default class Scrollbars extends Component {
 
     update() {
         if (SCROLLBAR_WIDTH === 0) return;
-        const $view = this.refs.view;
-        const sizeInnerPercentage = this.getInnerSizePercentage($view);
-        const position = this.getPosition($view);
+        if (!this.needsUpdate) return;
+
+        const sizeInnerPercentage = this.getInnerSizePercentage();
+        const position = this.getPosition();
+        this.needsUpdate = false;
         this.setState({
             ...sizeInnerPercentage,
             ...position
@@ -191,9 +196,9 @@ export default class Scrollbars extends Component {
     }
 
     handleVerticalTrackMouseDown(event) {
-        const $thumb = findDOMNode(this.refs.thumbVertical);
-        const $bar = findDOMNode(this.refs.barVertical);
-        const $view = findDOMNode(this.refs.view);
+        const $thumb = this.refs.thumbVertical;
+        const $bar = this.refs.barVertical;
+        const $view = this.refs.view;
         const offset = Math.abs(event.target.getBoundingClientRect().top - event.clientY);
         const thumbHalf = $thumb.offsetHeight / 2;
         const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetHeight;
@@ -201,9 +206,9 @@ export default class Scrollbars extends Component {
     }
 
     handleHorizontalTrackMouseDown() {
-        const $thumb = findDOMNode(this.refs.thumbHorizontal);
-        const $bar = findDOMNode(this.refs.barHorizontal);
-        const $view = findDOMNode(this.refs.view);
+        const $thumb = this.refs.thumbHorizontal;
+        const $bar = this.refs.barHorizontal;
+        const $view = this.refs.view;
         const offset = Math.abs(event.target.getBoundingClientRect().left - event.clientX);
         const thumbHalf = $thumb.offsetWidth / 2;
         const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetWidth;
@@ -230,9 +235,9 @@ export default class Scrollbars extends Component {
         if (this.cursorDown === false) return void 0;
 
         if (this.prevPageY) {
-            const $bar = findDOMNode(this.refs.barVertical);
-            const $thumb = findDOMNode(this.refs.thumbVertical);
-            const $view = findDOMNode(this.refs.view);
+            const $bar = this.refs.barVertical;
+            const $thumb = this.refs.thumbVertical;
+            const $view = this.refs.view;
             const offset = ($bar.getBoundingClientRect().top - event.clientY) * -1;
             const thumbClickPosition = ($thumb.offsetHeight - this.prevPageY);
             const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetHeight;
@@ -241,9 +246,9 @@ export default class Scrollbars extends Component {
         }
 
         if (this.prevPageX) {
-            const $bar = findDOMNode(this.refs.barHorizontal);
-            const $thumb = findDOMNode(this.refs.thumbHorizontal);
-            const $view = findDOMNode(this.refs.view);
+            const $bar = this.refs.barHorizontal;
+            const $thumb = this.refs.thumbHorizontal;
+            const $view = this.refs.view;
             const offset = ($bar.getBoundingClientRect().left - event.clientX) * -1;
             const thumbClickPosition = ($thumb.offsetWidth - this.prevPageX);
             const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetWidth;
@@ -253,6 +258,7 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
+        this.needsUpdate = true;
         this.update();
     }
 
@@ -324,21 +330,23 @@ export default class Scrollbars extends Component {
             transform: thumbTranslateY
         };
 
-        const viewStyle = SCROLLBAR_WIDTH > 0 ? {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: -SCROLLBAR_WIDTH,
-            bottom: -SCROLLBAR_WIDTH,
-            overflow: 'scroll',
-            WebkitOverflowScrolling: 'touch'
-        } : {
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            overflow: 'scroll',
-            WebkitOverflowScrolling: 'touch'
-        };
+        const viewStyle = SCROLLBAR_WIDTH > 0
+            ? {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: -SCROLLBAR_WIDTH,
+                bottom: -SCROLLBAR_WIDTH,
+                overflow: 'scroll',
+                WebkitOverflowScrolling: 'touch'
+            }
+            : {
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                overflow: 'scroll',
+                WebkitOverflowScrolling: 'touch'
+            };
 
         const scrollbarStyle = {
             position: 'absolute',
