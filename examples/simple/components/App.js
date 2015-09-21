@@ -1,7 +1,31 @@
+import random from 'lodash/number/random';
 import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
+function getRandomSize() {
+    return {
+        height: random(300, 500),
+        width: random(50, 100) + '%'
+    };
+}
+
 export default class App extends Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = getRandomSize();
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            this.setState(getRandomSize());
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     render() {
         return (
             <div>
@@ -20,7 +44,7 @@ export default class App extends Component {
                     <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
                 </Scrollbars>
                 <Scrollbars
-                    style={{ height: 300}}
+                    style={this.state}
                     scrollbarHorizontal={({ style, ...props }) => <div style={{...style, bottom: 0, right: 6, left: 0, backgroundColor: '#d7d7d7' }} {...props}/>}
                     scrollbarVertical={({ style, ...props }) => <div style={{...style, top: 0, right: 0, bottom: 6, backgroundColor: '#d7d7d7' }} {...props}/>}
                     thumbHorizontal={({ style, ...props }) => <div style={{...style, backgroundColor: '#979797' }} {...props}/>}
