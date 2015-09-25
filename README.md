@@ -30,7 +30,7 @@ npm install react-custom-scrollbars --save
 
 ## Usage
 ```javascript
-import {Scrollbars} from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class App extends Component {
   render() {
@@ -56,7 +56,7 @@ Don't forget to set the `viewport` meta tag, if you want to support mobile devic
 
 ## Customization
 ```javascript
-import {Scrollbars} from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class CustomScrollbars extends Component {
   render() {
@@ -105,7 +105,7 @@ The following properties expect a react element to be returned. You can customiz
 **Don't forget to pass the received props to your custom element. Example:**
 
 ```javascript
-import {Scrollbars} from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class CustomScrollbars extends Component {
   render() {
