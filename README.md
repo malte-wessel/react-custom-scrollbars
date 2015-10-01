@@ -100,12 +100,12 @@ class App extends Component {
   * `values`: (Object) Values about the current position
     * `values.top`: (Number) scrollTop progess, from 0 to 1
     * `values.left`: (Number) scrollLeft progess, from 0 to 1
-    * `clientWidth`: (Number) width of the view
-    * `clientHeight`: (Number) height of the view
-    * `scrollWidth`: (Number) native scrollWidth
-    * `scrollHeight`: (Number) native scrollHeight
-    * `scrollLeft`: (Number) native scrollLeft
-    * `scrollTop`: (Number) native scrollTop
+    * `values.clientWidth`: (Number) width of the view
+    * `values.clientHeight`: (Number) height of the view
+    * `values.scrollWidth`: (Number) native scrollWidth
+    * `values.scrollHeight`: (Number) native scrollHeight
+    * `values.scrollLeft`: (Number) native scrollLeft
+    * `values.scrollTop`: (Number) native scrollTop
 * **The following properties expect a react element to be returned. You can customize the element to your needs.**
 * `scrollbarHorizontal`: (Function) Horizontal scrollbar element
 * `scrollbarVertical`: (Function) Vertical scrollbar element
