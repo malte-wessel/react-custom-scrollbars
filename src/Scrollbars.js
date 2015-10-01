@@ -180,8 +180,8 @@ export default class Scrollbars extends Component {
             scrollLeft, scrollTop,
             scrollWidth, scrollHeight,
             clientWidth, clientHeight,
-            left: scrollWidth / (scrollLeft + clientWidth),
-            top: scrollHeight / (scrollTop + clientHeight)
+            left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
+            top: (scrollTop / (scrollHeight - clientHeight)) || 0
         };
     }
 
