@@ -125,7 +125,7 @@ class CustomScrollbars extends Component {
 }
 ```
 
-### Receive values about the current position**
+### Receive values about the current position
 
 ```javascript
 class CustomScrollbars extends Component {
