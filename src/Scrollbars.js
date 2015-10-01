@@ -310,6 +310,7 @@ export default class Scrollbars extends Component {
             thumbHorizontal,
             thumbVertical,
             view,
+            onScroll,
             children,
             ...props
         } = this.props;
