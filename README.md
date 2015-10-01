@@ -98,7 +98,7 @@ The following properties expect a react element to be returned. You can customiz
 
 * `onScroll`: (Function) Event handler. Will be called with the native scroll event and some handy values about the current position.
   * **Signature**: `onScroll(event, values)`
-  * `event`: (Object) Native onScroll event
+  * `event`: (Event) Native onScroll event
   * `values`: (Object) Values about the current position
     * `values.top`: (Number) scrollTop progess, from 0 to 1
     * `values.left`: (Number) scrollLeft progess, from 0 to 1
