@@ -94,8 +94,6 @@ class App extends Component {
 
 #### Props
 
-The following properties expect a react element to be returned. You can customize the element to your needs.
-
 * `onScroll`: (Function) Event handler. Will be called with the native scroll event and some handy values about the current position.
   * **Signature**: `onScroll(event, values)`
   * `event`: (Event) Native onScroll event
@@ -108,6 +106,7 @@ The following properties expect a react element to be returned. You can customiz
     * `scrollHeight`: (Number) native scrollHeight
     * `scrollLeft`: (Number) native scrollLeft
     * `scrollTop`: (Number) native scrollTop
+* **The following properties expect a react element to be returned. You can customize the element to your needs.**
 * `scrollbarHorizontal`: (Function) Horizontal scrollbar element
 * `scrollbarVertical`: (Function) Vertical scrollbar element
 * `thumbHorizontal`: (Function) Horizontal thumb element
