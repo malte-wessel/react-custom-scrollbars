@@ -85,7 +85,8 @@ export default class Scrollbars extends Component {
         scrollbarVertical: PropTypes.func,
         thumbHorizontal: PropTypes.func,
         thumbVertical: PropTypes.func,
-        view: PropTypes.func
+        view: PropTypes.func,
+        onScroll: PropTypes.func
     };
 
     static defaultProps = {
@@ -166,9 +167,22 @@ export default class Scrollbars extends Component {
     }
 
     getPosition($view = this.refs.view) {
-        const y = ($view.scrollTop * 100) / $view.clientHeight;
-        const x = ($view.scrollLeft * 100) / $view.clientWidth;
-        return { x, y };
+        const scrollTop = $view.scrollTop;
+        const scrollLeft = $view.scrollLeft;
+        const scrollHeight = $view.scrollHeight;
+        const scrollWidth = $view.scrollWidth;
+        const clientHeight = $view.clientHeight;
+        const clientWidth = $view.clientWidth;
+        const y = (scrollTop * 100) / clientHeight;
+        const x = (scrollLeft * 100) / clientWidth;
+        return {
+            x, y,
+            scrollLeft, scrollTop,
+            scrollWidth, scrollHeight,
+            clientWidth, clientHeight,
+            left: scrollWidth / (scrollLeft + clientWidth),
+            top: scrollHeight / (scrollTop + clientHeight)
+        };
     }
 
     getInnerSizePercentage($view = this.refs.view) {
@@ -183,16 +197,20 @@ export default class Scrollbars extends Component {
         if (!this.needsUpdate) return;
 
         const sizeInnerPercentage = this.getInnerSizePercentage();
-        const position = this.getPosition();
+        const { x, y } = this.getPosition();
         this.needsUpdate = false;
         this.setState({
             ...sizeInnerPercentage,
-            ...position
+            x, y
         });
     }
 
-    handleScroll() {
-        this.setState(this.getPosition());
+    handleScroll(event) {
+        const position = this.getPosition();
+        const { x, y, ...values } = position;
+        const { onScroll } = this.props;
+        if (onScroll) onScroll(event, values);
+        this.setState({x, y});
     }
 
     handleVerticalTrackMouseDown(event) {
