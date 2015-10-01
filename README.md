@@ -96,6 +96,7 @@ class App extends Component {
 
 The following properties expect a react element to be returned. You can customize the element to your needs.
 
+* `onScroll`: (Function) Event handler. Will be called with the native scroll event and some handy values about the current position. Signature: `onScroll(event, values)`
 * `scrollbarHorizontal`: (Function) Horizontal scrollbar element
 * `scrollbarVertical`: (Function) Vertical scrollbar element
 * `thumbHorizontal`: (Function) Horizontal thumb element
@@ -117,6 +118,35 @@ class CustomScrollbars extends Component {
         scrollbarVertical={({ style, ...props}) => {
           return <div style={{...style, padding: 20}} {...props}/>;
         }}>
+        {this.props.children}
+      </Scrollbars>
+    );
+  }
+}
+```
+
+### Receive values about the current position**
+
+```javascript
+class CustomScrollbars extends Component {
+  handleScroll(event, values) {
+    console.log(values);
+    /*
+    {
+        left: 0,
+        top: 0.21513353115727002
+        clientWidth: 952
+        clientHeight: 300
+        scrollWidth: 952
+        scrollHeight: 1648
+        scrollLeft: 0
+        scrollTop: 290
+    }
+    */
+  }
+  render() {
+    return (
+      <Scrollbars onScroll={this.handleScroll}>
         {this.props.children}
       </Scrollbars>
     );
