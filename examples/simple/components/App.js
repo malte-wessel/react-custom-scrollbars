@@ -1,5 +1,5 @@
 import random from 'lodash/number/random';
-import React, { Component } from 'react';
+import React, { createClass } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 function getRandomSize() {
@@ -9,26 +9,27 @@ function getRandomSize() {
     };
 }
 
-export default class App extends Component {
+export default createClass({
 
-    constructor(props, context) {
-        super(props, context);
-        this.state = getRandomSize();
-    }
+    displayName: 'App',
+
+    getInitialState() {
+        return getRandomSize();
+    },
 
     componentDidMount() {
         this.interval = setInterval(() => {
             this.setState(getRandomSize());
         }, 1000);
-    }
+    },
 
     componentWillUnmount() {
         clearInterval(this.interval);
-    }
+    },
 
     handleOnScroll(event, position) {
         console.log('handleOnScroll', position);
-    }
+    },
 
     render() {
         return (
@@ -74,4 +75,4 @@ export default class App extends Component {
             </div>
         );
     }
-}
+});

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, cloneElement } from 'react';
+import React, { createClass, PropTypes, cloneElement } from 'react';
 import addClass from './utils/addClass';
 import removeClass from './utils/removeClass';
 import addStyleSheet from './utils/addStyleSheet';
@@ -78,36 +78,39 @@ function getDefaultView({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export default class Scrollbars extends Component {
+export default createClass({
 
-    static propTypes = {
+    displayName: 'Scrollbars',
+
+    propTypes: {
         scrollbarHorizontal: PropTypes.func,
         scrollbarVertical: PropTypes.func,
         thumbHorizontal: PropTypes.func,
         thumbVertical: PropTypes.func,
         view: PropTypes.func,
         onScroll: PropTypes.func
-    };
+    },
 
-    static defaultProps = {
-        scrollbarHorizontal: getDefaultScrollbarHorizontal,
-        scrollbarVertical: getDefaultScrollbarVertical,
-        thumbHorizontal: getDefaultThumbHorizontal,
-        thumbVertical: getDefaultThumbVertical,
-        view: getDefaultView
-    };
+    getDefaultProps() {
+        return {
+            scrollbarHorizontal: getDefaultScrollbarHorizontal,
+            scrollbarVertical: getDefaultScrollbarVertical,
+            thumbHorizontal: getDefaultThumbHorizontal,
+            thumbVertical: getDefaultThumbVertical,
+            view: getDefaultView
+        };
+    },
 
-    constructor(props, context) {
-        super(props, context);
-
+    componentWillMount() {
         addStyleSheet(stylesheet);
         if (SCROLLBAR_WIDTH === false) {
             SCROLLBAR_WIDTH = getScrollbarWidth(classnames.testScrollbar);
         }
-
-        this.bindHandlers();
         this.needsUpdate = true;
-        this.state = {
+    },
+
+    getInitialState() {
+        return {
             x: 0,
             y: 0,
             width: '100%',
@@ -115,36 +118,24 @@ export default class Scrollbars extends Component {
             heightPercentageInner: 100,
             widthPercentageInner: 100
         };
-    }
+    },
 
     componentDidMount() {
         this.addListeners();
         this.update();
-    }
+    },
 
     componentWillReceiveProps() {
         this.needsUpdate = true;
-    }
+    },
 
     componentDidUpdate() {
         this.update();
-    }
+    },
 
     componentWillUnmount() {
         this.removeListeners();
-    }
-
-    bindHandlers() {
-        this.update = this.update.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
-        this.handleVerticalTrackMouseDown = this.handleVerticalTrackMouseDown.bind(this);
-        this.handleHorizontalTrackMouseDown = this.handleHorizontalTrackMouseDown.bind(this);
-        this.handleVerticalThumbMouseDown = this.handleVerticalThumbMouseDown.bind(this);
-        this.handleHorizontalThumbMouseDown = this.handleHorizontalThumbMouseDown.bind(this);
-        this.handleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
-        this.handleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
-        this.handleWindowResize = this.handleWindowResize.bind(this);
-    }
+    },
 
     addListeners() {
         this.refs.view.addEventListener('scroll', this.handleScroll);
@@ -154,7 +145,7 @@ export default class Scrollbars extends Component {
         this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.addEventListener('mouseup', this.handleDocumentMouseUp);
         window.addEventListener('resize', this.handleWindowResize);
-    }
+    },
 
     removeListeners() {
         this.refs.view.removeEventListener('scroll', this.handleScroll);
@@ -164,7 +155,7 @@ export default class Scrollbars extends Component {
         this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
-    }
+    },
 
     getPosition($view = this.refs.view) {
         const scrollTop = $view.scrollTop;
@@ -183,14 +174,14 @@ export default class Scrollbars extends Component {
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0
         };
-    }
+    },
 
     getInnerSizePercentage($view = this.refs.view) {
         return {
             widthPercentageInner: $view.clientWidth * 100 / $view.scrollWidth,
             heightPercentageInner: $view.clientHeight * 100 / $view.scrollHeight
         };
-    }
+    },
 
     update() {
         if (SCROLLBAR_WIDTH === 0) return;
@@ -203,7 +194,7 @@ export default class Scrollbars extends Component {
             ...sizeInnerPercentage,
             x, y
         });
-    }
+    },
 
     handleScroll(event) {
         const position = this.getPosition();
@@ -211,7 +202,7 @@ export default class Scrollbars extends Component {
         const { onScroll } = this.props;
         if (onScroll) onScroll(event, values);
         this.setState({x, y});
-    }
+    },
 
     handleVerticalTrackMouseDown(event) {
         const $thumb = this.refs.thumbVertical;
@@ -221,7 +212,7 @@ export default class Scrollbars extends Component {
         const thumbHalf = $thumb.offsetHeight / 2;
         const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetHeight;
         $view.scrollTop = thumbPositionPercentage * $view.scrollHeight / 100;
-    }
+    },
 
     handleHorizontalTrackMouseDown() {
         const $thumb = this.refs.thumbHorizontal;
@@ -231,23 +222,23 @@ export default class Scrollbars extends Component {
         const thumbHalf = $thumb.offsetWidth / 2;
         const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetWidth;
         $view.scrollLeft = thumbPositionPercentage * $view.scrollWidth / 100;
-    }
+    },
 
     handleVerticalThumbMouseDown(event) {
         this.dragStart(event);
         const { currentTarget, clientY } = event;
         this.prevPageY = (currentTarget.offsetHeight - (clientY - currentTarget.getBoundingClientRect().top));
-    }
+    },
 
     handleHorizontalThumbMouseDown(event) {
         this.dragStart(event);
         const { currentTarget, clientX } = event;
         this.prevPageX = (currentTarget.offsetWidth - (clientX - currentTarget.getBoundingClientRect().left));
-    }
+    },
 
     handleDocumentMouseUp() {
         this.dragEnd();
-    }
+    },
 
     handleDocumentMouseMove(event) {
         if (this.cursorDown === false) return void 0;
@@ -273,12 +264,12 @@ export default class Scrollbars extends Component {
             $view.scrollLeft = thumbPositionPercentage * $view.scrollWidth / 100;
             return void 0;
         }
-    }
+    },
 
     handleWindowResize() {
         this.needsUpdate = true;
         this.update();
-    }
+    },
 
     dragStart(event) {
         event.stopImmediatePropagation();
@@ -286,7 +277,7 @@ export default class Scrollbars extends Component {
         addClass(document.body, [classnames.disableSelection]);
         document.addEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = returnFalse;
-    }
+    },
 
     dragEnd() {
         this.cursorDown = false;
@@ -294,7 +285,7 @@ export default class Scrollbars extends Component {
         removeClass(document.body, [classnames.disableSelection]);
         document.removeEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = null;
-    }
+    },
 
     render() {
         const {
@@ -414,4 +405,4 @@ export default class Scrollbars extends Component {
             </div>
         );
     }
-}
+});
