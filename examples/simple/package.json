@@ -4,7 +4,8 @@
   "description": "Simple example",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "NODE_ENV=development node server.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
