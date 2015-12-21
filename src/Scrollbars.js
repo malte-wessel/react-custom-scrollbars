@@ -183,6 +183,34 @@ export default createClass({
         };
     },
 
+    scrollToTop() {
+        const $view = this.refs.view;
+        $view.scrollTop = 0;
+        this.needsUpdate = true;
+        this.update();
+    },
+
+    scrollToBottom() {
+        const $view = this.refs.view;
+        $view.scrollTop = $view.scrollHeight;
+        this.needsUpdate = true;
+        this.update();
+    },
+
+    scrollToLeft() {
+        const $view = this.refs.view;
+        $view.scrollLeft = 0;
+        this.needsUpdate = true;
+        this.update();
+    },
+
+    scrollToRight() {
+        const $view = this.refs.view;
+        $view.scrollLeft = $view.scrollWidth;
+        this.needsUpdate = true;
+        this.update();
+    },
+
     update() {
         if (SCROLLBAR_WIDTH === 0) return;
         if (!this.needsUpdate) return;
