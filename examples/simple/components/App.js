@@ -1,4 +1,3 @@
-import random from 'lodash/number/random';
 import React, { createClass } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
