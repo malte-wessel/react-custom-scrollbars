@@ -135,6 +135,39 @@ class CustomScrollbars extends Component {
 }
 ```
 
+#### Methods
+
+* `scrollTop(top)`: Scroll to the top value
+* `scrollLeft(left)`: Scroll to the left value
+* `scrollToTop()`: Scroll to top
+* `scrollToBottom()`: Scroll to bottom
+* `scrollToLeft()`: Scroll to left
+* `scrollToRight()`: Scroll to right
+
+```javascript
+import { Scrollbars } from 'react-custom-scrollbars';
+
+class App extends Component {
+  handleClick() {
+    this.refs.scrollbars.scrollToTop()
+  },
+  render() {
+    return (
+      <div>
+        <Scrollbars
+          ref="scrollbars"
+          style={{ width: 500, height: 300 }}>
+          {/* your content */}
+        </Scrollbars>
+        <button onClick={this.handleClick.bind(this)}>
+            Scroll to top
+        </button>
+      </div>
+    );
+  }
+}
+```
+
 ### Receive values about the current position
 
 ```javascript
