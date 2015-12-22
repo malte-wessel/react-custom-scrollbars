@@ -183,6 +183,13 @@ export default createClass({
         };
     },
 
+    scrollTop(top = 0) {
+        const $view = this.refs.view;
+        $view.scrollTop = top;
+        this.needsUpdate = true;
+        this.update();
+    },
+
     scrollToTop() {
         const $view = this.refs.view;
         $view.scrollTop = 0;
@@ -193,6 +200,13 @@ export default createClass({
     scrollToBottom() {
         const $view = this.refs.view;
         $view.scrollTop = $view.scrollHeight;
+        this.needsUpdate = true;
+        this.update();
+    },
+
+    scrollLeft(left = 0) {
+        const $view = this.refs.view;
+        $view.scrollLeft = left;
         this.needsUpdate = true;
         this.update();
     },
