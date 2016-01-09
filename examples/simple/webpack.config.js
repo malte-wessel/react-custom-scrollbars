@@ -4,15 +4,14 @@ var webpack = require('webpack');
 var entry = [];
 if(process.env.NODE_ENV === 'development') {
     entry.push(
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server'
+        'webpack-dev-server/client?http://localhost:3000'
     );
 }
 
 var plugins = [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
 ];
+
 if(process.env.NODE_ENV === 'production') {
     plugins.push(
         new webpack.optimize.UglifyJsPlugin({
@@ -27,7 +26,7 @@ var loaders = [];
 if(process.env.NODE_ENV === 'development') {
     loaders.push({
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['babel'],
         exclude: /node_modules/,
         include: __dirname
     });
