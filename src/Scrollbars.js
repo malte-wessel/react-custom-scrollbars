@@ -27,12 +27,14 @@ export default createClass({
     displayName: 'Scrollbars',
 
     propTypes: {
+        onScroll: PropTypes.func,
         scrollbarHorizontal: PropTypes.func,
         scrollbarVertical: PropTypes.func,
         thumbHorizontal: PropTypes.func,
         thumbVertical: PropTypes.func,
         view: PropTypes.func,
-        onScroll: PropTypes.func
+        style: PropTypes.object,
+        children: PropTypes.node,
     },
 
     getDefaultProps() {
@@ -56,26 +58,6 @@ export default createClass({
 
     componentWillUnmount() {
         this.removeListeners();
-    },
-
-    addListeners() {
-        this.refs.view.addEventListener('scroll', this.handleScroll);
-        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.addEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.addEventListener('resize', this.handleWindowResize);
-    },
-
-    removeListeners() {
-        this.refs.view.removeEventListener('scroll', this.handleScroll);
-        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.removeEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.removeEventListener('resize', this.handleWindowResize);
     },
 
     getPosition() {
@@ -312,6 +294,26 @@ export default createClass({
         const { view } = this.refs;
         view.scrollLeft = view.scrollWidth;
         this.update();
+    },
+
+    addListeners() {
+        this.refs.view.addEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        if (document) document.addEventListener('mouseup', this.handleDocumentMouseUp);
+        if (window) window.addEventListener('resize', this.handleWindowResize);
+    },
+
+    removeListeners() {
+        this.refs.view.removeEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        if (document) document.removeEventListener('mouseup', this.handleDocumentMouseUp);
+        if (window) window.removeEventListener('resize', this.handleWindowResize);
     },
 
     render() {
