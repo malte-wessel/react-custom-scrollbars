@@ -4,52 +4,23 @@ import React, { createClass, PropTypes, cloneElement } from 'react';
 import getScrollbarWidth from './utils/getScrollbarWidth';
 import returnFalse from './utils/returnFalse';
 
-function getDefaultScrollbarHorizontal({ style, ...props }) {
-    const finalStyle = {
-        ...style,
-        right: 2,
-        bottom: 2,
-        left: 2,
-        borderRadius: 3
-    };
-    return <div style={finalStyle} {...props} />;
-}
+import {
+    thumbHorizontalStyle,
+    thumbVerticalStyle,
+    viewStyleScrollbarsInvisible,
+    scrollbarHorizontalStyle,
+    scrollbarVerticalStyle,
+    disableSelectStyle,
+    resetDisableSelectStyle
+} from './styles';
 
-function getDefaultScrollbarVertical({ style, ...props }) {
-    const finalStyle = {
-        ...style,
-        right: 2,
-        bottom: 2,
-        top: 2,
-        borderRadius: 3
-    };
-    return <div style={finalStyle} {...props} />;
-}
-
-function getDefaultThumbHorizontal({ style, ...props }) {
-    const finalStyle = {
-        ...style,
-        cursor: 'pointer',
-        borderRadius: 'inherit',
-        backgroundColor: 'rgba(0,0,0,.2)'
-    };
-    return <div style={finalStyle} {...props} />;
-}
-
-function getDefaultThumbVertical({ style, ...props }) {
-    const finalStyle = {
-        ...style,
-        cursor: 'pointer',
-        borderRadius: 'inherit',
-        backgroundColor: 'rgba(0,0,0,.2)'
-    };
-    return <div style={finalStyle} {...props} />;
-}
-
-function getDefaultView({ style, ...props }) {
-    const finalStyle = {...style};
-    return <div style={finalStyle} {...props} />;
-}
+import {
+    getDefaultScrollbarHorizontal,
+    getDefaultScrollbarVertical,
+    getDefaultThumbHorizontal,
+    getDefaultThumbVertical,
+    getDefaultView
+} from './elementGetters';
 
 export default createClass({
 
@@ -108,14 +79,18 @@ export default createClass({
     },
 
     getPosition($view = this.refs.view) {
-        const scrollTop = $view.scrollTop;
-        const scrollLeft = $view.scrollLeft;
-        const scrollHeight = $view.scrollHeight;
-        const scrollWidth = $view.scrollWidth;
-        const clientHeight = $view.clientHeight;
-        const clientWidth = $view.clientWidth;
+        const {
+            scrollTop,
+            scrollLeft,
+            scrollHeight,
+            scrollWidth,
+            clientHeight,
+            clientWidth
+        } = $view;
+
         const y = (scrollTop * 100) / clientHeight;
         const x = (scrollLeft * 100) / clientWidth;
+
         return {
             x, y,
             scrollLeft, scrollTop,
@@ -182,63 +157,64 @@ export default createClass({
     update() {
         if (getScrollbarWidth() === 0) return;
 
-        const {
-            widthPercentageInner,
-            heightPercentageInner
-        } = this.getInnerSizePercentage();
-
-        const { x, y } = this.getPosition();
-
-        const scrollbarHorizontalStyle = this.getScrollbarHorizontalStyle(widthPercentageInner);
-        const scrollbarVerticalStyle = this.getScrollbarVerticalStyle(heightPercentageInner);
-        const thumbHorizontalStyle = this.getThumbHorizontalStyle(x, widthPercentageInner);
-        const thumbVerticalStyle = this.getThumbVerticalStyle(y, heightPercentageInner);
-
         raf(() => {
-            this.setScrollbarHorizontalStyle(scrollbarHorizontalStyle);
-            this.setScrollbarVerticalStyle(scrollbarVerticalStyle);
-            this.setThumbHorizontalStyle(thumbHorizontalStyle);
-            this.setThumbVerticalStyle(thumbVerticalStyle);
+            const {
+                widthPercentageInner,
+                heightPercentageInner
+            } = this.getInnerSizePercentage();
+
+            const { x, y } = this.getPosition();
+
+            this.setScrollbarHorizontalStyle(
+                this.getScrollbarHorizontalStyle(widthPercentageInner)
+            );
+            this.setScrollbarVerticalStyle(
+                this.getScrollbarVerticalStyle(heightPercentageInner)
+            );
+            this.setThumbHorizontalStyle(
+                this.getThumbHorizontalStyle(x, widthPercentageInner)
+            );
+            this.setThumbVerticalStyle(
+                this.getThumbVerticalStyle(y, heightPercentageInner)
+            );
         });
     },
 
     handleScroll(event) {
         const { onScroll } = this.props;
-        const { x, y, ...values } = this.getPosition();
-        const {
-            widthPercentageInner,
-            heightPercentageInner
-        } = this.getInnerSizePercentage();
-
-        if (onScroll) onScroll(event, values);
-
-        const thumbHorizontalStyle = this.getThumbHorizontalStyle(x, widthPercentageInner);
-        const thumbVerticalStyle = this.getThumbVerticalStyle(y, heightPercentageInner);
 
         raf(() => {
-            this.setThumbHorizontalStyle(thumbHorizontalStyle);
-            this.setThumbVerticalStyle(thumbVerticalStyle);
+            const { x, y, ...values } = this.getPosition();
+            const {
+                widthPercentageInner,
+                heightPercentageInner
+            } = this.getInnerSizePercentage();
+
+            if (onScroll) onScroll(event, values);
+
+            this.setThumbHorizontalStyle(
+                this.getThumbHorizontalStyle(x, widthPercentageInner)
+            );
+            this.setThumbVerticalStyle(
+                this.getThumbVerticalStyle(y, heightPercentageInner)
+            );
         });
     },
 
     handleVerticalTrackMouseDown(event) {
-        const $thumb = this.refs.thumbVertical;
-        const $bar = this.refs.barVertical;
-        const $view = this.refs.view;
+        const { thumbVertical, barVertical, view } = this.refs;
         const offset = Math.abs(event.target.getBoundingClientRect().top - event.clientY);
-        const thumbHalf = $thumb.offsetHeight / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetHeight;
-        $view.scrollTop = thumbPositionPercentage * $view.scrollHeight / 100;
+        const thumbHalf = thumbVertical.offsetHeight / 2;
+        const thumbPositionPercentage = (offset - thumbHalf) * 100 / barVertical.offsetHeight;
+        view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
     },
 
     handleHorizontalTrackMouseDown() {
-        const $thumb = this.refs.thumbHorizontal;
-        const $bar = this.refs.barHorizontal;
-        const $view = this.refs.view;
+        const { thumbHorizontal, barHorizontal, view } = this.refs;
         const offset = Math.abs(event.target.getBoundingClientRect().left - event.clientX);
-        const thumbHalf = $thumb.offsetWidth / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / $bar.offsetWidth;
-        $view.scrollLeft = thumbPositionPercentage * $view.scrollWidth / 100;
+        const thumbHalf = thumbHorizontal.offsetWidth / 2;
+        const thumbPositionPercentage = (offset - thumbHalf) * 100 / barHorizontal.offsetWidth;
+        view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
     },
 
     handleVerticalThumbMouseDown(event) {
@@ -259,26 +235,20 @@ export default createClass({
 
     handleDocumentMouseMove(event) {
         if (this.cursorDown === false) return false;
-
         if (this.prevPageY) {
-            const $bar = this.refs.barVertical;
-            const $thumb = this.refs.thumbVertical;
-            const $view = this.refs.view;
-            const offset = ($bar.getBoundingClientRect().top - event.clientY) * -1;
-            const thumbClickPosition = ($thumb.offsetHeight - this.prevPageY);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetHeight;
-            $view.scrollTop = thumbPositionPercentage * $view.scrollHeight / 100;
+            const { barVertical, thumbVertical, view } = this.refs;
+            const offset = (barVertical.getBoundingClientRect().top - event.clientY) * -1;
+            const thumbClickPosition = (thumbVertical.offsetHeight - this.prevPageY);
+            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / barVertical.offsetHeight;
+            view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
             return false;
         }
-
         if (this.prevPageX) {
-            const $bar = this.refs.barHorizontal;
-            const $thumb = this.refs.thumbHorizontal;
-            const $view = this.refs.view;
-            const offset = ($bar.getBoundingClientRect().left - event.clientX) * -1;
-            const thumbClickPosition = ($thumb.offsetWidth - this.prevPageX);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetWidth;
-            $view.scrollLeft = thumbPositionPercentage * $view.scrollWidth / 100;
+            const { barHorizontal, thumbHorizontal, view } = this.refs;
+            const offset = (barHorizontal.getBoundingClientRect().left - event.clientX) * -1;
+            const thumbClickPosition = (thumbHorizontal.offsetWidth - this.prevPageX);
+            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / barHorizontal.offsetWidth;
+            view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
             return false;
         }
     },
@@ -291,14 +261,7 @@ export default createClass({
         if (!document) return;
         event.stopImmediatePropagation();
         this.cursorDown = true;
-        css(document.body, {
-            '-webkit-touch-callout': 'none',
-            '-webkit-user-select': 'none',
-            '-khtml-user-select': 'none',
-            '-moz-user-select': 'none',
-            '-ms-user-select': 'none',
-            'user-select': 'none'
-        });
+        css(document.body, disableSelectStyle);
         document.addEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = returnFalse;
     },
@@ -307,51 +270,44 @@ export default createClass({
         if (!document) return;
         this.cursorDown = false;
         this.prevPageX = this.prevPageY = 0;
-        css(document.body, {
-            '-webkit-touch-callout': '',
-            '-webkit-user-select': '',
-            '-khtml-user-select': '',
-            '-moz-user-select': '',
-            '-ms-user-select': '',
-            'user-select': ''
-        });
+        css(document.body, resetDisableSelectStyle);
         document.removeEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = undefined;
     },
 
     scrollTop(top = 0) {
-        const $view = this.refs.view;
-        $view.scrollTop = top;
+        const { view } = this.refs;
+        view.scrollTop = top;
         this.update();
     },
 
     scrollToTop() {
-        const $view = this.refs.view;
-        $view.scrollTop = 0;
+        const { view } = this.refs;
+        view.scrollTop = 0;
         this.update();
     },
 
     scrollToBottom() {
-        const $view = this.refs.view;
-        $view.scrollTop = $view.scrollHeight;
+        const { view } = this.refs;
+        view.scrollTop = view.scrollHeight;
         this.update();
     },
 
     scrollLeft(left = 0) {
-        const $view = this.refs.view;
-        $view.scrollLeft = left;
+        const { view } = this.refs;
+        view.scrollLeft = left;
         this.update();
     },
 
     scrollToLeft() {
-        const $view = this.refs.view;
-        $view.scrollLeft = 0;
+        const { view } = this.refs;
+        view.scrollLeft = 0;
         this.update();
     },
 
     scrollToRight() {
-        const $view = this.refs.view;
-        $view.scrollLeft = $view.scrollWidth;
+        const { view } = this.refs;
+        view.scrollLeft = view.scrollWidth;
         this.update();
     },
 
@@ -377,18 +333,6 @@ export default createClass({
             ...style
         };
 
-        const thumbHorizontalStyle = {
-            position: 'relative',
-            display: 'block',
-            height: '100%'
-        };
-
-        const thumbVerticalStyle = {
-            position: 'relative',
-            display: 'block',
-            width: '100%'
-        };
-
         const viewStyle = scrollbarWidth > 0
             ? {
                 position: 'absolute',
@@ -399,51 +343,31 @@ export default createClass({
                 overflow: 'scroll',
                 WebkitOverflowScrolling: 'touch'
             }
-            : {
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-                overflow: 'scroll',
-                WebkitOverflowScrolling: 'touch'
-            };
-
-        const scrollbarHorizontalStyle = {
-            position: 'absolute'
-        };
-
-        const scrollbarVerticalStyle = {
-            position: 'absolute'
-        };
+            : viewStyleScrollbarsInvisible;
 
         return (
             <div {...props} style={containerStyle}>
-                {
+                {cloneElement(
+                    view({ style: viewStyle }),
+                    { ref: 'view' },
+                    children
+                )}
+                {cloneElement(
+                    scrollbarHorizontal({ style: scrollbarHorizontalStyle }),
+                    { ref: 'barHorizontal' },
                     cloneElement(
-                        view({ style: viewStyle }),
-                        { ref: 'view' },
-                        children
+                        thumbHorizontal({ style: thumbHorizontalStyle }),
+                        { ref: 'thumbHorizontal' }
                     )
-                }
-                {
+                )}
+                {cloneElement(
+                    scrollbarVertical({ style: scrollbarVerticalStyle }),
+                    { ref: 'barVertical' },
                     cloneElement(
-                        scrollbarHorizontal({ style: scrollbarHorizontalStyle }),
-                        { ref: 'barHorizontal' },
-                        cloneElement(
-                            thumbHorizontal({ style: thumbHorizontalStyle }),
-                            { ref: 'thumbHorizontal' }
-                        )
+                        thumbVertical({ style: thumbVerticalStyle }),
+                        { ref: 'thumbVertical' }
                     )
-                }
-                {
-                    cloneElement(
-                        scrollbarVertical({ style: scrollbarVerticalStyle }),
-                        { ref: 'barVertical' },
-                        cloneElement(
-                            thumbVertical({ style: thumbVerticalStyle }),
-                            { ref: 'thumbVertical' }
-                        )
-                    )
-                }
+                )}
             </div>
         );
     }
