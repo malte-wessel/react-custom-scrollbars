@@ -90,8 +90,8 @@ export default createClass({
         } = view;
 
         return {
-            x: (scrollTop * 100) / clientHeight,
-            y: (scrollLeft * 100) / clientWidth,
+            x: (scrollLeft * 100) / clientWidth,
+            y: (scrollTop * 100) / clientHeight,
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0,
             scrollLeft,
