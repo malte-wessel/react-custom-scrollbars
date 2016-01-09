@@ -78,7 +78,8 @@ export default createClass({
         if (window) window.removeEventListener('resize', this.handleWindowResize);
     },
 
-    getPosition($view = this.refs.view) {
+    getPosition() {
+        const { view } = this.refs;
         const {
             scrollTop,
             scrollLeft,
@@ -86,25 +87,27 @@ export default createClass({
             scrollWidth,
             clientHeight,
             clientWidth
-        } = $view;
-
-        const y = (scrollTop * 100) / clientHeight;
-        const x = (scrollLeft * 100) / clientWidth;
+        } = view;
 
         return {
-            x, y,
-            scrollLeft, scrollTop,
-            scrollWidth, scrollHeight,
-            clientWidth, clientHeight,
+            x: (scrollTop * 100) / clientHeight,
+            y: (scrollLeft * 100) / clientWidth,
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
-            top: (scrollTop / (scrollHeight - clientHeight)) || 0
+            top: (scrollTop / (scrollHeight - clientHeight)) || 0,
+            scrollLeft,
+            scrollTop,
+            scrollWidth,
+            scrollHeight,
+            clientWidth,
+            clientHeight
         };
     },
 
-    getInnerSizePercentage($view = this.refs.view) {
+    getInnerSizePercentage() {
+        const { view } = this.refs;
         return {
-            widthPercentageInner: $view.clientWidth * 100 / $view.scrollWidth,
-            heightPercentageInner: $view.clientHeight * 100 / $view.scrollHeight
+            widthPercentageInner: view.clientWidth * 100 / view.scrollWidth,
+            heightPercentageInner: view.clientHeight * 100 / view.scrollHeight
         };
     },
 
