@@ -74,10 +74,6 @@ export default createClass({
         };
     },
 
-    componentWillMount() {
-        this.needsUpdate = true;
-    },
-
     componentDidMount() {
         this.addListeners();
         this.update();
@@ -324,42 +320,36 @@ export default createClass({
     scrollTop(top = 0) {
         const $view = this.refs.view;
         $view.scrollTop = top;
-        this.needsUpdate = true;
         this.update();
     },
 
     scrollToTop() {
         const $view = this.refs.view;
         $view.scrollTop = 0;
-        this.needsUpdate = true;
         this.update();
     },
 
     scrollToBottom() {
         const $view = this.refs.view;
         $view.scrollTop = $view.scrollHeight;
-        this.needsUpdate = true;
         this.update();
     },
 
     scrollLeft(left = 0) {
         const $view = this.refs.view;
         $view.scrollLeft = left;
-        this.needsUpdate = true;
         this.update();
     },
 
     scrollToLeft() {
         const $view = this.refs.view;
         $view.scrollLeft = 0;
-        this.needsUpdate = true;
         this.update();
     },
 
     scrollToRight() {
         const $view = this.refs.view;
         $view.scrollLeft = $view.scrollWidth;
-        this.needsUpdate = true;
         this.update();
     },
 
