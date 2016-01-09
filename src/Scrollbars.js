@@ -93,8 +93,8 @@ export default createClass({
         this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        document.addEventListener('mouseup', this.handleDocumentMouseUp);
-        window.addEventListener('resize', this.handleWindowResize);
+        if (document) document.addEventListener('mouseup', this.handleDocumentMouseUp);
+        if (window) window.addEventListener('resize', this.handleWindowResize);
     },
 
     removeListeners() {
@@ -103,8 +103,8 @@ export default createClass({
         this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        document.removeEventListener('mouseup', this.handleDocumentMouseUp);
-        window.removeEventListener('resize', this.handleWindowResize);
+        if (document) document.removeEventListener('mouseup', this.handleDocumentMouseUp);
+        if (window) window.removeEventListener('resize', this.handleWindowResize);
     },
 
     getPosition($view = this.refs.view) {
@@ -288,6 +288,7 @@ export default createClass({
     },
 
     dragStart(event) {
+        if (!document) return;
         event.stopImmediatePropagation();
         this.cursorDown = true;
         css(document.body, {
@@ -303,6 +304,7 @@ export default createClass({
     },
 
     dragEnd() {
+        if (!document) return;
         this.cursorDown = false;
         this.prevPageX = this.prevPageY = 0;
         css(document.body, {
