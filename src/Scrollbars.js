@@ -258,7 +258,7 @@ export default createClass({
     },
 
     handleDocumentMouseMove(event) {
-        if (this.cursorDown === false) return void 0;
+        if (this.cursorDown === false) return false;
 
         if (this.prevPageY) {
             const $bar = this.refs.barVertical;
@@ -268,7 +268,7 @@ export default createClass({
             const thumbClickPosition = ($thumb.offsetHeight - this.prevPageY);
             const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetHeight;
             $view.scrollTop = thumbPositionPercentage * $view.scrollHeight / 100;
-            return void 0;
+            return false;
         }
 
         if (this.prevPageX) {
@@ -279,7 +279,7 @@ export default createClass({
             const thumbClickPosition = ($thumb.offsetWidth - this.prevPageX);
             const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / $bar.offsetWidth;
             $view.scrollLeft = thumbPositionPercentage * $view.scrollWidth / 100;
-            return void 0;
+            return false;
         }
     },
 
@@ -408,17 +408,22 @@ export default createClass({
             };
 
         const scrollbarHorizontalStyle = {
-            position: 'absolute',
-            zIndex: 1
+            position: 'absolute'
         };
 
         const scrollbarVerticalStyle = {
-            position: 'absolute',
-            zIndex: 1
+            position: 'absolute'
         };
 
         return (
             <div {...props} style={containerStyle}>
+                {
+                    cloneElement(
+                        view({ style: viewStyle }),
+                        { ref: 'view' },
+                        children
+                    )
+                }
                 {
                     cloneElement(
                         scrollbarHorizontal({ style: scrollbarHorizontalStyle }),
@@ -437,13 +442,6 @@ export default createClass({
                             thumbVertical({ style: thumbVerticalStyle }),
                             { ref: 'thumbVertical' }
                         )
-                    )
-                }
-                {
-                    cloneElement(
-                        view({ style: viewStyle }),
-                        { ref: 'view' },
-                        children
                     )
                 }
             </div>
