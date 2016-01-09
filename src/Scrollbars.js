@@ -1,35 +1,7 @@
+import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
-import addClass from './utils/addClass';
-import removeClass from './utils/removeClass';
-import addStyleSheet from './utils/addStyleSheet';
 import getScrollbarWidth from './utils/getScrollbarWidth';
 import returnFalse from './utils/returnFalse';
-
-let SCROLLBAR_WIDTH = false;
-
-const classnames = {
-    testScrollbar: 'react-custom-scrollbars-test-scrollbar',
-    disableSelection: 'react-custom-scrollbars-disable-selection'
-};
-
-const stylesheet = [
-    `.${classnames.testScrollbar} {
-        width: 100px;
-        height: 100px;
-        position: absolute;
-        top: -9999px;
-        overflow: scroll;
-        -ms-overflow-style: scrollbar;
-    }`,
-    `.${classnames.disableSelection} {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }`
-].join('').replace(/(\s|\n)/g, '');
 
 function getDefaultScrollbarHorizontal({ style, ...props }) {
     const finalStyle = {
@@ -102,10 +74,6 @@ export default createClass({
     },
 
     componentWillMount() {
-        addStyleSheet(stylesheet);
-        if (SCROLLBAR_WIDTH === false) {
-            SCROLLBAR_WIDTH = getScrollbarWidth(classnames.testScrollbar);
-        }
         this.needsUpdate = true;
     },
 
@@ -226,7 +194,7 @@ export default createClass({
     },
 
     update() {
-        if (SCROLLBAR_WIDTH === 0) return;
+        if (getScrollbarWidth() === 0) return;
         if (!this.needsUpdate) return;
 
         const sizeInnerPercentage = this.getInnerSizePercentage();
@@ -316,7 +284,14 @@ export default createClass({
     dragStart(event) {
         event.stopImmediatePropagation();
         this.cursorDown = true;
-        addClass(document.body, [classnames.disableSelection]);
+        css(document.body, {
+            '-webkit-touch-callout': 'none',
+            '-webkit-user-select': 'none',
+            '-khtml-user-select': 'none',
+            '-moz-user-select': 'none',
+            '-ms-user-select': 'none',
+            'user-select': 'none'
+        });
         document.addEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = returnFalse;
     },
@@ -324,12 +299,21 @@ export default createClass({
     dragEnd() {
         this.cursorDown = false;
         this.prevPageX = this.prevPageY = 0;
-        removeClass(document.body, [classnames.disableSelection]);
+        css(document.body, {
+            '-webkit-touch-callout': '',
+            '-webkit-user-select': '',
+            '-khtml-user-select': '',
+            '-moz-user-select': '',
+            '-ms-user-select': '',
+            'user-select': ''
+        });
         document.removeEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = null;
     },
 
     render() {
+        const scrollbarWidth = getScrollbarWidth();
+
         const {
             x, y,
             widthPercentageInner,
@@ -382,13 +366,13 @@ export default createClass({
             transform: thumbTranslateY
         };
 
-        const viewStyle = SCROLLBAR_WIDTH > 0
+        const viewStyle = scrollbarWidth > 0
             ? {
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                right: -SCROLLBAR_WIDTH,
-                bottom: -SCROLLBAR_WIDTH,
+                right: -scrollbarWidth,
+                bottom: -scrollbarWidth,
                 overflow: 'scroll',
                 WebkitOverflowScrolling: 'touch'
             }
