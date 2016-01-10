@@ -29,9 +29,9 @@ export default createClass({
 
         return (
             <Scrollbars
-                view={({style, ...props}) => <div className="box" style={{...style, ...viewStyle}} {...props}/>}
-                thumbHorizontal={({style, ...props}) => <div style={{...style, ...thumbStyle}} {...props}/>}
-                thumbVertical={({style, ...props}) => <div style={{...style, ...thumbStyle}} {...props}/>}
+                renderView={({style, ...props}) => <div className="box" style={{...style, ...viewStyle}} {...props}/>}
+                renderThumbHorizontal={({style, ...props}) => <div style={{...style, ...thumbStyle}} {...props}/>}
+                renderThumbVertical={({style, ...props}) => <div style={{...style, ...thumbStyle}} {...props}/>}
                 onScroll={this.handleScroll}
                 {...this.props}/>
         );

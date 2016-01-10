@@ -15,12 +15,12 @@ import {
 } from './styles';
 
 import {
-    getDefaultScrollbarHorizontal,
-    getDefaultScrollbarVertical,
-    getDefaultThumbHorizontal,
-    getDefaultThumbVertical,
-    getDefaultView
-} from './elementGetters';
+    renderDefaultScrollbarHorizontal,
+    renderDefaultScrollbarVertical,
+    renderDefaultThumbHorizontal,
+    renderDefaultThumbVertical,
+    renderDefaultView
+} from './render';
 
 export default createClass({
 
@@ -28,22 +28,22 @@ export default createClass({
 
     propTypes: {
         onScroll: PropTypes.func,
-        scrollbarHorizontal: PropTypes.func,
-        scrollbarVertical: PropTypes.func,
-        thumbHorizontal: PropTypes.func,
-        thumbVertical: PropTypes.func,
-        view: PropTypes.func,
+        renderScrollbarHorizontal: PropTypes.func,
+        renderScrollbarVertical: PropTypes.func,
+        renderThumbHorizontal: PropTypes.func,
+        renderThumbVertical: PropTypes.func,
+        renderView: PropTypes.func,
         style: PropTypes.object,
         children: PropTypes.node,
     },
 
     getDefaultProps() {
         return {
-            scrollbarHorizontal: getDefaultScrollbarHorizontal,
-            scrollbarVertical: getDefaultScrollbarVertical,
-            thumbHorizontal: getDefaultThumbHorizontal,
-            thumbVertical: getDefaultThumbVertical,
-            view: getDefaultView
+            renderScrollbarHorizontal: renderDefaultScrollbarHorizontal,
+            renderScrollbarVertical: renderDefaultScrollbarVertical,
+            renderThumbHorizontal: renderDefaultThumbHorizontal,
+            renderThumbVertical: renderDefaultThumbVertical,
+            renderView: renderDefaultView
         };
     },
 
@@ -326,11 +326,11 @@ export default createClass({
         const scrollbarWidth = getScrollbarWidth();
         const {
             style,
-            scrollbarHorizontal,
-            scrollbarVertical,
-            thumbHorizontal,
-            thumbVertical,
-            view,
+            renderScrollbarHorizontal,
+            renderScrollbarVertical,
+            renderThumbHorizontal,
+            renderThumbVertical,
+            renderView,
             onScroll,
             children,
             ...props
@@ -359,23 +359,23 @@ export default createClass({
         return (
             <div {...props} style={containerStyle}>
                 {cloneElement(
-                    view({ style: viewStyle }),
+                    renderView({ style: viewStyle }),
                     { ref: 'view' },
                     children
                 )}
                 {cloneElement(
-                    scrollbarHorizontal({ style: scrollbarHorizontalStyle }),
+                    renderScrollbarHorizontal({ style: scrollbarHorizontalStyle }),
                     { ref: 'barHorizontal' },
                     cloneElement(
-                        thumbHorizontal({ style: thumbHorizontalStyle }),
+                        renderThumbHorizontal({ style: thumbHorizontalStyle }),
                         { ref: 'thumbHorizontal' }
                     )
                 )}
                 {cloneElement(
-                    scrollbarVertical({ style: scrollbarVerticalStyle }),
+                    renderScrollbarVertical({ style: scrollbarVerticalStyle }),
                     { ref: 'barVertical' },
                     cloneElement(
-                        thumbVertical({ style: thumbVerticalStyle }),
+                        renderThumbVertical({ style: thumbVerticalStyle }),
                         { ref: 'thumbVertical' }
                     )
                 )}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function getDefaultScrollbarHorizontal({ style, ...props }) {
+export function renderDefaultScrollbarHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
         right: 2,
@@ -11,7 +11,7 @@ export function getDefaultScrollbarHorizontal({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function getDefaultScrollbarVertical({ style, ...props }) {
+export function renderDefaultScrollbarVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
         right: 2,
@@ -22,7 +22,7 @@ export function getDefaultScrollbarVertical({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function getDefaultThumbHorizontal({ style, ...props }) {
+export function renderDefaultThumbHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
         cursor: 'pointer',
@@ -32,7 +32,7 @@ export function getDefaultThumbHorizontal({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function getDefaultThumbVertical({ style, ...props }) {
+export function renderDefaultThumbVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
         cursor: 'pointer',
@@ -42,7 +42,7 @@ export function getDefaultThumbVertical({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function getDefaultView({ style, ...props }) {
+export function renderDefaultView({ style, ...props }) {
     const finalStyle = {...style};
     return <div style={finalStyle} {...props} />;
 }
