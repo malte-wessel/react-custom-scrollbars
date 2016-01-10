@@ -139,10 +139,17 @@ export default createClass({
         css(barVertical, style);
     },
 
+    raf(callback) {
+        if (this.timer) raf.cancel(this.timer);
+        this.timer = raf(() => {
+            this.timer = undefined;
+            callback();
+        });
+    },
+
     update() {
         if (getScrollbarWidth() === 0) return;
-
-        raf(() => {
+        this.raf(() => {
             const {
                 widthPercentageInner,
                 heightPercentageInner
@@ -167,8 +174,7 @@ export default createClass({
 
     handleScroll(event) {
         const { onScroll } = this.props;
-
-        raf(() => {
+        this.raf(() => {
             const { x, y, ...values } = this.getPosition();
             const {
                 widthPercentageInner,
