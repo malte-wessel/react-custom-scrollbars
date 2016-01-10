@@ -59,7 +59,7 @@ module.exports = {
     devtool: 'eval',
     entry: entry.concat('./index'),
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'static'),
         filename: 'bundle.js',
         publicPath: '/static/'
     },
