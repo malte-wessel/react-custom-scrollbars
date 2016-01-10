@@ -27,7 +27,7 @@ export default createClass({
                 className="box"
                 style={{...style, ...viewStyle}}
                 {...props}/>
-        )
+        );
     },
 
     renderThumb({ style, ...props}) {
