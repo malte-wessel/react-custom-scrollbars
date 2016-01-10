@@ -1,17 +1,63 @@
 <html>
     <head>
         <title>react-custom-scrollbars simple example</title>
-        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="static/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="handheldFriendly" content="true">
     </head>
     <body>
         <div class="container">
-            <h1>react-custom-scrollbars</h1>
-            <div id="root"></div>
+            <div class="page-header">
+                <h1>
+                    react-custom-scrollbars
+                    <a class="pull-right" href="https://github.com/malte-wessel/react-custom-scrollbars" target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </h1>
+            </div>
+            <div class="section">
+                <h3>Features</h3>
+                <ul>
+                    <li>lightweight scrollbars made of 100% react goodness</li>
+                    <li>frictionless native browser scrolling</li>
+                    <li>native scrollbars for mobile devices</li>
+                    <li>fully customizable</li>
+                    <li><code>requestAnimationFrame</code> for 60fps</li>
+                    <li>no extra stylesheets</li>
+                    <li>IE9+ support</li>
+                </ul>
+            </div>
+            <div class="section">
+                <a href="https://github.com/malte-wessel/react-custom-scrollbars" target="_blank">
+                    <strong>Documentation and examples on GitHub</strong>
+                </a>
+            </div>
+            <div class="page-header">
+                <h2>Examples</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 section">
+                    <h3>Default style</h3>
+                    <div id="default-scrollbars-root"></div>
+                </div>
+                <div class="col-sm-6 section">
+                    <h3>Custom style</h3>
+                    <div id="colored-scrollbars-root"></div>
+                </div>
+            </div>
+            <div class="section text-center">
+                <h5>
+                    <i class="fa fa-github"></i>
+                    <a href="https://github.com/malte-wessel/react-custom-scrollbars" target="_blank">
+                         react-custom-scrollbars
+                    </a>
+                </h5>
+                <a href="https://github.com/malte-wessel" target="_blank">Malte Wessel</a>
+            </div>
         </div>
-        <script src="/static/bundle.js"></script>
+        <script src="static/bundle.js"></script>
     </body>
 </html>

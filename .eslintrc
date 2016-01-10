@@ -9,7 +9,13 @@
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
-    "indent": [2, 4, {"indentSwitchCase": true}]
+    "react/no-multi-comp": 0,
+    "indent": [0, 4],
+    "new-cap": 0,
+    "comma-dangle": 0,
+    "camelcase": 0,
+    "id-length": 0,
+    "no-nested-ternary": 0
   },
   "plugins": [
     "react"

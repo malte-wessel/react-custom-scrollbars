@@ -4,7 +4,9 @@
   "description": "Simple example",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "NODE_ENV=development node server.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
+    "build:pages": "npm run build && cp index.html ../../ && rm -rf ../../static && mv static ../../"
   },
   "repository": {
     "type": "git",
@@ -21,13 +23,24 @@
     "url": "https://github.com/malte-wessel/react-custom-scrollbars/issues"
   },
   "homepage": "https://github.com/malte-wessel/react-custom-scrollbars",
-  "dependencies": {},
   "devDependencies": {
-    "babel-core": "^5.6.18",
-    "babel-loader": "^5.1.4",
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "bootstrap-sass": "^3.3.6",
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.5.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "lodash": "^3.10.1",
     "node-libs-browser": "^0.5.2",
-    "react-hot-loader": "^1.2.7",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
     "webpack": "^1.9.11",
     "webpack-dev-server": "^1.9.0"
+  },
+  "dependencies": {
+    "css-loader": "^0.23.1"
   }
 }
