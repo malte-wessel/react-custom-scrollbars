@@ -6,12 +6,12 @@ react-custom-scrollbars
 [![npm downloads](https://img.shields.io/npm/dm/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 
 * lightweight scrollbars made of 100% react goodness
-* native scrolling for mobile devices
-* no dependencies
-* no extra stylesheets
+* frictionless native browser scrolling
+* native scrollbars for mobile devices
 * fully customizable
+* `requestAnimationFrame` for 60fps
+* no extra stylesheets
 * IE9+ support
-* react@0.14.0-rc1
 * **[check out the demo](http://malte-wessel.github.io/react-custom-scrollbars/)**
 
 ## Table of Contents
@@ -63,11 +63,11 @@ class CustomScrollbars extends Component {
     return (
       <Scrollbars
         className="container"
-        scrollbarHorizontal={props => <div {...props} className="scrollbar-horizontal" />}
-        scrollbarVertical={props => <div {...props} className="scrollbar-vertical"/>}
-        thumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
-        thumbVertical={props => <div {...props} className="thumb-vertical"/>}
-        view={props => <div {...props} className="view"/>}>
+        renderScrollbarHorizontal={props => <div {...props} className="scrollbar-horizontal" />}
+        renderScrollbarVertical={props => <div {...props} className="scrollbar-vertical"/>}
+        renderThumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
+        renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}
+        renderView={props => <div {...props} className="view"/>}>
         {this.props.children}
       </Scrollbars>
     );
@@ -107,11 +107,11 @@ class App extends Component {
     * `values.scrollLeft`: (Number) native scrollLeft
     * `values.scrollTop`: (Number) native scrollTop
 * **The following properties expect a react element to be returned. You can customize the element to your needs.**
-* `scrollbarHorizontal`: (Function) Horizontal scrollbar element
-* `scrollbarVertical`: (Function) Vertical scrollbar element
-* `thumbHorizontal`: (Function) Horizontal thumb element
-* `thumbVertical`: (Function) Vertical thumb element
-* `view`: (Function) The element your content will be rendered in
+* `renderScrollbarHorizontal`: (Function) Horizontal scrollbar element
+* `renderScrollbarVertical`: (Function) Vertical scrollbar element
+* `renderThumbHorizontal`: (Function) Horizontal thumb element
+* `renderThumbVertical`: (Function) Vertical thumb element
+* `renderView`: (Function) The element your content will be rendered in
 
 **Don't forget to pass the received props to your custom element. Example:**
 
@@ -123,9 +123,9 @@ class CustomScrollbars extends Component {
     return (
       <Scrollbars
         // Set a custom className
-        scrollbarHorizontal={props => <div {...props} className="scrollbar-vertical"/>}
+        renderScrollbarHorizontal={props => <div {...props} className="scrollbar-vertical"/>}
         // Customize inline styles
-        scrollbarVertical={({ style, ...props}) => {
+        renderScrollbarVertical={({ style, ...props}) => {
           return <div style={{...style, padding: 20}} {...props}/>;
         }}>
         {this.props.children}
