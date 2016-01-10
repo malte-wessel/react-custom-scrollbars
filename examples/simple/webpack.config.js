@@ -1,5 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var extractTextPlugin = new ExtractTextPlugin('[name].css');
 
 var entry = [];
 if(process.env.NODE_ENV === 'development') {
@@ -9,6 +11,7 @@ if(process.env.NODE_ENV === 'development') {
 }
 
 var plugins = [
+    extractTextPlugin,
     new webpack.NoErrorsPlugin()
 ];
 
@@ -22,7 +25,14 @@ if(process.env.NODE_ENV === 'production') {
     );
 }
 
-var loaders = [];
+var loaders = [{
+    test: /\.scss$/,
+    loader: extractTextPlugin.extract([
+        'css',
+        'autoprefixer?browsers=last 4 versions',
+        'sass?includePaths[]=' + path.resolve('./node_modules')
+    ].join('!'))
+}];
 if(process.env.NODE_ENV === 'development') {
     loaders.push({
         test: /\.js$/,
@@ -62,5 +72,8 @@ module.exports = {
     },
     module: {
         loaders: loaders
+    },
+    sassLoader: {
+        includePaths: [path.resolve(__dirname, './node_modules')]
     }
 };
