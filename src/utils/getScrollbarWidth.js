@@ -3,7 +3,7 @@ let scrollbarWidth = false;
 
 export default function getScrollbarWidth() {
     if (scrollbarWidth !== false) return scrollbarWidth;
-    if (document) {
+    if (typeof document !== "undefined") {
         const div = document.createElement('div');
         css(div, {
             width: 100,
