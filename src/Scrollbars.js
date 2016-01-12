@@ -303,23 +303,25 @@ export default createClass({
     },
 
     addListeners() {
+        if (typeof document === 'undefined') return;
         this.refs.view.addEventListener('scroll', this.handleScroll);
         this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.addEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.addEventListener('resize', this.handleWindowResize);
+        document.addEventListener('mouseup', this.handleDocumentMouseUp);
+        window.addEventListener('resize', this.handleWindowResize);
     },
 
     removeListeners() {
+        if (typeof document === 'undefined') return;
         this.refs.view.removeEventListener('scroll', this.handleScroll);
         this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.removeEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.removeEventListener('resize', this.handleWindowResize);
+        document.removeEventListener('mouseup', this.handleDocumentMouseUp);
+        window.removeEventListener('resize', this.handleWindowResize);
     },
 
     render() {
