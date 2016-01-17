@@ -147,7 +147,7 @@ export default createClass({
         });
     },
 
-    update() {
+    update(callback) {
         if (getScrollbarWidth() === 0) return;
         this.raf(() => {
             const {
@@ -155,7 +155,7 @@ export default createClass({
                 heightPercentageInner
             } = this.getInnerSizePercentage();
 
-            const { x, y } = this.getPosition();
+            const { x, y, ...values } = this.getPosition();
 
             this.setScrollbarHorizontalStyle(
                 this.getScrollbarHorizontalStyle(widthPercentageInner)
@@ -169,26 +169,17 @@ export default createClass({
             this.setThumbVerticalStyle(
                 this.getThumbVerticalStyle(y, heightPercentageInner)
             );
+
+            if (typeof callback === 'function') {
+              callback(x, y, values);
+            }
         });
     },
 
     handleScroll(event) {
         const { onScroll } = this.props;
-        this.raf(() => {
-            const { x, y, ...values } = this.getPosition();
-            const {
-                widthPercentageInner,
-                heightPercentageInner
-            } = this.getInnerSizePercentage();
-
-            if (onScroll) onScroll(event, values);
-
-            this.setThumbHorizontalStyle(
-                this.getThumbHorizontalStyle(x, widthPercentageInner)
-            );
-            this.setThumbVerticalStyle(
-                this.getThumbVerticalStyle(y, heightPercentageInner)
-            );
+        this.update((x, y, values) => {
+          if (onScroll) onScroll(event, values);
         });
     },
 
