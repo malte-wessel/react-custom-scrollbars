@@ -137,12 +137,18 @@ class CustomScrollbars extends Component {
 
 #### Methods
 
-* `scrollTop(top)`: Scroll to the top value
-* `scrollLeft(left)`: Scroll to the left value
-* `scrollToTop()`: Scroll to top
-* `scrollToBottom()`: Scroll to bottom
-* `scrollToLeft()`: Scroll to left
-* `scrollToRight()`: Scroll to right
+* `scrollTop(top)`: scroll to the top value
+* `scrollLeft(left)`: scroll to the left value
+* `scrollToTop()`: scroll to top
+* `scrollToBottom()`: scroll to bottom
+* `scrollToLeft()`: scroll to left
+* `scrollToRight()`: scroll to right
+* `getScrollLeft`: get scrollLeft value
+* `getScrollTop`: get scrollTop value
+* `getScrollWidth`: get scrollWidth value
+* `getScrollHeight`: get scrollHeight value
+* `getWidth`: get view client width
+* `getHeight`: get view client height
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
