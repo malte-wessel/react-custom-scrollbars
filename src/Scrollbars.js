@@ -60,6 +60,36 @@ export default createClass({
         this.removeListeners();
     },
 
+    getScrollLeft() {
+        const { view } = this.refs;
+        return view.scrollLeft;
+    },
+
+    getScrollTop() {
+        const { view } = this.refs;
+        return view.scrollTop;
+    },
+
+    getScrollWidth() {
+        const { view } = this.refs;
+        return view.scrollWidth;
+    },
+
+    getScrollHeight() {
+        const { view } = this.refs;
+        return view.scrollHeight;
+    },
+
+    getWidth() {
+        const { view } = this.refs;
+        return view.clientWidth;
+    },
+
+    getHeight() {
+        const { view } = this.refs;
+        return view.clientHeight;
+    },
+
     getPosition() {
         const { view } = this.refs;
         const {
@@ -139,56 +169,63 @@ export default createClass({
         css(barVertical, style);
     },
 
-    raf(callback) {
-        if (this.timer) raf.cancel(this.timer);
-        this.timer = raf(() => {
-            this.timer = undefined;
-            callback();
-        });
+    scrollTop(top = 0) {
+        const { view } = this.refs;
+        view.scrollTop = top;
     },
 
-    update() {
-        if (getScrollbarWidth() === 0) return;
-        this.raf(() => {
-            const {
-                widthPercentageInner,
-                heightPercentageInner
-            } = this.getInnerSizePercentage();
+    scrollToTop() {
+        const { view } = this.refs;
+        view.scrollTop = 0;
+    },
 
-            const { x, y } = this.getPosition();
+    scrollToBottom() {
+        const { view } = this.refs;
+        view.scrollTop = view.scrollHeight;
+    },
 
-            this.setScrollbarHorizontalStyle(
-                this.getScrollbarHorizontalStyle(widthPercentageInner)
-            );
-            this.setScrollbarVerticalStyle(
-                this.getScrollbarVerticalStyle(heightPercentageInner)
-            );
-            this.setThumbHorizontalStyle(
-                this.getThumbHorizontalStyle(x, widthPercentageInner)
-            );
-            this.setThumbVerticalStyle(
-                this.getThumbVerticalStyle(y, heightPercentageInner)
-            );
-        });
+    scrollLeft(left = 0) {
+        const { view } = this.refs;
+        view.scrollLeft = left;
+    },
+
+    scrollToLeft() {
+        const { view } = this.refs;
+        view.scrollLeft = 0;
+    },
+
+    scrollToRight() {
+        const { view } = this.refs;
+        view.scrollLeft = view.scrollWidth;
+    },
+
+    addListeners() {
+        if (typeof document === 'undefined') return;
+        this.refs.view.addEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        document.addEventListener('mouseup', this.handleDocumentMouseUp);
+        window.addEventListener('resize', this.handleWindowResize);
+    },
+
+    removeListeners() {
+        if (typeof document === 'undefined') return;
+        this.refs.view.removeEventListener('scroll', this.handleScroll);
+        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        document.removeEventListener('mouseup', this.handleDocumentMouseUp);
+        window.removeEventListener('resize', this.handleWindowResize);
     },
 
     handleScroll(event) {
         const { onScroll } = this.props;
-        this.raf(() => {
-            const { x, y, ...values } = this.getPosition();
-            const {
-                widthPercentageInner,
-                heightPercentageInner
-            } = this.getInnerSizePercentage();
-
-            if (onScroll) onScroll(event, values);
-
-            this.setThumbHorizontalStyle(
-                this.getThumbHorizontalStyle(x, widthPercentageInner)
-            );
-            this.setThumbVerticalStyle(
-                this.getThumbVerticalStyle(y, heightPercentageInner)
-            );
+        this.update(values => {
+            if (!onScroll) return;
+            onScroll(event, values);
         });
     },
 
@@ -209,19 +246,19 @@ export default createClass({
     },
 
     handleVerticalThumbMouseDown(event) {
-        this.dragStart(event);
+        this.handleDragStart(event);
         const { currentTarget, clientY } = event;
         this.prevPageY = (currentTarget.offsetHeight - (clientY - currentTarget.getBoundingClientRect().top));
     },
 
     handleHorizontalThumbMouseDown(event) {
-        this.dragStart(event);
+        this.handleDragStart(event);
         const { currentTarget, clientX } = event;
         this.prevPageX = (currentTarget.offsetWidth - (clientX - currentTarget.getBoundingClientRect().left));
     },
 
     handleDocumentMouseUp() {
-        this.dragEnd();
+        this.handleDragEnd();
     },
 
     handleDocumentMouseMove(event) {
@@ -248,7 +285,7 @@ export default createClass({
         this.update();
     },
 
-    dragStart(event) {
+    handleDragStart(event) {
         if (!document) return;
         event.stopImmediatePropagation();
         this.cursorDown = true;
@@ -257,7 +294,7 @@ export default createClass({
         document.onselectstart = returnFalse;
     },
 
-    dragEnd() {
+    handleDragEnd() {
         if (!document) return;
         this.cursorDown = false;
         this.prevPageX = this.prevPageY = 0;
@@ -266,60 +303,40 @@ export default createClass({
         document.onselectstart = undefined;
     },
 
-    scrollTop(top = 0) {
-        const { view } = this.refs;
-        view.scrollTop = top;
-        this.update();
+    raf(callback) {
+        if (this.timer) raf.cancel(this.timer);
+        this.timer = raf(() => {
+            this.timer = undefined;
+            callback();
+        });
     },
 
-    scrollToTop() {
-        const { view } = this.refs;
-        view.scrollTop = 0;
-        this.update();
-    },
+    update(callback) {
+        if (getScrollbarWidth() === 0) return;
+        this.raf(() => {
+            const {
+                widthPercentageInner,
+                heightPercentageInner
+            } = this.getInnerSizePercentage();
 
-    scrollToBottom() {
-        const { view } = this.refs;
-        view.scrollTop = view.scrollHeight;
-        this.update();
-    },
+            const { x, y, ...values } = this.getPosition();
 
-    scrollLeft(left = 0) {
-        const { view } = this.refs;
-        view.scrollLeft = left;
-        this.update();
-    },
+            this.setScrollbarHorizontalStyle(
+                this.getScrollbarHorizontalStyle(widthPercentageInner)
+            );
+            this.setScrollbarVerticalStyle(
+                this.getScrollbarVerticalStyle(heightPercentageInner)
+            );
+            this.setThumbHorizontalStyle(
+                this.getThumbHorizontalStyle(x, widthPercentageInner)
+            );
+            this.setThumbVerticalStyle(
+                this.getThumbVerticalStyle(y, heightPercentageInner)
+            );
 
-    scrollToLeft() {
-        const { view } = this.refs;
-        view.scrollLeft = 0;
-        this.update();
-    },
-
-    scrollToRight() {
-        const { view } = this.refs;
-        view.scrollLeft = view.scrollWidth;
-        this.update();
-    },
-
-    addListeners() {
-        this.refs.view.addEventListener('scroll', this.handleScroll);
-        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.addEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.addEventListener('resize', this.handleWindowResize);
-    },
-
-    removeListeners() {
-        this.refs.view.removeEventListener('scroll', this.handleScroll);
-        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        if (document) document.removeEventListener('mouseup', this.handleDocumentMouseUp);
-        if (window) window.removeEventListener('resize', this.handleWindowResize);
+            if (typeof callback !== 'function') return;
+            callback(values);
+        });
     },
 
     render() {

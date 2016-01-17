@@ -41,6 +41,7 @@
     "webpack-dev-server": "^1.9.0"
   },
   "dependencies": {
-    "css-loader": "^0.23.1"
+    "css-loader": "^0.23.1",
+    "rebound": "0.0.13"
   }
 }
