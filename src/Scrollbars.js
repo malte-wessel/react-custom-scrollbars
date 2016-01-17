@@ -312,28 +312,28 @@ export default createClass({
     },
 
     update(callback) {
-        if (getScrollbarWidth() === 0) return;
+        const {
+            widthPercentageInner,
+            heightPercentageInner
+        } = this.getInnerSizePercentage();
+
+        const { x, y, ...values } = this.getPosition();
+
         this.raf(() => {
-            const {
-                widthPercentageInner,
-                heightPercentageInner
-            } = this.getInnerSizePercentage();
-
-            const { x, y, ...values } = this.getPosition();
-
-            this.setScrollbarHorizontalStyle(
-                this.getScrollbarHorizontalStyle(widthPercentageInner)
-            );
-            this.setScrollbarVerticalStyle(
-                this.getScrollbarVerticalStyle(heightPercentageInner)
-            );
-            this.setThumbHorizontalStyle(
-                this.getThumbHorizontalStyle(x, widthPercentageInner)
-            );
-            this.setThumbVerticalStyle(
-                this.getThumbVerticalStyle(y, heightPercentageInner)
-            );
-
+            if (getScrollbarWidth() > 0) {
+                this.setScrollbarHorizontalStyle(
+                    this.getScrollbarHorizontalStyle(widthPercentageInner)
+                );
+                this.setScrollbarVerticalStyle(
+                    this.getScrollbarVerticalStyle(heightPercentageInner)
+                );
+                this.setThumbHorizontalStyle(
+                    this.getThumbHorizontalStyle(x, widthPercentageInner)
+                );
+                this.setThumbVerticalStyle(
+                    this.getThumbVerticalStyle(y, heightPercentageInner)
+                );
+            }
             if (typeof callback !== 'function') return;
             callback(values);
         });
