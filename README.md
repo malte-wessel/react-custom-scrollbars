@@ -201,6 +201,9 @@ class CustomScrollbars extends Component {
 
 Run the simple example:
 ```bash
+# Make sure that you've installed the dependencies
+npm install
+# Move to example directory
 cd react-custom-scrollbars/examples/simple
 npm install
 npm start
