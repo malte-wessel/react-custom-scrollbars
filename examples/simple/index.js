@@ -5,7 +5,9 @@ import { render } from 'react-dom';
 import DefaultScrollbarsApp from './components/DefaultScrollbars/App';
 import ColoredScrollbarsApp from './components/ColoredScrollbars/App';
 import SpringScrollbarsApp from './components/SpringScrollbars/App';
+import StickyScrollbarsApp from './components/StickyScrollbars/App';
 
 render(<DefaultScrollbarsApp />, document.getElementById('default-scrollbars-root'));
 render(<ColoredScrollbarsApp />, document.getElementById('colored-scrollbars-root'));
 render(<SpringScrollbarsApp />, document.getElementById('spring-scrollbars-root'));
+render(<StickyScrollbarsApp />, document.getElementById('sticky-scrollbars-root'));
