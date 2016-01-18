@@ -58,6 +58,7 @@ export default createClass({
 
     componentWillUnmount() {
         this.removeListeners();
+        if (this.timer) raf.cancel(this.timer);
     },
 
     getScrollLeft() {
