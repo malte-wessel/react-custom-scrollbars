@@ -39,7 +39,10 @@ export default createClass({
             ...style,
             // Overflow hidden is needed in order to
             // get the correct height, when child has a margin
-            overflow: 'hidden'
+            overflow: 'hidden',
+            top: 0,
+            right: 0,
+            left: 0
         };
         return (
             <div ref="container">

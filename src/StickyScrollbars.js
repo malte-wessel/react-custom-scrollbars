@@ -142,19 +142,13 @@ export default createClass({
 
             titleStylesByUid[uid] = {
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
                 transform: `translateY(${translateY}px)`
             };
         });
 
         unstick.forEach(uid => {
             titleStylesByUid[uid] = {
-                position: '',
-                top: '',
-                left: '',
-                right: '',
+                position: 'relative',
                 transform: 'translateY(0px)'
             };
         });
