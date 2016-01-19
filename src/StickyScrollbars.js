@@ -82,31 +82,85 @@ export default createClass({
         const scrollTop = scrollbars.getScrollTop();
         const titleStylesByUid = {};
         const containerStylesByUid = {};
+        const sequence = [];
+        const stick = [];
+        const unstick = [];
 
+        // Run through title items, collect uids and
+        // determine if an item gets sticked or unsticked
         for (const uid in itemsByUid) {
             if (!itemsByUid.hasOwnProperty(uid)) continue;
+            sequence.push(uid);
             const values = valuesByUid[uid];
-            const { top, height } = values;
-            containerStylesByUid[uid] = { height };
-
-            if (scrollTop > top) {
-                titleStylesByUid[uid] = {
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0
-                };
-            } else {
-                titleStylesByUid[uid] = {
-                    position: '',
-                    top: '',
-                    left: '',
-                    right: ''
-                };
-            }
+            const { top } = values;
+            // This item will get sticked
+            if (scrollTop > top) stick.push(uid);
+            // This item will get unsticked
+            else unstick.push(uid);
         }
 
-        for (const uid in titleStylesByUid) {
+        // Make sure that the collected uids are in the correct order
+        // Sorts sequence by top value (ASC)
+        sequence.sort((auid, buid) => {
+            const avalues = valuesByUid[auid];
+            const bvalues = valuesByUid[buid];
+            const { top: atop } = avalues;
+            const { top: btop } = bvalues;
+            return atop - btop;
+        });
+
+        // Run through items that will get sticked
+        stick.forEach(uid => {
+            let translateY = 0;
+            const values = valuesByUid[uid];
+            const { height } = values;
+            const idx = sequence.indexOf(uid);
+
+            const ancestorUid = sequence[idx + 1];
+            // If there's an ancestor item, check if we need to
+            // move the current item out of the viewport to
+            // make way for the ancestor
+            if (ancestorUid) {
+                const ancestorValues = valuesByUid[ancestorUid];
+                const { top: ancestorTop } = ancestorValues;
+                // This is the value determines how far the ancestor would
+                // overlay the current item
+                const diff = ancestorTop - scrollTop - height;
+                // If its lower than 0, the ancestor overlays the current item
+                if (diff < 0) {
+                    // Move item out of the viewport
+                    if (Math.abs(diff) < height) translateY = diff;
+                    // Item is out of viewport, just let it there
+                    else translateY = -height;
+                }
+            }
+
+            // The container functions as placeholder,
+            // so we need to make sure it has the title's height,
+            // when the title is absolute positioned
+            containerStylesByUid[uid] = { height };
+
+            titleStylesByUid[uid] = {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                transform: `translateY(${translateY}px)`
+            };
+        });
+
+        unstick.forEach(uid => {
+            titleStylesByUid[uid] = {
+                position: '',
+                top: '',
+                left: '',
+                right: '',
+                transform: 'translateY(0px)'
+            };
+        });
+
+        // Apply styles
+        for (const uid in itemsByUid) {
             if (!valuesByUid.hasOwnProperty(uid)) continue;
             const titleStyles = titleStylesByUid[uid];
             const containerStyles = containerStylesByUid[uid];
