@@ -274,6 +274,116 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             });
         });
 
+        describe('getters', () => {
+            function renderScrollbars(callback) {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, callback);
+            }
+            describe('getScrollLeft', () => {
+                it('should return scrollLeft', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollLeft(50);
+                        expect(this.getScrollLeft()).toEqual(50);
+                        done();
+                    });
+                });
+            });
+            describe('getScrollTop', () => {
+                it('should return scrollTop', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollTop(50);
+                        expect(this.getScrollTop()).toEqual(50);
+                        done();
+                    });
+                });
+            });
+            describe('getScrollWidth', () => {
+                it('should return scrollWidth', done => {
+                    renderScrollbars(function callback() {
+                        expect(this.getScrollWidth()).toEqual(200);
+                        done();
+                    });
+                });
+            });
+            describe('getScrollHeight', () => {
+                it('should return scrollHeight', done => {
+                    renderScrollbars(function callback() {
+                        expect(this.getScrollHeight()).toEqual(200);
+                        done();
+                    });
+                });
+            });
+            describe('getWidth', () => {
+                it('should return scrollWidth', done => {
+                    renderScrollbars(function callback() {
+                        expect(this.getWidth()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                        done();
+                    });
+                });
+            });
+            describe('getHeight', () => {
+                it('should return scrollHeight', done => {
+                    renderScrollbars(function callback() {
+                        expect(this.getHeight()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                        done();
+                    });
+                });
+            });
+        });
+
+        describe('setters', () => {
+            function renderScrollbars(callback) {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, callback);
+            }
+            describe('scrollLeft/scrollToLeft', () => {
+                it('should scroll to given left value', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollLeft(50);
+                        expect(this.getScrollLeft()).toEqual(50);
+                        this.scrollToLeft();
+                        expect(this.getScrollLeft()).toEqual(0);
+                        done();
+                    });
+                });
+            });
+            describe('scrollTop/scrollToTop', () => {
+                it('should scroll to given top value', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollTop(50);
+                        expect(this.getScrollTop()).toEqual(50);
+                        this.scrollToTop();
+                        expect(this.getScrollTop()).toEqual(0);
+                        done();
+                    });
+                });
+            });
+            describe('scrollToRight', () => {
+                it('should scroll to right', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollToRight();
+                        expect(this.getScrollLeft()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                        done();
+                    });
+                });
+            });
+            describe('scrollToBottom', () => {
+                it('should scroll to bottom', done => {
+                    renderScrollbars(function callback() {
+                        this.scrollToBottom();
+                        expect(this.getScrollTop()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('when scrolling', () => {
             it('should update thumbs position', done => {
                 render((
