@@ -1,6 +1,8 @@
 import { Scrollbars } from 'react-custom-scrollbars';
-import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import React from 'react';
+import simulant from 'simulant';
+
 
 export default function createTests(scrollbarWidth, envScrollbarWidth) {
     describe('Scrollbars', () => {
@@ -14,7 +16,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             document.body.removeChild(node);
         });
 
-        describe('when rendering Scrollbars', () => {
+        describe('when Scrollbars are rendered', () => {
             it('hides native scrollbars', done => {
                 render((
                     <Scrollbars style={{ width: 100, height: 100 }}>
@@ -88,6 +90,26 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             });
         });
 
+        describe('when rerendering Scrollbars', () => {
+            function renderScrollbars(callback) {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, callback);
+            }
+            it('should update scrollbars', done => {
+                renderScrollbars(function callback() {
+                    const spy = spyOn(this, 'update').andCallThrough();
+                    renderScrollbars(function rerenderCallback() {
+                        expect(spy.calls.length).toEqual(1);
+                        spy.restore();
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('when scrolling', () => {
             it('should update thumbs position', done => {
                 render((
@@ -107,6 +129,19 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         }
                         done();
                     }, 100);
+                });
+            });
+
+            it('should not trigger a rerender', () => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    const spy = spyOn(this, 'render').andCallThrough();
+                    this.scrollTop(50);
+                    expect(spy.calls.length).toEqual(0);
+                    spy.restore();
                 });
             });
 
@@ -204,8 +239,154 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                 ), node, function callback() {
                     setTimeout(() => {
                         const spy = spyOn(this, 'update');
-                        window.dispatchEvent(new Event('resize'));
+                        simulant.fire(window, 'resize');
                         expect(spy.calls.length).toEqual(1);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        describe('when clicking on horizontal bar', () => {
+            // Not for mobile environment
+            if (!scrollbarWidth) return;
+
+            it('should scroll to the respective position', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { view, barHorizontal: bar } = this.refs;
+                        const { left, width } = bar.getBoundingClientRect();
+                        simulant.fire(bar, 'mousedown', {
+                            target: bar,
+                            clientX: left + (width / 2)
+                        });
+                        expect(view.scrollLeft).toEqual(50);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        describe('when clicking on vertical bar', () => {
+            // Not for mobile environment
+            if (!scrollbarWidth) return;
+
+            it('should scroll to the respective position', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { view, barVertical: bar } = this.refs;
+                        const { top, height } = bar.getBoundingClientRect();
+                        simulant.fire(bar, 'mousedown', {
+                            target: bar,
+                            clientY: top + (height / 2)
+                        });
+                        expect(view.scrollTop).toEqual(50);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        describe('when dragging horizontal thumb', () => {
+            // Not for mobile environment
+            if (!scrollbarWidth) return;
+
+            it('should scroll to the respective position', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { view, thumbHorizontal: thumb } = this.refs;
+                        const { left } = thumb.getBoundingClientRect();
+                        simulant.fire(thumb, 'mousedown', {
+                            currentTarget: thumb,
+                            clientX: left
+                        });
+                        simulant.fire(document, 'mousemove', {
+                            clientX: left + 100
+                        });
+                        simulant.fire(document, 'mouseup');
+                        expect(view.scrollLeft).toEqual(100);
+                        done();
+                    }, 100);
+                });
+            });
+
+            it('should disable selection', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { thumbHorizontal: thumb } = this.refs;
+                        const { left } = thumb.getBoundingClientRect();
+                        simulant.fire(thumb, 'mousedown', {
+                            currentTarget: thumb,
+                            clientX: left
+                        });
+                        expect(document.body.style.webkitUserSelect).toEqual('none');
+                        simulant.fire(document, 'mouseup');
+                        expect(document.body.style.webkitUserSelect).toEqual('');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        describe('when dragging vertical thumb', () => {
+            // Not for mobile environment
+            if (!scrollbarWidth) return;
+
+            it('should scroll to the respective position', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { view, thumbVertical: thumb } = this.refs;
+                        const { top } = thumb.getBoundingClientRect();
+                        simulant.fire(thumb, 'mousedown', {
+                            currentTarget: thumb,
+                            clientY: top
+                        });
+                        simulant.fire(document, 'mousemove', {
+                            clientY: top + 100
+                        });
+                        simulant.fire(document, 'mouseup');
+                        expect(view.scrollTop).toEqual(100);
+                        done();
+                    }, 100);
+                });
+            });
+
+            it('should disable selection', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        const { thumbVertical: thumb } = this.refs;
+                        const { top } = thumb.getBoundingClientRect();
+                        simulant.fire(thumb, 'mousedown', {
+                            currentTarget: thumb,
+                            clientY: top
+                        });
+                        expect(document.body.style.webkitUserSelect).toEqual('none');
+                        simulant.fire(document, 'mouseup');
+                        expect(document.body.style.webkitUserSelect).toEqual('');
                         done();
                     }, 100);
                 });

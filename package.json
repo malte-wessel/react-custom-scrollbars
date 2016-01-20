@@ -55,6 +55,7 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "rimraf": "^2.3.4",
+    "simulant": "^0.1.5",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
