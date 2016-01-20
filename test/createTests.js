@@ -163,23 +163,27 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             expect(values).toBeA(Object);
 
                             if (scrollbarWidth) {
-                                expect(values.left).toEqual(0);
-                                expect(values.top).toEqual(0.5);
-                                expect(values.scrollLeft).toEqual(0);
-                                expect(values.scrollTop).toEqual(50);
-                                expect(values.scrollWidth).toEqual(200);
-                                expect(values.scrollHeight).toEqual(200);
-                                expect(values.clientWidth).toEqual(100);
-                                expect(values.clientHeight).toEqual(100);
+                                expect(values).toEqual({
+                                    left: 0,
+                                    top: 0.5,
+                                    scrollLeft: 0,
+                                    scrollTop: 50,
+                                    scrollWidth: 200,
+                                    scrollHeight: 200,
+                                    clientWidth: 100,
+                                    clientHeight: 100,
+                                });
                             } else {
-                                expect(values.left).toEqual(0);
-                                expect(values.top).toEqual(values.scrollTop / (values.scrollHeight - (values.clientHeight)));
-                                expect(values.scrollLeft).toEqual(0);
-                                expect(values.scrollTop).toEqual(50);
-                                expect(values.scrollWidth).toEqual(200);
-                                expect(values.scrollHeight).toEqual(200);
-                                expect(values.clientWidth).toEqual(100 - envScrollbarWidth);
-                                expect(values.clientHeight).toEqual(100 - envScrollbarWidth);
+                                expect(values).toEqual({
+                                    left: 0,
+                                    top: values.scrollTop / (values.scrollHeight - (values.clientHeight)),
+                                    scrollLeft: 0,
+                                    scrollTop: 50,
+                                    scrollWidth: 200,
+                                    scrollHeight: 200,
+                                    clientWidth: 100 - envScrollbarWidth,
+                                    clientHeight: 100 - envScrollbarWidth,
+                                });
                             }
                             done();
                         }, 100);
@@ -205,23 +209,27 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             expect(values).toBeA(Object);
 
                             if (scrollbarWidth) {
-                                expect(values.left).toEqual(0.5);
-                                expect(values.top).toEqual(0);
-                                expect(values.scrollLeft).toEqual(50);
-                                expect(values.scrollTop).toEqual(0);
-                                expect(values.scrollWidth).toEqual(200);
-                                expect(values.scrollHeight).toEqual(200);
-                                expect(values.clientWidth).toEqual(100);
-                                expect(values.clientHeight).toEqual(100);
+                                expect(values).toEqual({
+                                    left: 0.5,
+                                    top: 0,
+                                    scrollLeft: 50,
+                                    scrollTop: 0,
+                                    scrollWidth: 200,
+                                    scrollHeight: 200,
+                                    clientWidth: 100,
+                                    clientHeight: 100
+                                });
                             } else {
-                                expect(values.left).toEqual(values.scrollLeft / (values.scrollWidth - (values.clientWidth)));
-                                expect(values.top).toEqual(0);
-                                expect(values.scrollLeft).toEqual(50);
-                                expect(values.scrollTop).toEqual(0);
-                                expect(values.scrollWidth).toEqual(200);
-                                expect(values.scrollHeight).toEqual(200);
-                                expect(values.clientWidth).toEqual(100 - envScrollbarWidth);
-                                expect(values.clientHeight).toEqual(100 - envScrollbarWidth);
+                                expect(values).toEqual({
+                                    left: values.scrollLeft / (values.scrollWidth - (values.clientWidth)),
+                                    top: 0,
+                                    scrollLeft: 50,
+                                    scrollTop: 0,
+                                    scrollWidth: 200,
+                                    scrollHeight: 200,
+                                    clientWidth: 100 - envScrollbarWidth,
+                                    clientHeight: 100 - envScrollbarWidth
+                                });
                             }
                             done();
                         }, 100);
