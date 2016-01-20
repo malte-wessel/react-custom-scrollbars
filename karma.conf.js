@@ -16,7 +16,9 @@ module.exports = function karmaConfig(config) {
         webpack: {
             devtool: 'inline-source-map',
             resolve: {
-                root: path.resolve(__dirname, './src')
+                alias: {
+                    'react-custom-scrollbars': path.resolve(__dirname, './src')
+                }
             },
             module: {
                 loaders: [{
@@ -25,10 +27,6 @@ module.exports = function karmaConfig(config) {
                     exclude: /(node_modules)/
                 }]
             }
-        },
-        // webpackMiddleware: {
-        //     noInfo: true,
-        //     watchOptions: { poll: 3000 }
-        // }
+        }
     });
 };
