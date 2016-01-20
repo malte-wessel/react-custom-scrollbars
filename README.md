@@ -21,6 +21,7 @@ react-custom-scrollbars
 - [Customization](#customization)
 - [API](#api)
 - [Examples](#examples)
+- [Tests](#tests)
 - [License](#license)
 
 ## Installation
@@ -215,6 +216,13 @@ npm install
 npm start
 ```
 
+## Tests
+```bash
+# Make sure that you've installed the dependencies
+npm install
+# Run tests
+npm test
+```
 ## License
 
 MIT
