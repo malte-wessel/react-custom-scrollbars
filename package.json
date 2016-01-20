@@ -53,6 +53,7 @@
     "karma-webpack": "^1.6.0",
     "mocha": "^2.2.5",
     "react": "^0.14.3",
+    "react-addons-test-utils": "^0.14.6",
     "react-dom": "^0.14.3",
     "rimraf": "^2.3.4",
     "simulant": "^0.1.5",
