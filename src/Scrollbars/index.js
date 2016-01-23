@@ -1,26 +1,27 @@
 import raf from 'raf';
 import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
-import getScrollbarWidth from './utils/getScrollbarWidth';
-import returnFalse from './utils/returnFalse';
+import getScrollbarWidth from '../utils/getScrollbarWidth';
+import returnFalse from '../utils/returnFalse';
 
 import {
-    thumbHorizontalStyle,
-    thumbVerticalStyle,
-    viewStyleScrollbarsInvisible,
-    scrollbarHorizontalStyle,
-    scrollbarVerticalStyle,
+    defaultThumbHorizontalStyle,
+    defaultThumbVerticalStyle,
+    defaultScrollbarHorizontalStyle,
+    defaultScrollbarVerticalStyle,
+    scrollbarsVisibleViewStyle,
+    scrollbarsInvisibleViewStyle,
     disableSelectStyle,
     resetDisableSelectStyle
 } from './styles';
 
 import {
-    renderDefaultScrollbarHorizontal,
-    renderDefaultScrollbarVertical,
-    renderDefaultThumbHorizontal,
-    renderDefaultThumbVertical,
-    renderDefaultView
-} from './render';
+    defaultRenderScrollbarHorizontal,
+    defaultRenderScrollbarVertical,
+    defaultRenderThumbHorizontal,
+    defaultRenderThumbVertical,
+    defaultRenderView
+} from './defaultRenderElements';
 
 export default createClass({
 
@@ -39,11 +40,11 @@ export default createClass({
 
     getDefaultProps() {
         return {
-            renderScrollbarHorizontal: renderDefaultScrollbarHorizontal,
-            renderScrollbarVertical: renderDefaultScrollbarVertical,
-            renderThumbHorizontal: renderDefaultThumbHorizontal,
-            renderThumbVertical: renderDefaultThumbVertical,
-            renderView: renderDefaultView
+            renderScrollbarHorizontal: defaultRenderScrollbarHorizontal,
+            renderScrollbarVertical: defaultRenderScrollbarVertical,
+            renderThumbHorizontal: defaultRenderThumbHorizontal,
+            renderThumbVertical: defaultRenderThumbVertical,
+            renderView: defaultRenderView
         };
     },
 
@@ -314,6 +315,13 @@ export default createClass({
 
     update(callback) {
         const {
+            thumbHorizontal,
+            thumbVertical,
+            barHorizontal,
+            barVertical
+        } = this.refs;
+
+        const {
             widthPercentageInner,
             heightPercentageInner
         } = this.getInnerSizePercentage();
@@ -322,18 +330,20 @@ export default createClass({
 
         this.raf(() => {
             if (getScrollbarWidth() > 0) {
-                this.setScrollbarHorizontalStyle(
-                    this.getScrollbarHorizontalStyle(widthPercentageInner)
-                );
-                this.setScrollbarVerticalStyle(
-                    this.getScrollbarVerticalStyle(heightPercentageInner)
-                );
-                this.setThumbHorizontalStyle(
-                    this.getThumbHorizontalStyle(x, widthPercentageInner)
-                );
-                this.setThumbVerticalStyle(
-                    this.getThumbVerticalStyle(y, heightPercentageInner)
-                );
+                const thumbHorizontalStyle = {
+                    width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
+                    transform: 'translateX(' + x + '%)'
+                };
+                const thumbVerticalStyle = {
+                    height: (heightPercentageInner < 100) ? (heightPercentageInner + '%') : 0,
+                    transform: 'translateY(' + y + '%)'
+                };
+                css(thumbHorizontal, thumbHorizontalStyle);
+                css(thumbVertical, thumbVerticalStyle);
+
+                // Hide scrollbars, when view does not overflow container
+                if (widthPercentageInner >= 100) css(barHorizontal, { height: 0 });
+                if (heightPercentageInner >= 100) css(barVertical, { width: 0 });
             }
             if (typeof callback !== 'function') return;
             callback(values);
@@ -364,15 +374,19 @@ export default createClass({
 
         const viewStyle = scrollbarWidth > 0
             ? {
-                position: 'absolute',
-                top: 0,
-                left: 0,
+                ...scrollbarsVisibleViewStyle,
                 right: -scrollbarWidth,
                 bottom: -scrollbarWidth,
-                overflow: 'scroll',
-                WebkitOverflowScrolling: 'touch'
             }
-            : viewStyleScrollbarsInvisible;
+            : scrollbarsInvisibleViewStyle;
+
+        const finalScrollbarHorizontalStyle = scrollbarWidth > 0
+            ? defaultScrollbarHorizontalStyle
+            : { ...defaultScrollbarHorizontalStyle, display: 'none' };
+
+        const finalScrollbarVerticalStyle = scrollbarWidth > 0
+            ? defaultScrollbarVerticalStyle
+            : { ...defaultScrollbarVerticalStyle, display: 'none' };
 
         return (
             <div {...props} style={containerStyle}>
@@ -382,18 +396,18 @@ export default createClass({
                     children
                 )}
                 {cloneElement(
-                    renderScrollbarHorizontal({ style: scrollbarHorizontalStyle }),
+                    renderScrollbarHorizontal({ style: finalScrollbarHorizontalStyle }),
                     { ref: 'barHorizontal' },
                     cloneElement(
-                        renderThumbHorizontal({ style: thumbHorizontalStyle }),
+                        renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
                         { ref: 'thumbHorizontal' }
                     )
                 )}
                 {cloneElement(
-                    renderScrollbarVertical({ style: scrollbarVerticalStyle }),
+                    renderScrollbarVertical({ style: finalScrollbarVerticalStyle }),
                     { ref: 'barVertical' },
                     cloneElement(
-                        renderThumbVertical({ style: thumbVerticalStyle }),
+                        renderThumbVertical({ style: defaultThumbVerticalStyle }),
                         { ref: 'thumbVertical' }
                     )
                 )}

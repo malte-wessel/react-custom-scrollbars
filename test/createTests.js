@@ -206,6 +206,46 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         done();
                     });
                 });
+
+                it('should not override the scrollbars width/height values', done => {
+                    render((
+                        <Scrollbars
+                            style={{ width: 100, height: 100 }}
+                            renderScrollbarHorizontal={({style, ...props}) =>
+                                <div style={{ ...style, height: 10 }} {...props}/>}
+                            renderScrollbarVertical={({style, ...props}) =>
+                                <div style={{ ...style, width: 10 }} {...props}/>}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        setTimeout(() => {
+                            expect(this.refs.barHorizontal.style.height).toEqual('10px');
+                            expect(this.refs.barVertical.style.width).toEqual('10px');
+                            done();
+                        }, 100);
+                    });
+                });
+
+                describe('when view does not overflow container', () => {
+                    it('should hide scrollbars', done => {
+                        render((
+                            <Scrollbars
+                                style={{ width: 100, height: 100 }}
+                                renderScrollbarHorizontal={({style, ...props}) =>
+                                    <div style={{ ...style, height: 10 }} {...props}/>}
+                                renderScrollbarVertical={({style, ...props}) =>
+                                    <div style={{ ...style, width: 10 }} {...props}/>}>
+                                <div style={{ width: 90, height: 90 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            setTimeout(() => {
+                                expect(this.refs.barHorizontal.style.height).toEqual('0px');
+                                expect(this.refs.barVertical.style.width).toEqual('0px');
+                                done();
+                            }, 100);
+                        });
+                    });
+                });
             });
 
             describe('when native scrollbars are overlayed', () => {
@@ -218,22 +258,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.barVertical.style.width).toEqual('');
-                            expect(this.refs.barHorizontal.style.height).toEqual('');
-                            done();
-                        }, 100);
-                    });
-                });
-
-                it('hides thumbs', done => {
-                    render((
-                        <Scrollbars style={{ width: 100, height: 100 }}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        setTimeout(() => {
-                            expect(this.refs.thumbVertical.style.height).toEqual('');
-                            expect(this.refs.thumbHorizontal.style.width).toEqual('');
+                            expect(this.refs.barVertical.style.display).toEqual('none');
+                            expect(this.refs.barHorizontal.style.display).toEqual('none');
                             done();
                         }, 100);
                     });
@@ -676,7 +702,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when scrollbars are in flexbox environment', () => {
-            it('hides thumbs', done => {
+            it('should still work', done => {
                 const Root = createClass({
                     render() {
                         return (

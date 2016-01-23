@@ -1,29 +1,37 @@
-export const thumbHorizontalStyle = {
+export const defaultThumbHorizontalStyle = {
     position: 'relative',
     display: 'block',
     height: '100%'
 };
 
-export const thumbVerticalStyle = {
+export const defaultThumbVerticalStyle = {
     position: 'relative',
     display: 'block',
     width: '100%'
 };
 
-export const viewStyleScrollbarsInvisible = {
+export const defaultScrollbarHorizontalStyle = {
+    position: 'absolute'
+};
+
+export const defaultScrollbarVerticalStyle = {
+    position: 'absolute'
+};
+
+export const scrollbarsVisibleViewStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    overflow: 'scroll',
+    WebkitOverflowScrolling: 'touch'
+};
+
+export const scrollbarsInvisibleViewStyle = {
     position: 'relative',
     width: '100%',
     height: '100%',
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch'
-};
-
-export const scrollbarHorizontalStyle = {
-    position: 'absolute'
-};
-
-export const scrollbarVerticalStyle = {
-    position: 'absolute'
 };
 
 export const disableSelectStyle = {
