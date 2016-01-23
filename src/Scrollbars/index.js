@@ -125,52 +125,6 @@ export default createClass({
         };
     },
 
-    getThumbHorizontalStyle(x, widthPercentageInner) {
-        return {
-            width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
-            transform: 'translateX(' + x + '%)'
-        };
-    },
-
-    getThumbVerticalStyle(y, heightPercentageInner) {
-        return {
-            height: (heightPercentageInner < 100) ? (heightPercentageInner + '%') : 0,
-            transform: 'translateY(' + y + '%)'
-        };
-    },
-
-    getScrollbarHorizontalStyle(widthPercentageInner) {
-        return {
-            height: widthPercentageInner < 100 ? 6 : 0
-        };
-    },
-
-    getScrollbarVerticalStyle(heightPercentageInner) {
-        return {
-            width: heightPercentageInner < 100 ? 6 : 0
-        };
-    },
-
-    setThumbHorizontalStyle(style) {
-        const { thumbHorizontal } = this.refs;
-        css(thumbHorizontal, style);
-    },
-
-    setThumbVerticalStyle(style) {
-        const { thumbVertical } = this.refs;
-        css(thumbVertical, style);
-    },
-
-    setScrollbarHorizontalStyle(style) {
-        const { barHorizontal } = this.refs;
-        css(barHorizontal, style);
-    },
-
-    setScrollbarVerticalStyle(style) {
-        const { barVertical } = this.refs;
-        css(barVertical, style);
-    },
-
     scrollTop(top = 0) {
         const { view } = this.refs;
         view.scrollTop = top;
