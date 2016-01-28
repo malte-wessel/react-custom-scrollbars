@@ -80,7 +80,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarHorizontal={({style, ...props}) => <section style={{...style, color: 'red'}} {...props}/>}>
+                            renderScrollbarHorizontal={({style, ...props}) => <section style={{...style, height: 10, color: 'red'}} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -97,7 +97,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarVertical={({style, ...props}) => <section style={{...style, color: 'red'}} {...props}/>}>
+                            renderScrollbarVertical={({style, ...props}) => <section style={{...style, width: 10, color: 'red'}} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -239,8 +239,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             </Scrollbars>
                         ), node, function callback() {
                             setTimeout(() => {
-                                expect(this.refs.barHorizontal.style.height).toEqual('0px');
-                                expect(this.refs.barVertical.style.width).toEqual('0px');
+                                expect(this.refs.thumbHorizontal.style.width).toEqual('0px');
+                                expect(this.refs.thumbVertical.style.height).toEqual('0px');
                                 done();
                             }, 100);
                         });
@@ -723,6 +723,75 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         expect($view.clientHeight).toBeGreaterThan(0);
                         done();
                     }, 100);
+                });
+            });
+        });
+
+        describe('warning', () => {
+            describe('when scrollbar has no static height', () => {
+                if (!scrollbarWidth) return;
+                it('should warn', done => {
+                    const spy = spyOn(console, 'error');
+                    render((
+                        <Scrollbars>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        expect(spy.calls.length).toEqual(1);
+                        spy.restore();
+                        done();
+                    });
+                });
+
+                describe('when scrollbar is hidden', () => {
+                    it('should not warn', done => {
+                        const spy = spyOn(console, 'error');
+                        render((
+                            <Scrollbars style={{ display: 'none', width: 100, height: 100 }}>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(spy.calls.length).toEqual(0);
+                            spy.restore();
+                            done();
+                        });
+                    });
+                });
+            });
+
+            describe('when horizontal bar has no static height', () => {
+                if (!scrollbarWidth) return;
+                it('should warn', done => {
+                    const spy = spyOn(console, 'error');
+                    render((
+                        <Scrollbars
+                            style={{ width: 100, height: 100 }}
+                            renderScrollbarHorizontal={props => <div {...props}/>}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        expect(spy.calls.length).toEqual(1);
+                        spy.restore();
+                        done();
+                    });
+                });
+            });
+
+            describe('when vertical bar has no static width', () => {
+                if (!scrollbarWidth) return;
+                it('should warn', done => {
+                    const spy = spyOn(console, 'error');
+                    render((
+                        <Scrollbars
+                            style={{ width: 100, height: 100 }}
+                            renderScrollbarVertical={props => <div {...props}/>}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        expect(spy.calls.length).toEqual(1);
+                        spy.restore();
+                        done();
+                    });
                 });
             });
         });
