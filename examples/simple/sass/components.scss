@@ -1,7 +1,3 @@
-.box {
-    padding: 30px;
-}
-
 .section {
     margin-bottom: 50px;
 }
@@ -9,6 +5,10 @@
 .section-paper {
     background: #fff;
     padding: 30px;
+
+    p {
+        color: $gray-light;
+    }
 }
 
 .separated {
