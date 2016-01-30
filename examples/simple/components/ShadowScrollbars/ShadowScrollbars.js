@@ -17,8 +17,22 @@ export default createClass({
         };
     },
 
+    componentWillMount() {
+        window.addEventListener('resize', this.handleWindowResize);
+    },
+
+    componentWillUnmount() {
+        window.removeListeners('resize', this.handleWindowResize);
+    },
+
     handleScroll(event, values) {
         const { scrollTop, scrollHeight, clientHeight } = values;
+        this.setState({ scrollTop, scrollHeight, clientHeight });
+    },
+
+    handleWindowResize() {
+        const { scrollbars } = this.refs;
+        const { scrollTop, scrollHeight, clientHeight } = scrollbars.getPosition();
         this.setState({ scrollTop, scrollHeight, clientHeight });
     },
 
@@ -51,6 +65,7 @@ export default createClass({
         return (
             <div style={containerStyle}>
                 <Scrollbars
+                    ref="scrollbars"
                     onScroll={this.handleScroll}
                     {...this.props}/>
                 <div style={shadowTopStyle}/>
