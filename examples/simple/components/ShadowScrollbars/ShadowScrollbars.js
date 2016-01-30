@@ -39,7 +39,7 @@ export default createClass({
             background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0) 100%)'
         };
         const shadowBottomStyle = {
-            opacity: (scrollHeight - clientHeight - scrollTop - 20) / 20,
+            opacity: !clientHeight ? 1 : (scrollHeight - clientHeight - scrollTop - 20) / 20,
             position: 'absolute',
             bottom: 0,
             left: 0,
