@@ -37,6 +37,7 @@ export default createClass({
         renderView: PropTypes.func,
         style: PropTypes.object,
         children: PropTypes.node,
+        scrollbarWidth: PropTypes.number
     },
 
     getDefaultProps() {
@@ -127,8 +128,14 @@ export default createClass({
         };
     },
 
+    getInnerScrollbarWidth() {
+        return typeof this.props.scrollbarWidth !== 'undefined'
+            ? this.props.scrollbarWidth
+            : getScrollbarWidth();
+    },
+
     validate() {
-        if (!getScrollbarWidth()) return;
+        if (!this.getInnerScrollbarWidth()) return;
         const root = findDOMNode(this);
         const { barHorizontal, barVertical } = this.refs;
         const { clientHeight: rootClientHeight } = root;
@@ -313,9 +320,10 @@ export default createClass({
         } = this.getInnerSizePercentage();
 
         const { x, y, ...values } = this.getPosition();
+        const scrollbarWidth = this.getInnerScrollbarWidth();
 
         this.raf(() => {
-            if (getScrollbarWidth() > 0) {
+            if (scrollbarWidth > 0) {
                 const thumbHorizontalStyle = {
                     width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
                     transform: 'translateX(' + x + '%)'
@@ -333,7 +341,7 @@ export default createClass({
     },
 
     render() {
-        const scrollbarWidth = getScrollbarWidth();
+        const scrollbarWidth = this.getInnerScrollbarWidth();
         const {
             style,
             renderScrollbarHorizontal,

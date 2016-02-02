@@ -113,6 +113,8 @@ class App extends Component {
 * `renderThumbHorizontal`: (Function) Horizontal thumb element
 * `renderThumbVertical`: (Function) Vertical thumb element
 * `renderView`: (Function) The element your content will be rendered in
+* * **Additional properties**
+* `scrollbarWidth`: (Number) Specify custom scrollbarWidth
 
 **Don't forget to pass the received props to your custom element. Example:**
 
