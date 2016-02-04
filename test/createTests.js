@@ -51,98 +51,6 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                 });
             });
 
-            it('renders bars', done => {
-                render((
-                    <Scrollbars style={{ width: 100, height: 100 }}>
-                        <div style={{ width: 200, height: 200 }}/>
-                    </Scrollbars>
-                ), node, function callback() {
-                    expect(this.refs.barHorizontal).toBeA(Node);
-                    expect(this.refs.barVertical).toBeA(Node);
-                    done();
-                });
-            });
-
-            it('renders thumbs', done => {
-                render((
-                    <Scrollbars style={{ width: 100, height: 100 }}>
-                        <div style={{ width: 200, height: 200 }}/>
-                    </Scrollbars>
-                ), node, function callback() {
-                    expect(this.refs.thumbHorizontal).toBeA(Node);
-                    expect(this.refs.thumbVertical).toBeA(Node);
-                    done();
-                });
-            });
-
-            describe('when custom `renderScrollbarHorizontal` is passed', () => {
-                it('should render custom element', done => {
-                    render((
-                        <Scrollbars
-                            style={{ width: 100, height: 100 }}
-                            renderScrollbarHorizontal={({ style, ...props }) => <section style={{ ...style, height: 10, color: 'red' }} {...props}/>}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        expect(this.refs.barHorizontal.tagName).toEqual('SECTION');
-                        expect(this.refs.barHorizontal.style.position).toEqual('absolute');
-                        expect(this.refs.barHorizontal.style.color).toEqual('red');
-                        done();
-                    });
-                });
-            });
-
-            describe('when custom `renderScrollbarVertical` is passed', () => {
-                it('should render custom element', done => {
-                    render((
-                        <Scrollbars
-                            style={{ width: 100, height: 100 }}
-                            renderScrollbarVertical={({ style, ...props }) => <section style={{ ...style, width: 10, color: 'red' }} {...props}/>}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        expect(this.refs.barVertical.tagName).toEqual('SECTION');
-                        expect(this.refs.barVertical.style.position).toEqual('absolute');
-                        expect(this.refs.barVertical.style.color).toEqual('red');
-                        done();
-                    });
-                });
-            });
-
-            describe('when custom `renderThumbHorizontal` is passed', () => {
-                it('should render custom element', done => {
-                    render((
-                        <Scrollbars
-                            style={{ width: 100, height: 100 }}
-                            renderThumbHorizontal={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        expect(this.refs.thumbHorizontal.tagName).toEqual('SECTION');
-                        expect(this.refs.thumbHorizontal.style.position).toEqual('relative');
-                        expect(this.refs.thumbHorizontal.style.color).toEqual('red');
-                        done();
-                    });
-                });
-            });
-
-            describe('when custom `renderThumbVertical` is passed', () => {
-                it('should render custom element', done => {
-                    render((
-                        <Scrollbars
-                            style={{ width: 100, height: 100 }}
-                            renderThumbVertical={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        expect(this.refs.thumbVertical.tagName).toEqual('SECTION');
-                        expect(this.refs.thumbVertical.style.position).toEqual('relative');
-                        expect(this.refs.thumbVertical.style.color).toEqual('red');
-                        done();
-                    });
-                });
-            });
-
             describe('when custom `renderView` is passed', () => {
                 it('should render custom element', done => {
                     render((
@@ -180,6 +88,30 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     });
                 });
 
+                it('renders bars', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        expect(this.refs.barHorizontal).toBeA(Node);
+                        expect(this.refs.barVertical).toBeA(Node);
+                        done();
+                    });
+                });
+
+                it('renders thumbs', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        expect(this.refs.thumbHorizontal).toBeA(Node);
+                        expect(this.refs.thumbVertical).toBeA(Node);
+                        done();
+                    });
+                });
+
                 it('renders thumbs with correct size', done => {
                     render((
                         <Scrollbars style={{ width: 100, height: 100 }}>
@@ -191,6 +123,74 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             expect(this.refs.thumbHorizontal.style.width).toEqual('50%');
                             done();
                         }, 100);
+                    });
+                });
+
+                describe('when custom `renderScrollbarHorizontal` is passed', () => {
+                    it('should render custom element', done => {
+                        render((
+                            <Scrollbars
+                                style={{ width: 100, height: 100 }}
+                                renderScrollbarHorizontal={({ style, ...props }) => <section style={{ ...style, height: 10, color: 'red' }} {...props}/>}>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(this.refs.barHorizontal.tagName).toEqual('SECTION');
+                            expect(this.refs.barHorizontal.style.position).toEqual('absolute');
+                            expect(this.refs.barHorizontal.style.color).toEqual('red');
+                            done();
+                        });
+                    });
+                });
+
+                describe('when custom `renderScrollbarVertical` is passed', () => {
+                    it('should render custom element', done => {
+                        render((
+                            <Scrollbars
+                                style={{ width: 100, height: 100 }}
+                                renderScrollbarVertical={({ style, ...props }) => <section style={{ ...style, width: 10, color: 'red' }} {...props}/>}>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(this.refs.barVertical.tagName).toEqual('SECTION');
+                            expect(this.refs.barVertical.style.position).toEqual('absolute');
+                            expect(this.refs.barVertical.style.color).toEqual('red');
+                            done();
+                        });
+                    });
+                });
+
+                describe('when custom `renderThumbHorizontal` is passed', () => {
+                    it('should render custom element', done => {
+                        render((
+                            <Scrollbars
+                                style={{ width: 100, height: 100 }}
+                                renderThumbHorizontal={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(this.refs.thumbHorizontal.tagName).toEqual('SECTION');
+                            expect(this.refs.thumbHorizontal.style.position).toEqual('relative');
+                            expect(this.refs.thumbHorizontal.style.color).toEqual('red');
+                            done();
+                        });
+                    });
+                });
+
+                describe('when custom `renderThumbVertical` is passed', () => {
+                    it('should render custom element', done => {
+                        render((
+                            <Scrollbars
+                                style={{ width: 100, height: 100 }}
+                                renderThumbVertical={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(this.refs.thumbVertical.tagName).toEqual('SECTION');
+                            expect(this.refs.thumbVertical.style.position).toEqual('relative');
+                            expect(this.refs.thumbVertical.style.color).toEqual('red');
+                            done();
+                        });
                     });
                 });
 
@@ -258,8 +258,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.barVertical.style.display).toEqual('none');
-                            expect(this.refs.barHorizontal.style.display).toEqual('none');
+                            expect(this.refs.barVertical).toEqual(undefined);
+                            expect(this.refs.barHorizontal).toEqual(undefined);
                             done();
                         }, 100);
                     });
@@ -411,24 +411,27 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when scrolling', () => {
-            it('should update thumbs position', done => {
-                render((
-                    <Scrollbars style={{ width: 100, height: 100 }}>
-                        <div style={{ width: 200, height: 200 }}/>
-                    </Scrollbars>
-                ), node, function callback() {
-                    this.scrollTop(50);
-                    this.scrollLeft(50);
-                    setTimeout(() => {
-                        if (scrollbarWidth) {
-                            expect(this.refs.thumbVertical.style.transform).toEqual('translateY(50%)');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(50%)');
-                        } else {
-                            expect(this.refs.thumbVertical.style.transform).toEqual('');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('');
-                        }
-                        done();
-                    }, 100);
+            describe('when native scrollbars have a width', () => {
+                if (!scrollbarWidth) return;
+                it('should update thumbs position', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        this.scrollTop(50);
+                        this.scrollLeft(50);
+                        setTimeout(() => {
+                            if (scrollbarWidth) {
+                                expect(this.refs.thumbVertical.style.transform).toEqual('translateY(50%)');
+                                expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(50%)');
+                            } else {
+                                expect(this.refs.thumbVertical.style.transform).toEqual('');
+                                expect(this.refs.thumbHorizontal.style.transform).toEqual('');
+                            }
+                            done();
+                        }, 100);
+                    });
                 });
             });
 
@@ -539,18 +542,21 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when resizing window', () => {
-            it('should update scrollbars', done => {
-                render((
-                    <Scrollbars style={{ width: 100, height: 100 }}>
-                        <div style={{ width: 200, height: 200 }}/>
-                    </Scrollbars>
-                ), node, function callback() {
-                    setTimeout(() => {
-                        const spy = spyOn(this, 'update');
-                        simulant.fire(window, 'resize');
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 100);
+            describe('when native scrollbars have a width', () => {
+                if (!scrollbarWidth) return;
+                it('should update scrollbars', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        setTimeout(() => {
+                            const spy = spyOn(this, 'update');
+                            simulant.fire(window, 'resize');
+                            expect(spy.calls.length).toEqual(1);
+                            done();
+                        }, 100);
+                    });
                 });
             });
         });
