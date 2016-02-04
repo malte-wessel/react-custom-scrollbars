@@ -32,7 +32,7 @@ export default createClass({
 
     handleWindowResize() {
         const { scrollbars } = this.refs;
-        const { scrollTop, scrollHeight, clientHeight } = scrollbars.getPosition();
+        const { scrollTop, scrollHeight, clientHeight } = scrollbars.getValues();
         this.setState({ scrollTop, scrollHeight, clientHeight });
     },
 

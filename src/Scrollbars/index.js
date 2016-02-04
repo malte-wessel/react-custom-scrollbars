@@ -92,7 +92,7 @@ export default createClass({
         return view.clientHeight;
     },
 
-    getPosition() {
+    getValues() {
         const { view } = this.refs;
         const {
             scrollTop,
@@ -104,8 +104,6 @@ export default createClass({
         } = view;
 
         return {
-            x: (scrollLeft * 100) / clientWidth,
-            y: (scrollTop * 100) / clientHeight,
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0,
             scrollLeft,
@@ -114,14 +112,6 @@ export default createClass({
             scrollHeight,
             clientWidth,
             clientHeight
-        };
-    },
-
-    getInnerSizePercentage() {
-        const { view } = this.refs;
-        return {
-            widthPercentageInner: view.clientWidth * 100 / view.scrollWidth,
-            heightPercentageInner: view.clientHeight * 100 / view.scrollHeight
         };
     },
 
@@ -268,27 +258,23 @@ export default createClass({
     },
 
     update(callback) {
-        const {
-            thumbHorizontal,
-            thumbVertical,
-        } = this.refs;
-
-        const {
-            widthPercentageInner,
-            heightPercentageInner
-        } = this.getInnerSizePercentage();
-
-        const { x, y, ...values } = this.getPosition();
+        const values = this.getValues();
+        const { thumbHorizontal, thumbVertical } = this.refs;
+        const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = values;
+        const thumbHorizontalX = (scrollLeft * 100) / clientWidth;
+        const thumbHorizontalWidth = clientWidth * 100 / scrollWidth;
+        const thumbVerticalY = (scrollTop * 100) / clientHeight;
+        const thumbVerticalHeight = clientHeight * 100 / scrollHeight;
 
         this.raf(() => {
             if (getScrollbarWidth() > 0) {
                 const thumbHorizontalStyle = {
-                    width: (widthPercentageInner < 100) ? (`${widthPercentageInner}%`) : 0,
-                    transform: `translateX(${x}%)`
+                    width: (thumbHorizontalWidth < 100) ? (`${thumbHorizontalWidth}%`) : 0,
+                    transform: `translateX(${thumbHorizontalX}%)`
                 };
                 const thumbVerticalStyle = {
-                    height: (heightPercentageInner < 100) ? (`${heightPercentageInner}%`) : 0,
-                    transform: `translateY(${y}%)`
+                    height: (thumbVerticalHeight < 100) ? (`${thumbVerticalHeight}%`) : 0,
+                    transform: `translateY(${thumbVerticalY}%)`
                 };
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);
