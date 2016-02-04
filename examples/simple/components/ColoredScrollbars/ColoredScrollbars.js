@@ -19,6 +19,7 @@ export default createClass({
     renderView({ style, ...props }) {
         const { top } = this.state;
         const viewStyle = {
+            padding: 15,
             backgroundColor: `rgb(${Math.round(255 - (top * 255))}, ${Math.round(top * 255)}, ${Math.round(255)})`,
             color: `rgb(${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))})`
         };

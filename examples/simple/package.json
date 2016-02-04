@@ -29,7 +29,7 @@
     "babel-loader": "^6.2.0",
     "bootstrap-sass": "^3.3.6",
     "eslint": "^1.6.0",
-    "eslint-config-airbnb": "^0.1.0",
+    "eslint-config-airbnb": "^5.0.0",
     "eslint-plugin-react": "^3.5.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "lodash": "^3.10.1",
