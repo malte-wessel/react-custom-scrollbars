@@ -148,6 +148,7 @@ export default createClass({
     addListeners() {
         if (typeof document === 'undefined') return;
         this.refs.view.addEventListener('scroll', this.handleScroll);
+        if (!getScrollbarWidth()) return;
         this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -159,6 +160,7 @@ export default createClass({
     removeListeners() {
         if (typeof document === 'undefined') return;
         this.refs.view.removeEventListener('scroll', this.handleScroll);
+        if (!getScrollbarWidth()) return;
         this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -267,7 +269,7 @@ export default createClass({
         const thumbVerticalHeight = clientHeight * 100 / scrollHeight;
 
         this.raf(() => {
-            if (getScrollbarWidth() > 0) {
+            if (getScrollbarWidth()) {
                 const thumbHorizontalStyle = {
                     width: (thumbHorizontalWidth < 100) ? (`${thumbHorizontalWidth}%`) : 0,
                     transform: `translateX(${thumbHorizontalX}%)`
@@ -306,21 +308,13 @@ export default createClass({
             ...style
         };
 
-        const viewStyle = scrollbarWidth > 0
+        const viewStyle = scrollbarWidth
             ? {
                 ...scrollbarsVisibleViewStyle,
                 right: -scrollbarWidth,
                 bottom: -scrollbarWidth,
             }
             : scrollbarsInvisibleViewStyle;
-
-        const finalScrollbarHorizontalStyle = scrollbarWidth > 0
-            ? defaultScrollbarHorizontalStyle
-            : { ...defaultScrollbarHorizontalStyle, display: 'none' };
-
-        const finalScrollbarVerticalStyle = scrollbarWidth > 0
-            ? defaultScrollbarVerticalStyle
-            : { ...defaultScrollbarVerticalStyle, display: 'none' };
 
         return (
             <div {...props} style={containerStyle}>
@@ -329,22 +323,28 @@ export default createClass({
                     { ref: 'view' },
                     children
                 )}
-                {cloneElement(
-                    renderScrollbarHorizontal({ style: finalScrollbarHorizontalStyle }),
-                    { ref: 'barHorizontal' },
+                {scrollbarWidth ?
                     cloneElement(
-                        renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
-                        { ref: 'thumbHorizontal' }
+                        renderScrollbarHorizontal({ style: defaultScrollbarHorizontalStyle }),
+                        { ref: 'barHorizontal' },
+                        cloneElement(
+                            renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
+                            { ref: 'thumbHorizontal' }
+                        )
                     )
-                )}
-                {cloneElement(
-                    renderScrollbarVertical({ style: finalScrollbarVerticalStyle }),
-                    { ref: 'barVertical' },
+                    : undefined
+                }
+                {scrollbarWidth ?
                     cloneElement(
-                        renderThumbVertical({ style: defaultThumbVerticalStyle }),
-                        { ref: 'thumbVertical' }
+                        renderScrollbarVertical({ style: defaultScrollbarVerticalStyle }),
+                        { ref: 'barVertical' },
+                        cloneElement(
+                            renderThumbVertical({ style: defaultThumbVerticalStyle }),
+                            { ref: 'thumbVertical' }
+                        )
                     )
-                )}
+                    : undefined
+                }
             </div>
         );
     }
