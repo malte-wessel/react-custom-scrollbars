@@ -52,7 +52,6 @@ export default createClass({
     componentDidMount() {
         this.addListeners();
         this.update();
-        this.validate();
     },
 
     componentDidUpdate() {
@@ -125,38 +124,6 @@ export default createClass({
             widthPercentageInner: view.clientWidth * 100 / view.scrollWidth,
             heightPercentageInner: view.clientHeight * 100 / view.scrollHeight
         };
-    },
-
-    validate() {
-        if (!getScrollbarWidth()) return;
-        const root = findDOMNode(this);
-        const { barHorizontal, barVertical } = this.refs;
-        const { clientHeight: rootClientHeight } = root;
-        const { clientHeight: barHorizontalClientHeight } = barHorizontal;
-        const { clientWidth: barVerticalClientWidth } = barVertical;
-        const display = css.get(root, 'display');
-
-        if (display === 'none') return;
-        if (!rootClientHeight) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Component has no static height. ' +
-                'This can happen if the root element has no CSS or is displayed as inline block.'
-            );
-        }
-        if (!barHorizontalClientHeight) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Horizontal bar has no height. ' +
-                'Make sure you set the height property if you use a ' +
-                'custom render method like `renderScrollbarHorizontal`'
-            );
-        }
-        if (!barVerticalClientWidth) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Vertical bar has no width. ' +
-                'Make sure you set the width property if you use a ' +
-                'custom render method like `renderScrollbarVertical`'
-            );
-        }
     },
 
     scrollTop(top = 0) {
