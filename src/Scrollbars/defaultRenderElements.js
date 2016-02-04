@@ -44,7 +44,6 @@ export function defaultRenderThumbVertical({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function defaultRenderView({ style, ...props }) {
-    const finalStyle = {...style};
-    return <div style={finalStyle} {...props} />;
+export function defaultRenderView(props) {
+    return <div {...props}/>;
 }

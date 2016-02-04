@@ -1,7 +1,6 @@
 import raf from 'raf';
 import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
-import { findDOMNode } from 'react-dom';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 
@@ -284,12 +283,12 @@ export default createClass({
         this.raf(() => {
             if (getScrollbarWidth() > 0) {
                 const thumbHorizontalStyle = {
-                    width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
-                    transform: 'translateX(' + x + '%)'
+                    width: (widthPercentageInner < 100) ? (`${widthPercentageInner}%`) : 0,
+                    transform: `translateX(${x}%)`
                 };
                 const thumbVerticalStyle = {
-                    height: (heightPercentageInner < 100) ? (heightPercentageInner + '%') : 0,
-                    transform: 'translateY(' + y + '%)'
+                    height: (heightPercentageInner < 100) ? (`${heightPercentageInner}%`) : 0,
+                    transform: `translateY(${y}%)`
                 };
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);

@@ -41,7 +41,7 @@
     "babel-register": "^6.3.13",
     "babel-runtime": "^6.3.19",
     "eslint": "^1.6.0",
-    "eslint-config-airbnb": "^0.1.0",
+    "eslint-config-airbnb": "^5.0.0",
     "eslint-plugin-react": "^3.5.1",
     "expect": "^1.6.0",
     "karma": "^0.13.10",

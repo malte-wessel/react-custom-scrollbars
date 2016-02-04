@@ -80,7 +80,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarHorizontal={({style, ...props}) => <section style={{...style, height: 10, color: 'red'}} {...props}/>}>
+                            renderScrollbarHorizontal={({ style, ...props }) => <section style={{ ...style, height: 10, color: 'red' }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -97,7 +97,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarVertical={({style, ...props}) => <section style={{...style, width: 10, color: 'red'}} {...props}/>}>
+                            renderScrollbarVertical={({ style, ...props }) => <section style={{ ...style, width: 10, color: 'red' }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -114,7 +114,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderThumbHorizontal={({style, ...props}) => <section style={{...style, color: 'red'}} {...props}/>}>
+                            renderThumbHorizontal={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -131,7 +131,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderThumbVertical={({style, ...props}) => <section style={{...style, color: 'red'}} {...props}/>}>
+                            renderThumbVertical={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -148,7 +148,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderView={({style, ...props}) => <section style={{...style, color: 'red'}} {...props}/>}>
+                            renderView={({ style, ...props }) => <section style={{ ...style, color: 'red' }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
@@ -211,9 +211,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarHorizontal={({style, ...props}) =>
+                            renderScrollbarHorizontal={({ style, ...props }) =>
                                 <div style={{ ...style, height: 10 }} {...props}/>}
-                            renderScrollbarVertical={({style, ...props}) =>
+                            renderScrollbarVertical={({ style, ...props }) =>
                                 <div style={{ ...style, width: 10 }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
@@ -231,9 +231,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         render((
                             <Scrollbars
                                 style={{ width: 100, height: 100 }}
-                                renderScrollbarHorizontal={({style, ...props}) =>
+                                renderScrollbarHorizontal={({ style, ...props }) =>
                                     <div style={{ ...style, height: 10 }} {...props}/>}
-                                renderScrollbarVertical={({style, ...props}) =>
+                                renderScrollbarVertical={({ style, ...props }) =>
                                     <div style={{ ...style, width: 10 }} {...props}/>}>
                                 <div style={{ width: 90, height: 90 }}/>
                             </Scrollbars>
@@ -706,7 +706,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                 const Root = createClass({
                     render() {
                         return (
-                            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column'}}>
+                            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column' }}>
                                 <Scrollbars ref="scrollbars">
                                     <div style={{ width: 10000, height: 10000 }}/>
                                 </Scrollbars>
