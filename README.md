@@ -37,10 +37,7 @@ class App extends Component {
   render() {
     return (
       <Scrollbars style={{ width: 500, height: 300 }}>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
+        <p>Some great content...</p>
       </Scrollbars>
     );
   }
@@ -79,15 +76,14 @@ class App extends Component {
   render() {
     return (
       <CustomScrollbars style={{ width: 500, height: 300 }}>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
-        <p>Lorem ipsum dolor sit amet, ...</p>
+        <p>Some great content...</p>
       </CustomScrollbars>
     );
   }
 }
 ```
+
+**NOTE**: If you use `renderScrollbarHorizontal`, **make sure that you define a height value** with css or inline styles. If you use `renderScrollbarVertical`, **make sure that you define a width value with** css or inline styles.
 
 ## API
 
@@ -95,6 +91,11 @@ class App extends Component {
 
 #### Props
 
+* `renderScrollbarHorizontal`: (Function) Horizontal scrollbar element
+* `renderScrollbarVertical`: (Function) Vertical scrollbar element
+* `renderThumbHorizontal`: (Function) Horizontal thumb element
+* `renderThumbVertical`: (Function) Vertical thumb element
+* `renderView`: (Function) The element your content will be rendered in
 * `onScroll`: (Function) Event handler. Will be called with the native scroll event and some handy values about the current position.
   * **Signature**: `onScroll(event, values)`
   * `event`: (Event) Native onScroll event
@@ -107,14 +108,10 @@ class App extends Component {
     * `values.scrollHeight`: (Number) native scrollHeight
     * `values.scrollLeft`: (Number) native scrollLeft
     * `values.scrollTop`: (Number) native scrollTop
-* **The following properties expect a react element to be returned. You can customize the element to your needs.**
-* `renderScrollbarHorizontal`: (Function) Horizontal scrollbar element
-* `renderScrollbarVertical`: (Function) Vertical scrollbar element
-* `renderThumbHorizontal`: (Function) Horizontal thumb element
-* `renderThumbVertical`: (Function) Vertical thumb element
-* `renderView`: (Function) The element your content will be rendered in
 
 **Don't forget to pass the received props to your custom element. Example:**
+
+**NOTE**: If you use `renderScrollbarHorizontal`, **make sure that you define a height value** with css or inline styles. If you use `renderScrollbarVertical`, **make sure that you define a width value with** css or inline styles.
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -150,6 +147,8 @@ class CustomScrollbars extends Component {
 * `getScrollHeight`: get scrollHeight value
 * `getWidth`: get view client width
 * `getHeight`: get view client height
+* `getValues`: get an object with values about the current position.
+    * `left`, `top`, `scrollLeft`, `scrollTop`, `scrollWidth`, `scrollHeight`, `clientWidth`, `clientHeight`
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';

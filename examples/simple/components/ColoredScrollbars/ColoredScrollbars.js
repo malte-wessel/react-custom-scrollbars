@@ -16,28 +16,29 @@ export default createClass({
         this.setState({ top });
     },
 
-    renderView({ style, ...props}) {
+    renderView({ style, ...props }) {
         const { top } = this.state;
         const viewStyle = {
+            padding: 15,
             backgroundColor: `rgb(${Math.round(255 - (top * 255))}, ${Math.round(top * 255)}, ${Math.round(255)})`,
             color: `rgb(${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))})`
         };
         return (
             <div
                 className="box"
-                style={{...style, ...viewStyle}}
+                style={{ ...style, ...viewStyle }}
                 {...props}/>
         );
     },
 
-    renderThumb({ style, ...props}) {
+    renderThumb({ style, ...props }) {
         const { top } = this.state;
         const thumbStyle = {
             backgroundColor: `rgb(${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))}, ${Math.round(255 - (top * 255))})`
         };
         return (
             <div
-                style={{...style, ...thumbStyle}}
+                style={{ ...style, ...thumbStyle }}
                 {...props}/>
         );
     },

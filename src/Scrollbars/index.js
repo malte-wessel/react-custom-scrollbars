@@ -1,7 +1,6 @@
 import raf from 'raf';
 import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
-import { findDOMNode } from 'react-dom';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 
@@ -52,7 +51,6 @@ export default createClass({
     componentDidMount() {
         this.addListeners();
         this.update();
-        this.validate();
     },
 
     componentDidUpdate() {
@@ -94,7 +92,7 @@ export default createClass({
         return view.clientHeight;
     },
 
-    getPosition() {
+    getValues() {
         const { view } = this.refs;
         const {
             scrollTop,
@@ -106,8 +104,6 @@ export default createClass({
         } = view;
 
         return {
-            x: (scrollLeft * 100) / clientWidth,
-            y: (scrollTop * 100) / clientHeight,
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0,
             scrollLeft,
@@ -117,46 +113,6 @@ export default createClass({
             clientWidth,
             clientHeight
         };
-    },
-
-    getInnerSizePercentage() {
-        const { view } = this.refs;
-        return {
-            widthPercentageInner: view.clientWidth * 100 / view.scrollWidth,
-            heightPercentageInner: view.clientHeight * 100 / view.scrollHeight
-        };
-    },
-
-    validate() {
-        if (!getScrollbarWidth()) return;
-        const root = findDOMNode(this);
-        const { barHorizontal, barVertical } = this.refs;
-        const { clientHeight: rootClientHeight } = root;
-        const { clientHeight: barHorizontalClientHeight } = barHorizontal;
-        const { clientWidth: barVerticalClientWidth } = barVertical;
-        const display = css.get(root, 'display');
-
-        if (display === 'none') return;
-        if (!rootClientHeight) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Component has no static height. ' +
-                'This can happen if the root element has no CSS or is displayed as inline block.'
-            );
-        }
-        if (!barHorizontalClientHeight) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Horizontal bar has no height. ' +
-                'Make sure you set the height property if you use a ' +
-                'custom render method like `renderScrollbarHorizontal`'
-            );
-        }
-        if (!barVerticalClientWidth) {
-            console.error( // eslint-disable-line no-console
-                '<Scrollbars>: Vertical bar has no width. ' +
-                'Make sure you set the width property if you use a ' +
-                'custom render method like `renderScrollbarVertical`'
-            );
-        }
     },
 
     scrollTop(top = 0) {
@@ -192,6 +148,7 @@ export default createClass({
     addListeners() {
         if (typeof document === 'undefined') return;
         this.refs.view.addEventListener('scroll', this.handleScroll);
+        if (!getScrollbarWidth()) return;
         this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -203,6 +160,7 @@ export default createClass({
     removeListeners() {
         if (typeof document === 'undefined') return;
         this.refs.view.removeEventListener('scroll', this.handleScroll);
+        if (!getScrollbarWidth()) return;
         this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -302,27 +260,23 @@ export default createClass({
     },
 
     update(callback) {
-        const {
-            thumbHorizontal,
-            thumbVertical,
-        } = this.refs;
-
-        const {
-            widthPercentageInner,
-            heightPercentageInner
-        } = this.getInnerSizePercentage();
-
-        const { x, y, ...values } = this.getPosition();
+        const values = this.getValues();
+        const { thumbHorizontal, thumbVertical } = this.refs;
+        const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = values;
+        const thumbHorizontalX = (scrollLeft * 100) / clientWidth;
+        const thumbHorizontalWidth = clientWidth * 100 / scrollWidth;
+        const thumbVerticalY = (scrollTop * 100) / clientHeight;
+        const thumbVerticalHeight = clientHeight * 100 / scrollHeight;
 
         this.raf(() => {
-            if (getScrollbarWidth() > 0) {
+            if (getScrollbarWidth()) {
                 const thumbHorizontalStyle = {
-                    width: (widthPercentageInner < 100) ? (widthPercentageInner + '%') : 0,
-                    transform: 'translateX(' + x + '%)'
+                    width: (thumbHorizontalWidth < 100) ? (`${thumbHorizontalWidth}%`) : 0,
+                    transform: `translateX(${thumbHorizontalX}%)`
                 };
                 const thumbVerticalStyle = {
-                    height: (heightPercentageInner < 100) ? (heightPercentageInner + '%') : 0,
-                    transform: 'translateY(' + y + '%)'
+                    height: (thumbVerticalHeight < 100) ? (`${thumbVerticalHeight}%`) : 0,
+                    transform: `translateY(${thumbVerticalY}%)`
                 };
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);
@@ -354,21 +308,13 @@ export default createClass({
             ...style
         };
 
-        const viewStyle = scrollbarWidth > 0
+        const viewStyle = scrollbarWidth
             ? {
                 ...scrollbarsVisibleViewStyle,
                 right: -scrollbarWidth,
                 bottom: -scrollbarWidth,
             }
             : scrollbarsInvisibleViewStyle;
-
-        const finalScrollbarHorizontalStyle = scrollbarWidth > 0
-            ? defaultScrollbarHorizontalStyle
-            : { ...defaultScrollbarHorizontalStyle, display: 'none' };
-
-        const finalScrollbarVerticalStyle = scrollbarWidth > 0
-            ? defaultScrollbarVerticalStyle
-            : { ...defaultScrollbarVerticalStyle, display: 'none' };
 
         return (
             <div {...props} style={containerStyle}>
@@ -377,22 +323,28 @@ export default createClass({
                     { ref: 'view' },
                     children
                 )}
-                {cloneElement(
-                    renderScrollbarHorizontal({ style: finalScrollbarHorizontalStyle }),
-                    { ref: 'barHorizontal' },
+                {scrollbarWidth ?
                     cloneElement(
-                        renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
-                        { ref: 'thumbHorizontal' }
+                        renderScrollbarHorizontal({ style: defaultScrollbarHorizontalStyle }),
+                        { ref: 'barHorizontal' },
+                        cloneElement(
+                            renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
+                            { ref: 'thumbHorizontal' }
+                        )
                     )
-                )}
-                {cloneElement(
-                    renderScrollbarVertical({ style: finalScrollbarVerticalStyle }),
-                    { ref: 'barVertical' },
+                    : undefined
+                }
+                {scrollbarWidth ?
                     cloneElement(
-                        renderThumbVertical({ style: defaultThumbVerticalStyle }),
-                        { ref: 'thumbVertical' }
+                        renderScrollbarVertical({ style: defaultScrollbarVerticalStyle }),
+                        { ref: 'barVertical' },
+                        cloneElement(
+                            renderThumbVertical({ style: defaultThumbVerticalStyle }),
+                            { ref: 'thumbVertical' }
+                        )
                     )
-                )}
+                    : undefined
+                }
             </div>
         );
     }
