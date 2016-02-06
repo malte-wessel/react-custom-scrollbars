@@ -25,7 +25,7 @@ export default createClass({
         window.removeListeners('resize', this.handleWindowResize);
     },
 
-    handleScroll(event, values) {
+    handleScrollFrame(values) {
         const { scrollTop, scrollHeight, clientHeight } = values;
         this.setState({ scrollTop, scrollHeight, clientHeight });
     },
@@ -66,7 +66,7 @@ export default createClass({
             <div style={containerStyle}>
                 <Scrollbars
                     ref="scrollbars"
-                    onScroll={this.handleScroll}
+                    onScrollFrame={this.handleScrollFrame}
                     {...this.props}/>
                 <div style={shadowTopStyle}/>
                 <div style={shadowBottomStyle}/>

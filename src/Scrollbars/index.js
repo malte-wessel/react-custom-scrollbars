@@ -29,6 +29,7 @@ export default createClass({
 
     propTypes: {
         onScroll: PropTypes.func,
+        onScrollFrame: PropTypes.func,
         renderTrackHorizontal: PropTypes.func,
         renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
@@ -65,7 +66,7 @@ export default createClass({
 
     componentWillUnmount() {
         this.removeListeners();
-        if (this.timer) raf.cancel(this.timer);
+        if (this.frameTimer) raf.cancel(this.frameTimer);
         if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
     },
 
@@ -181,11 +182,9 @@ export default createClass({
     },
 
     handleScroll(event) {
-        const { onScroll } = this.props;
-        this.update(values => {
-            if (!onScroll) return;
-            onScroll(event, values);
-        });
+        const { onScroll, onScrollFrame } = this.props;
+        if (onScroll) onScroll(event);
+        this.update(onScrollFrame);
     },
 
     handleVerticalTrackMouseDown(event) {
@@ -313,24 +312,23 @@ export default createClass({
     },
 
     raf(callback) {
-        if (this.timer) raf.cancel(this.timer);
-        this.timer = raf(() => {
-            this.timer = undefined;
+        if (this.frameTimer) raf.cancel(this.frameTimer);
+        this.frameTimer = raf(() => {
+            this.frameTimer = undefined;
             callback();
         });
     },
 
     update(callback) {
-        const values = this.getValues();
-        const { thumbHorizontal, thumbVertical } = this.refs;
-        const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = values;
-        const thumbHorizontalX = (scrollLeft * 100) / clientWidth;
-        const thumbHorizontalWidth = clientWidth * 100 / scrollWidth;
-        const thumbVerticalY = (scrollTop * 100) / clientHeight;
-        const thumbVerticalHeight = clientHeight * 100 / scrollHeight;
-
         this.raf(() => {
+            const values = this.getValues();
+            const { thumbHorizontal, thumbVertical } = this.refs;
+            const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = values;
             if (getScrollbarWidth()) {
+                const thumbHorizontalX = (scrollLeft * 100) / clientWidth;
+                const thumbHorizontalWidth = clientWidth * 100 / scrollWidth;
+                const thumbVerticalY = (scrollTop * 100) / clientHeight;
+                const thumbVerticalHeight = clientHeight * 100 / scrollHeight;
                 const thumbHorizontalStyle = {
                     width: (thumbHorizontalWidth < 100) ? (`${thumbHorizontalWidth}%`) : 0,
                     transform: `translateX(${thumbHorizontalX}%)`
