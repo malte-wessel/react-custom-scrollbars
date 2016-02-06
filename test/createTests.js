@@ -94,8 +94,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        expect(this.refs.barHorizontal).toBeA(Node);
-                        expect(this.refs.barVertical).toBeA(Node);
+                        expect(this.refs.trackHorizontal).toBeA(Node);
+                        expect(this.refs.trackVertical).toBeA(Node);
                         done();
                     });
                 });
@@ -126,35 +126,35 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     });
                 });
 
-                describe('when custom `renderScrollbarHorizontal` is passed', () => {
+                describe('when custom `renderTrackHorizontal` is passed', () => {
                     it('should render custom element', done => {
                         render((
                             <Scrollbars
                                 style={{ width: 100, height: 100 }}
-                                renderScrollbarHorizontal={({ style, ...props }) => <section style={{ ...style, height: 10, color: 'red' }} {...props}/>}>
+                                renderTrackHorizontal={({ style, ...props }) => <section style={{ ...style, height: 10, color: 'red' }} {...props}/>}>
                                 <div style={{ width: 200, height: 200 }}/>
                             </Scrollbars>
                         ), node, function callback() {
-                            expect(this.refs.barHorizontal.tagName).toEqual('SECTION');
-                            expect(this.refs.barHorizontal.style.position).toEqual('absolute');
-                            expect(this.refs.barHorizontal.style.color).toEqual('red');
+                            expect(this.refs.trackHorizontal.tagName).toEqual('SECTION');
+                            expect(this.refs.trackHorizontal.style.position).toEqual('absolute');
+                            expect(this.refs.trackHorizontal.style.color).toEqual('red');
                             done();
                         });
                     });
                 });
 
-                describe('when custom `renderScrollbarVertical` is passed', () => {
+                describe('when custom `renderTrackVertical` is passed', () => {
                     it('should render custom element', done => {
                         render((
                             <Scrollbars
                                 style={{ width: 100, height: 100 }}
-                                renderScrollbarVertical={({ style, ...props }) => <section style={{ ...style, width: 10, color: 'red' }} {...props}/>}>
+                                renderTrackVertical={({ style, ...props }) => <section style={{ ...style, width: 10, color: 'red' }} {...props}/>}>
                                 <div style={{ width: 200, height: 200 }}/>
                             </Scrollbars>
                         ), node, function callback() {
-                            expect(this.refs.barVertical.tagName).toEqual('SECTION');
-                            expect(this.refs.barVertical.style.position).toEqual('absolute');
-                            expect(this.refs.barVertical.style.color).toEqual('red');
+                            expect(this.refs.trackVertical.tagName).toEqual('SECTION');
+                            expect(this.refs.trackVertical.style.position).toEqual('absolute');
+                            expect(this.refs.trackVertical.style.color).toEqual('red');
                             done();
                         });
                     });
@@ -211,16 +211,16 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     render((
                         <Scrollbars
                             style={{ width: 100, height: 100 }}
-                            renderScrollbarHorizontal={({ style, ...props }) =>
+                            renderTrackHorizontal={({ style, ...props }) =>
                                 <div style={{ ...style, height: 10 }} {...props}/>}
-                            renderScrollbarVertical={({ style, ...props }) =>
+                            renderTrackVertical={({ style, ...props }) =>
                                 <div style={{ ...style, width: 10 }} {...props}/>}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.barHorizontal.style.height).toEqual('10px');
-                            expect(this.refs.barVertical.style.width).toEqual('10px');
+                            expect(this.refs.trackHorizontal.style.height).toEqual('10px');
+                            expect(this.refs.trackVertical.style.width).toEqual('10px');
                             done();
                         }, 100);
                     });
@@ -231,9 +231,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         render((
                             <Scrollbars
                                 style={{ width: 100, height: 100 }}
-                                renderScrollbarHorizontal={({ style, ...props }) =>
+                                renderTrackHorizontal={({ style, ...props }) =>
                                     <div style={{ ...style, height: 10 }} {...props}/>}
-                                renderScrollbarVertical={({ style, ...props }) =>
+                                renderTrackVertical={({ style, ...props }) =>
                                     <div style={{ ...style, width: 10 }} {...props}/>}>
                                 <div style={{ width: 90, height: 90 }}/>
                             </Scrollbars>
@@ -258,8 +258,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.barVertical).toEqual(undefined);
-                            expect(this.refs.barHorizontal).toEqual(undefined);
+                            expect(this.refs.trackVertical).toEqual(undefined);
+                            expect(this.refs.trackHorizontal).toEqual(undefined);
                             done();
                         }, 100);
                     });
@@ -561,7 +561,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             });
         });
 
-        describe('when clicking on horizontal bar', () => {
+        describe('when clicking on horizontal track', () => {
             // Not for mobile environment
             if (!scrollbarWidth) return;
 
@@ -572,7 +572,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     </Scrollbars>
                 ), node, function callback() {
                     setTimeout(() => {
-                        const { view, barHorizontal: bar } = this.refs;
+                        const { view, trackHorizontal: bar } = this.refs;
                         const { left, width } = bar.getBoundingClientRect();
                         simulant.fire(bar, 'mousedown', {
                             target: bar,
@@ -585,7 +585,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             });
         });
 
-        describe('when clicking on vertical bar', () => {
+        describe('when clicking on vertical track', () => {
             // Not for mobile environment
             if (!scrollbarWidth) return;
 
@@ -596,7 +596,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     </Scrollbars>
                 ), node, function callback() {
                     setTimeout(() => {
-                        const { view, barVertical: bar } = this.refs;
+                        const { view, trackVertical: bar } = this.refs;
                         const { top, height } = bar.getBoundingClientRect();
                         simulant.fire(bar, 'mousedown', {
                             target: bar,

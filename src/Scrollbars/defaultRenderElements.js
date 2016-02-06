@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function defaultRenderScrollbarHorizontal({ style, ...props }) {
+export function defaultRenderTrackHorizontal({ style, ...props }) {
     const finalStyle = {
         ...style,
         height: 6,
@@ -12,7 +12,7 @@ export function defaultRenderScrollbarHorizontal({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function defaultRenderScrollbarVertical({ style, ...props }) {
+export function defaultRenderTrackVertical({ style, ...props }) {
     const finalStyle = {
         ...style,
         width: 6,

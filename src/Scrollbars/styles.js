@@ -10,11 +10,11 @@ export const defaultThumbVerticalStyle = {
     width: '100%'
 };
 
-export const defaultScrollbarHorizontalStyle = {
+export const defaultTrackHorizontalStyle = {
     position: 'absolute'
 };
 
-export const defaultScrollbarVerticalStyle = {
+export const defaultTrackVerticalStyle = {
     position: 'absolute'
 };
 

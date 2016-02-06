@@ -7,8 +7,8 @@ import returnFalse from '../utils/returnFalse';
 import {
     defaultThumbHorizontalStyle,
     defaultThumbVerticalStyle,
-    defaultScrollbarHorizontalStyle,
-    defaultScrollbarVerticalStyle,
+    defaultTrackHorizontalStyle,
+    defaultTrackVerticalStyle,
     scrollbarsVisibleViewStyle,
     scrollbarsInvisibleViewStyle,
     disableSelectStyle,
@@ -16,8 +16,8 @@ import {
 } from './styles';
 
 import {
-    defaultRenderScrollbarHorizontal,
-    defaultRenderScrollbarVertical,
+    defaultRenderTrackHorizontal,
+    defaultRenderTrackVertical,
     defaultRenderThumbHorizontal,
     defaultRenderThumbVertical,
     defaultRenderView
@@ -29,8 +29,8 @@ export default createClass({
 
     propTypes: {
         onScroll: PropTypes.func,
-        renderScrollbarHorizontal: PropTypes.func,
-        renderScrollbarVertical: PropTypes.func,
+        renderTrackHorizontal: PropTypes.func,
+        renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
         renderView: PropTypes.func,
@@ -40,8 +40,8 @@ export default createClass({
 
     getDefaultProps() {
         return {
-            renderScrollbarHorizontal: defaultRenderScrollbarHorizontal,
-            renderScrollbarVertical: defaultRenderScrollbarVertical,
+            renderTrackHorizontal: defaultRenderTrackHorizontal,
+            renderTrackVertical: defaultRenderTrackVertical,
             renderThumbHorizontal: defaultRenderThumbHorizontal,
             renderThumbVertical: defaultRenderThumbVertical,
             renderView: defaultRenderView
@@ -149,8 +149,8 @@ export default createClass({
         if (typeof document === 'undefined') return;
         this.refs.view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.barVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.addEventListener('mouseup', this.handleDocumentMouseUp);
@@ -161,8 +161,8 @@ export default createClass({
         if (typeof document === 'undefined') return;
         this.refs.view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.barVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.barHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        this.refs.trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
         this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
@@ -178,18 +178,18 @@ export default createClass({
     },
 
     handleVerticalTrackMouseDown(event) {
-        const { thumbVertical, barVertical, view } = this.refs;
+        const { thumbVertical, trackVertical, view } = this.refs;
         const offset = Math.abs(event.target.getBoundingClientRect().top - event.clientY);
         const thumbHalf = thumbVertical.offsetHeight / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / barVertical.offsetHeight;
+        const thumbPositionPercentage = (offset - thumbHalf) * 100 / trackVertical.offsetHeight;
         view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
     },
 
     handleHorizontalTrackMouseDown() {
-        const { thumbHorizontal, barHorizontal, view } = this.refs;
+        const { thumbHorizontal, trackHorizontal, view } = this.refs;
         const offset = Math.abs(event.target.getBoundingClientRect().left - event.clientX);
         const thumbHalf = thumbHorizontal.offsetWidth / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / barHorizontal.offsetWidth;
+        const thumbPositionPercentage = (offset - thumbHalf) * 100 / trackHorizontal.offsetWidth;
         view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
     },
 
@@ -212,18 +212,18 @@ export default createClass({
     handleDocumentMouseMove(event) {
         if (this.cursorDown === false) return false;
         if (this.prevPageY) {
-            const { barVertical, thumbVertical, view } = this.refs;
-            const offset = (barVertical.getBoundingClientRect().top - event.clientY) * -1;
+            const { trackVertical, thumbVertical, view } = this.refs;
+            const offset = (trackVertical.getBoundingClientRect().top - event.clientY) * -1;
             const thumbClickPosition = (thumbVertical.offsetHeight - this.prevPageY);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / barVertical.offsetHeight;
+            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / trackVertical.offsetHeight;
             view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
             return false;
         }
         if (this.prevPageX) {
-            const { barHorizontal, thumbHorizontal, view } = this.refs;
-            const offset = (barHorizontal.getBoundingClientRect().left - event.clientX) * -1;
+            const { trackHorizontal, thumbHorizontal, view } = this.refs;
+            const offset = (trackHorizontal.getBoundingClientRect().left - event.clientX) * -1;
             const thumbClickPosition = (thumbHorizontal.offsetWidth - this.prevPageX);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / barHorizontal.offsetWidth;
+            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / trackHorizontal.offsetWidth;
             view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
             return false;
         }
@@ -290,8 +290,8 @@ export default createClass({
         const scrollbarWidth = getScrollbarWidth();
         const {
             style,
-            renderScrollbarHorizontal,
-            renderScrollbarVertical,
+            renderTrackHorizontal,
+            renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
             renderView,
@@ -325,8 +325,8 @@ export default createClass({
                 )}
                 {scrollbarWidth ?
                     cloneElement(
-                        renderScrollbarHorizontal({ style: defaultScrollbarHorizontalStyle }),
-                        { ref: 'barHorizontal' },
+                        renderTrackHorizontal({ style: defaultTrackHorizontalStyle }),
+                        { ref: 'trackHorizontal' },
                         cloneElement(
                             renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
                             { ref: 'thumbHorizontal' }
@@ -336,8 +336,8 @@ export default createClass({
                 }
                 {scrollbarWidth ?
                     cloneElement(
-                        renderScrollbarVertical({ style: defaultScrollbarVerticalStyle }),
-                        { ref: 'barVertical' },
+                        renderTrackVertical({ style: defaultTrackVerticalStyle }),
+                        { ref: 'trackVertical' },
                         cloneElement(
                             renderThumbVertical({ style: defaultThumbVerticalStyle }),
                             { ref: 'thumbVertical' }
