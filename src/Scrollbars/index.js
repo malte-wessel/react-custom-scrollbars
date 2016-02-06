@@ -190,31 +190,43 @@ export default createClass({
     },
 
     handleVerticalTrackMouseDown(event) {
-        const { thumbVertical, trackVertical, view } = this.refs;
-        const offset = Math.abs(event.target.getBoundingClientRect().top - event.clientY);
-        const thumbHalf = thumbVertical.offsetHeight / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / trackVertical.offsetHeight;
-        view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
+        const { view, thumbVertical, trackVertical } = this.refs;
+        const { target, clientY } = event;
+        const { top: targetTop } = target.getBoundingClientRect();
+        const { scrollHeight } = view;
+        const { offsetHeight: thumbOffsetHeight } = thumbVertical;
+        const { offsetHeight: trackOffsetHeight } = trackVertical;
+        const offset = Math.abs(targetTop - clientY);
+        const thumbPositionPercentage = (offset - (thumbOffsetHeight / 2)) * 100 / trackOffsetHeight;
+        view.scrollTop = thumbPositionPercentage * scrollHeight / 100;
     },
 
     handleHorizontalTrackMouseDown() {
-        const { thumbHorizontal, trackHorizontal, view } = this.refs;
-        const offset = Math.abs(event.target.getBoundingClientRect().left - event.clientX);
-        const thumbHalf = thumbHorizontal.offsetWidth / 2;
-        const thumbPositionPercentage = (offset - thumbHalf) * 100 / trackHorizontal.offsetWidth;
-        view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
+        const { view, thumbHorizontal, trackHorizontal } = this.refs;
+        const { target, clientX } = event;
+        const { left: targetLeft } = target.getBoundingClientRect();
+        const { scrollWidth } = view;
+        const { offsetWidth: thumbOffsetWidth } = thumbHorizontal;
+        const { offsetWidth: trackOffsetWidth } = trackHorizontal;
+        const offset = Math.abs(targetLeft - clientX);
+        const thumbPositionPercentage = (offset - (thumbOffsetWidth / 2)) * 100 / trackOffsetWidth;
+        view.scrollLeft = thumbPositionPercentage * scrollWidth / 100;
     },
 
     handleVerticalThumbMouseDown(event) {
         this.handleDragStart(event);
-        const { currentTarget, clientY } = event;
-        this.prevPageY = (currentTarget.offsetHeight - (clientY - currentTarget.getBoundingClientRect().top));
+        const { target, clientY } = event;
+        const { offsetHeight } = target;
+        const { top } = target.getBoundingClientRect();
+        this.prevPageY = (offsetHeight - (clientY - top));
     },
 
     handleHorizontalThumbMouseDown(event) {
         this.handleDragStart(event);
-        const { currentTarget, clientX } = event;
-        this.prevPageX = (currentTarget.offsetWidth - (clientX - currentTarget.getBoundingClientRect().left));
+        const { target, clientX } = event;
+        const { offsetWidth } = target;
+        const { left } = target.getBoundingClientRect();
+        this.prevPageX = (offsetWidth - (clientX - left));
     },
 
     handleDocumentMouseUp() {
@@ -224,19 +236,27 @@ export default createClass({
     handleDocumentMouseMove(event) {
         if (this.dragging === false) return false;
         if (this.prevPageY) {
-            const { trackVertical, thumbVertical, view } = this.refs;
-            const offset = (trackVertical.getBoundingClientRect().top - event.clientY) * -1;
-            const thumbClickPosition = (thumbVertical.offsetHeight - this.prevPageY);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / trackVertical.offsetHeight;
-            view.scrollTop = thumbPositionPercentage * view.scrollHeight / 100;
+            const { clientY } = event;
+            const { view, trackVertical, thumbVertical } = this.refs;
+            const { top } = trackVertical.getBoundingClientRect();
+            const { offsetHeight: thumbOffsetHeight } = thumbVertical;
+            const { offsetHeight: trackOffsetHeight } = trackVertical;
+            const { scrollHeight } = view;
+            const offset = (top - clientY) * -1;
+            const thumbClickPosition = (thumbOffsetHeight - this.prevPageY);
+            view.scrollTop = (offset - thumbClickPosition) / trackOffsetHeight * scrollHeight;
             return false;
         }
         if (this.prevPageX) {
-            const { trackHorizontal, thumbHorizontal, view } = this.refs;
-            const offset = (trackHorizontal.getBoundingClientRect().left - event.clientX) * -1;
-            const thumbClickPosition = (thumbHorizontal.offsetWidth - this.prevPageX);
-            const thumbPositionPercentage = (offset - thumbClickPosition) * 100 / trackHorizontal.offsetWidth;
-            view.scrollLeft = thumbPositionPercentage * view.scrollWidth / 100;
+            const { clientX } = event;
+            const { view, trackHorizontal, thumbHorizontal } = this.refs;
+            const { left } = trackHorizontal.getBoundingClientRect();
+            const { offsetWidth: thumbOffsetWidth } = thumbHorizontal;
+            const { offsetWidth: trackOffsetWidth } = trackHorizontal;
+            const { scrollWidth } = view;
+            const offset = (left - clientX) * -1;
+            const thumbClickPosition = (thumbOffsetWidth - this.prevPageX);
+            view.scrollLeft = (offset - thumbClickPosition) / trackOffsetWidth * scrollWidth;
             return false;
         }
     },
