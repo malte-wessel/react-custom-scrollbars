@@ -155,28 +155,30 @@ export default createClass({
 
     addListeners() {
         if (typeof document === 'undefined') return;
-        this.refs.view.addEventListener('scroll', this.handleScroll);
+        const { container, view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
+        view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.view.addEventListener('mouseenter', this.handleViewMouseEnter);
-        this.refs.view.addEventListener('mouseleave', this.handleViewMouseLeave);
-        this.refs.trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        container.addEventListener('mouseenter', this.handleContainerMouseEnter);
+        container.addEventListener('mouseleave', this.handleContainerMouseLeave);
+        trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         document.addEventListener('mouseup', this.handleDocumentMouseUp);
         window.addEventListener('resize', this.handleWindowResize);
     },
 
     removeListeners() {
         if (typeof document === 'undefined') return;
-        this.refs.view.removeEventListener('scroll', this.handleScroll);
+        const { container, view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
+        view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.view.removeEventListener('mouseenter', this.handleViewMouseEnter);
-        this.refs.view.removeEventListener('mouseleave', this.handleViewMouseLeave);
-        this.refs.trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
-        this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
-        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        container.removeEventListener('mouseenter', this.handleContainerMouseEnter);
+        container.removeEventListener('mouseleave', this.handleContainerMouseLeave);
+        trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+        trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
     },
@@ -269,14 +271,14 @@ export default createClass({
         this.hideTrackWhenNotMouseOver();
     },
 
-    handleViewMouseEnter() {
+    handleContainerMouseEnter() {
         const { autoHide } = this.props;
         this.mouseOver = true;
         if (!autoHide) return;
         this.showTrack();
     },
 
-    handleViewMouseLeave() {
+    handleContainerMouseLeave() {
         const { autoHide } = this.props;
         this.mouseOver = false;
         if (!autoHide) return;
@@ -389,7 +391,7 @@ export default createClass({
         } : defaultTrackVerticalStyle;
 
         return (
-            <div {...props} style={containerStyle}>
+            <div {...props} style={containerStyle} ref="container">
                 {cloneElement(
                     renderView({ style: viewStyle }),
                     { ref: 'view' },
