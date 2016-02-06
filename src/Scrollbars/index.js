@@ -34,6 +34,9 @@ export default createClass({
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
         renderView: PropTypes.func,
+        autoHide: PropTypes.bool,
+        autoHideTimeout: PropTypes.number,
+        autoHideDuration: PropTypes.number,
         style: PropTypes.object,
         children: PropTypes.node,
     },
@@ -44,7 +47,10 @@ export default createClass({
             renderTrackVertical: defaultRenderTrackVertical,
             renderThumbHorizontal: defaultRenderThumbHorizontal,
             renderThumbVertical: defaultRenderThumbVertical,
-            renderView: defaultRenderView
+            renderView: defaultRenderView,
+            autoHide: false,
+            autoHideTimeout: 1000,
+            autoHideDuration: 200
         };
     },
 
@@ -60,6 +66,7 @@ export default createClass({
     componentWillUnmount() {
         this.removeListeners();
         if (this.timer) raf.cancel(this.timer);
+        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
     },
 
     getScrollLeft() {
@@ -149,10 +156,12 @@ export default createClass({
         if (typeof document === 'undefined') return;
         this.refs.view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.view.addEventListener('mouseenter', this.handleViewMouseEnter);
+        this.refs.view.addEventListener('mouseleave', this.handleViewMouseLeave);
         this.refs.trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        this.refs.thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         document.addEventListener('mouseup', this.handleDocumentMouseUp);
         window.addEventListener('resize', this.handleWindowResize);
     },
@@ -161,10 +170,12 @@ export default createClass({
         if (typeof document === 'undefined') return;
         this.refs.view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        this.refs.trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
+        this.refs.view.removeEventListener('mouseenter', this.handleViewMouseEnter);
+        this.refs.view.removeEventListener('mouseleave', this.handleViewMouseLeave);
         this.refs.trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
+        this.refs.trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         this.refs.thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
+        this.refs.thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
     },
@@ -210,7 +221,7 @@ export default createClass({
     },
 
     handleDocumentMouseMove(event) {
-        if (this.cursorDown === false) return false;
+        if (this.dragging === false) return false;
         if (this.prevPageY) {
             const { trackVertical, thumbVertical, view } = this.refs;
             const offset = (trackVertical.getBoundingClientRect().top - event.clientY) * -1;
@@ -236,19 +247,69 @@ export default createClass({
     handleDragStart(event) {
         if (!document) return;
         event.stopImmediatePropagation();
-        this.cursorDown = true;
+        this.dragging = true;
         css(document.body, disableSelectStyle);
         document.addEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = returnFalse;
     },
 
     handleDragEnd() {
+        if (!this.dragging) return;
         if (!document) return;
-        this.cursorDown = false;
+        this.dragging = false;
         this.prevPageX = this.prevPageY = 0;
         css(document.body, resetDisableSelectStyle);
         document.removeEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = undefined;
+        this.handleDragEndAutoHide();
+    },
+
+    handleDragEndAutoHide() {
+        const { autoHide } = this.props;
+        if (!autoHide) return;
+        this.hideTrackWhenNotMouseOver();
+    },
+
+    handleViewMouseEnter() {
+        const { autoHide } = this.props;
+        this.mouseOver = true;
+        if (!autoHide) return;
+        this.showTrack();
+    },
+
+    handleViewMouseLeave() {
+        const { autoHide } = this.props;
+        this.mouseOver = false;
+        if (!autoHide) return;
+        if (this.dragging) return;
+        this.hideTrack();
+    },
+
+    showTrack() {
+        const { trackHorizontal, trackVertical } = this.refs;
+        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
+        css(trackHorizontal, { opacity: 1 });
+        css(trackVertical, { opacity: 1 });
+    },
+
+    showTrackWhenMouseOver() {
+        if (!this.mouseOver) return;
+        this.showTrack();
+    },
+
+    hideTrack() {
+        const { autoHideTimeout } = this.props;
+        const { trackHorizontal, trackVertical } = this.refs;
+        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
+        this.hideTrackTimer = setTimeout(() => {
+            css(trackHorizontal, { opacity: 0 });
+            css(trackVertical, { opacity: 0 });
+        }, autoHideTimeout);
+    },
+
+    hideTrackWhenNotMouseOver() {
+        if (this.mouseOver) return;
+        this.hideTrack();
     },
 
     raf(callback) {
@@ -295,6 +356,9 @@ export default createClass({
             renderThumbHorizontal,
             renderThumbVertical,
             renderView,
+            autoHide,
+            autoHideDuration,
+            autoHideTimeout,
             onScroll,
             children,
             ...props
@@ -308,13 +372,23 @@ export default createClass({
             ...style
         };
 
-        const viewStyle = scrollbarWidth
-            ? {
-                ...scrollbarsVisibleViewStyle,
-                right: -scrollbarWidth,
-                bottom: -scrollbarWidth,
-            }
-            : scrollbarsInvisibleViewStyle;
+        const viewStyle = scrollbarWidth ? {
+            ...scrollbarsVisibleViewStyle,
+            right: -scrollbarWidth,
+            bottom: -scrollbarWidth,
+        } : scrollbarsInvisibleViewStyle;
+
+        const finalTrackHorizontalStyle = autoHide ? {
+            ...defaultTrackHorizontalStyle,
+            transition: `opacity ${autoHideDuration}ms`,
+            opacity: 0
+        } : defaultTrackHorizontalStyle;
+
+        const finalTrackVerticalStyle = autoHide ? {
+            ...defaultTrackVerticalStyle,
+            transition: `opacity ${autoHideDuration}ms`,
+            opacity: 0
+        } : defaultTrackVerticalStyle;
 
         return (
             <div {...props} style={containerStyle}>
@@ -325,7 +399,7 @@ export default createClass({
                 )}
                 {scrollbarWidth ?
                     cloneElement(
-                        renderTrackHorizontal({ style: defaultTrackHorizontalStyle }),
+                        renderTrackHorizontal({ style: finalTrackHorizontalStyle }),
                         { ref: 'trackHorizontal' },
                         cloneElement(
                             renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
@@ -336,7 +410,7 @@ export default createClass({
                 }
                 {scrollbarWidth ?
                     cloneElement(
-                        renderTrackVertical({ style: defaultTrackVerticalStyle }),
+                        renderTrackVertical({ style: finalTrackVerticalStyle }),
                         { ref: 'trackVertical' },
                         cloneElement(
                             renderThumbVertical({ style: defaultThumbVerticalStyle }),
