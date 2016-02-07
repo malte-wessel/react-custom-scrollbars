@@ -461,8 +461,23 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             expect(spy.calls.length).toEqual(1);
                             const args = spy.calls[0].arguments;
                             const event = args[0];
-                            const values = args[1];
                             expect(event).toBeA(Event);
+                            done();
+                        }, 100);
+                    });
+                });
+                it('should call `onScrollFrame`', done => {
+                    const spy = createSpy();
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }} onScrollFrame={spy}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        this.scrollTop(50);
+                        setTimeout(() => {
+                            expect(spy.calls.length).toEqual(1);
+                            const args = spy.calls[0].arguments;
+                            const values = args[0];
                             expect(values).toBeA(Object);
 
                             if (scrollbarWidth) {
@@ -507,8 +522,23 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             expect(spy.calls.length).toEqual(1);
                             const args = spy.calls[0].arguments;
                             const event = args[0];
-                            const values = args[1];
                             expect(event).toBeA(Event);
+                            done();
+                        }, 100);
+                    });
+                });
+                it('should call `onScroll`', done => {
+                    const spy = createSpy();
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }} onScrollFrame={spy}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        this.scrollLeft(50);
+                        setTimeout(() => {
+                            expect(spy.calls.length).toEqual(1);
+                            const args = spy.calls[0].arguments;
+                            const values = args[0];
                             expect(values).toBeA(Object);
 
                             if (scrollbarWidth) {
