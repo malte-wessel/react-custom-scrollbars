@@ -5,22 +5,23 @@ import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 
 import {
-    defaultThumbHorizontalStyle,
-    defaultThumbVerticalStyle,
-    defaultTrackHorizontalStyle,
-    defaultTrackVerticalStyle,
+    containerStyle,
     scrollbarsVisibleViewStyle,
     scrollbarsInvisibleViewStyle,
+    defaultTrackHorizontalStyle,
+    defaultTrackVerticalStyle,
+    defaultThumbHorizontalStyle,
+    defaultThumbVerticalStyle,
     disableSelectStyle,
     resetDisableSelectStyle
 } from './styles';
 
 import {
+    defaultRenderView,
     defaultRenderTrackHorizontal,
     defaultRenderTrackVertical,
     defaultRenderThumbHorizontal,
-    defaultRenderThumbVertical,
-    defaultRenderView
+    defaultRenderThumbVertical
 } from './defaultRenderElements';
 
 export default createClass({
@@ -30,11 +31,11 @@ export default createClass({
     propTypes: {
         onScroll: PropTypes.func,
         onScrollFrame: PropTypes.func,
+        renderView: PropTypes.func,
         renderTrackHorizontal: PropTypes.func,
         renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
-        renderView: PropTypes.func,
         autoHide: PropTypes.bool,
         autoHideTimeout: PropTypes.number,
         autoHideDuration: PropTypes.number,
@@ -44,11 +45,11 @@ export default createClass({
 
     getDefaultProps() {
         return {
+            renderView: defaultRenderView,
             renderTrackHorizontal: defaultRenderTrackHorizontal,
             renderTrackVertical: defaultRenderTrackVertical,
             renderThumbHorizontal: defaultRenderThumbHorizontal,
             renderThumbVertical: defaultRenderThumbVertical,
-            renderView: defaultRenderView,
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200
@@ -123,24 +124,14 @@ export default createClass({
         };
     },
 
-    scrollTop(top = 0) {
-        const { view } = this.refs;
-        view.scrollTop = top;
-    },
-
-    scrollToTop() {
-        const { view } = this.refs;
-        view.scrollTop = 0;
-    },
-
-    scrollToBottom() {
-        const { view } = this.refs;
-        view.scrollTop = view.scrollHeight;
-    },
-
     scrollLeft(left = 0) {
         const { view } = this.refs;
         view.scrollLeft = left;
+    },
+
+    scrollTop(top = 0) {
+        const { view } = this.refs;
+        view.scrollTop = top;
     },
 
     scrollToLeft() {
@@ -148,9 +139,19 @@ export default createClass({
         view.scrollLeft = 0;
     },
 
+    scrollToTop() {
+        const { view } = this.refs;
+        view.scrollTop = 0;
+    },
+
     scrollToRight() {
         const { view } = this.refs;
         view.scrollLeft = view.scrollWidth;
+    },
+
+    scrollToBottom() {
+        const { view } = this.refs;
+        view.scrollTop = view.scrollHeight;
     },
 
     addListeners() {
@@ -382,11 +383,8 @@ export default createClass({
             ...props
         } = this.props;
 
-        const containerStyle = {
-            position: 'relative',
-            overflow: 'hidden',
-            width: '100%',
-            height: '100%',
+        const finalContainerStyle = {
+            ...containerStyle,
             ...style
         };
 
@@ -409,7 +407,7 @@ export default createClass({
         } : defaultTrackVerticalStyle;
 
         return (
-            <div {...props} style={containerStyle} ref="container">
+            <div {...props} style={finalContainerStyle} ref="container">
                 {cloneElement(
                     renderView({ style: viewStyle }),
                     { ref: 'view' },
