@@ -131,26 +131,22 @@ export default createClass({
         };
     },
 
-    getThumbHorizontalConfig() {
+    getThumbHorizontalWidth() {
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth, clientWidth } = view;
         const trackWidth = getInnerWidth(trackHorizontal);
         const { thumbMinSize } = this.props;
         const width = clientWidth / scrollWidth * trackWidth;
-        const finalWidth = Math.max(width, thumbMinSize);
-        const diff = finalWidth - width;
-        return { width, finalWidth, diff };
+        return Math.max(width, thumbMinSize);
     },
 
-    getThumbVerticalConfig() {
+    getThumbVerticalHeight() {
         const { view, trackVertical } = this.refs;
         const { scrollHeight, clientHeight } = view;
         const trackHeight = getInnerHeight(trackVertical);
         const { thumbMinSize } = this.props;
         const height = clientHeight / scrollHeight * trackHeight;
-        const finalHeight = Math.max(height, thumbMinSize);
-        const diff = finalHeight - height;
-        return { height, finalHeight, diff };
+        return Math.max(height, thumbMinSize);
     },
 
     scrollLeft(left = 0) {
@@ -266,24 +262,24 @@ export default createClass({
 
     handleHorizontalTrackMouseDown() {
         const { view, trackHorizontal } = this.refs;
-        const { scrollWidth } = view;
+        const { scrollWidth, clientWidth } = view;
         const trackWidth = getInnerWidth(trackHorizontal);
         const { target, clientX } = event;
         const { left: targetLeft } = target.getBoundingClientRect();
-        const { width: thumbWidth, diff: thumbDiff } = this.getThumbHorizontalConfig();
+        const thumbWidth = this.getThumbHorizontalWidth();
         const offset = Math.abs(targetLeft - clientX);
-        view.scrollLeft = (offset - (thumbWidth / 2) - (thumbDiff / 2)) / (trackWidth - thumbDiff) * scrollWidth;
+        view.scrollLeft = (offset - thumbWidth / 2) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
     },
 
     handleVerticalTrackMouseDown(event) {
         const { view, trackVertical } = this.refs;
-        const { scrollHeight } = view;
+        const { scrollHeight, clientHeight } = view;
         const trackHeight = getInnerHeight(trackVertical);
         const { target, clientY } = event;
         const { top: targetTop } = target.getBoundingClientRect();
-        const { height: thumbHeight, diff: thumbDiff } = this.getThumbVerticalConfig();
+        const thumbHeight = this.getThumbVerticalHeight();
         const offset = Math.abs(targetTop - clientY);
-        view.scrollTop = (offset - (thumbHeight / 2) - (thumbDiff / 2)) / (trackHeight - thumbDiff) * scrollHeight;
+        view.scrollTop = (offset - thumbHeight / 2) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
     },
 
     handleHorizontalThumbMouseDown(event) {
@@ -311,25 +307,23 @@ export default createClass({
         if (this.prevPageX) {
             const { clientX } = event;
             const { view, trackHorizontal } = this.refs;
-            const { scrollWidth } = view;
+            const { scrollWidth, clientWidth } = view;
             const trackWidth = getInnerWidth(trackHorizontal);
             const { left: trackLeft } = trackHorizontal.getBoundingClientRect();
-            const { finalWidth: thumbFinalWidth, diff: thumbDiff } = this.getThumbHorizontalConfig();
+            const thumbWidth = this.getThumbHorizontalWidth();
             const offset = -(trackLeft - clientX);
-            const thumbClickPosition = thumbFinalWidth - this.prevPageX;
-            view.scrollLeft = (offset - thumbClickPosition) / (trackWidth - thumbDiff) * scrollWidth;
+            view.scrollLeft = (offset - thumbWidth / 2) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
             return false;
         }
         if (this.prevPageY) {
             const { clientY } = event;
             const { view, trackVertical } = this.refs;
-            const { scrollHeight } = view;
+            const { scrollHeight, clientHeight } = view;
             const trackHeight = getInnerHeight(trackVertical);
             const { top: trackTop } = trackVertical.getBoundingClientRect();
-            const { finalHeight: thumbFinalHeight, diff: thumbDiff } = this.getThumbVerticalConfig();
+            const thumbHeight = this.getThumbVerticalHeight();
             const offset = -(trackTop - clientY);
-            const thumbClickPosition = thumbFinalHeight - this.prevPageY;
-            view.scrollTop = (offset - thumbClickPosition) / (trackHeight - thumbDiff) * scrollHeight;
+            view.scrollTop = (offset - thumbHeight / 2) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
             return false;
         }
     },
@@ -425,7 +419,7 @@ export default createClass({
                 const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical } = this.refs;
                 const { scrollLeft, clientWidth, scrollWidth } = values;
                 const trackHorizontalWidth = getInnerWidth(trackHorizontal);
-                const { finalWidth: thumbHorizontalWidth } = this.getThumbHorizontalConfig();
+                const thumbHorizontalWidth = this.getThumbHorizontalWidth();
                 const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
                 const thumbHorizontalStyle = {
                     width: thumbHorizontalWidth < trackHorizontalWidth ? thumbHorizontalWidth : 0,
@@ -433,7 +427,7 @@ export default createClass({
                 };
                 const { scrollTop, clientHeight, scrollHeight } = values;
                 const trackVerticalHeight = getInnerHeight(trackVertical);
-                const { finalHeight: thumbVerticalHeight } = this.getThumbVerticalConfig();
+                const thumbVerticalHeight = this.getThumbVerticalHeight();
                 const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
                 const thumbVerticalStyle = {
                     height: thumbVerticalHeight < trackVerticalHeight ? thumbVerticalHeight : 0,
