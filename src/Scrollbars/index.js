@@ -1,4 +1,4 @@
-import raf from 'raf';
+import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
@@ -73,7 +73,7 @@ export default createClass({
 
     componentWillUnmount() {
         this.removeListeners();
-        if (this.requestFrame) raf.cancel(this.requestFrame);
+        if (this.requestFrame) caf(this.requestFrame);
         if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
         if (this.detectScrollingInterval) clearInterval(this.detectScrollingInterval);
     },
