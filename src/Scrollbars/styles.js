@@ -44,19 +44,9 @@ export const defaultThumbVerticalStyle = {
 };
 
 export const disableSelectStyle = {
-    '-webkit-touch-callout': 'none',
-    '-webkit-user-select': 'none',
-    '-khtml-user-select': 'none',
-    '-moz-user-select': 'none',
-    '-ms-user-select': 'none',
-    'user-select': 'none'
+    userSelect: 'none'
 };
 
 export const resetDisableSelectStyle = {
-    '-webkit-touch-callout': '',
-    '-webkit-user-select': '',
-    '-khtml-user-select': '',
-    '-moz-user-select': '',
-    '-ms-user-select': '',
-    'user-select': ''
+    userSelect: ''
 };
