@@ -3,6 +3,8 @@ import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
+import getInnerWidth from '../utils/getInnerWidth';
+import getInnerHeight from '../utils/getInnerHeight';
 
 import {
     containerStyle,
@@ -129,7 +131,7 @@ export default createClass({
     getThumbVerticalConfig() {
         const { view, trackVertical } = this.refs;
         const { scrollHeight, clientHeight } = view;
-        const { clientHeight: trackHeight } = trackVertical;
+        const trackHeight = getInnerHeight(trackVertical);
         const { thumbMinSize } = this.props;
         const height = clientHeight / scrollHeight * trackHeight;
         const finalHeight = Math.max(height, thumbMinSize);
@@ -140,7 +142,7 @@ export default createClass({
     getThumbHorizontalConfig() {
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth, clientWidth } = view;
-        const { clientWidth: trackWidth } = trackHorizontal;
+        const trackWidth = getInnerWidth(trackHorizontal);
         const { thumbMinSize } = this.props;
         const width = clientWidth / scrollWidth * trackWidth;
         const finalWidth = Math.max(width, thumbMinSize);
@@ -217,7 +219,7 @@ export default createClass({
     handleHorizontalTrackMouseDown() {
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth } = view;
-        const { clientWidth: trackWidth } = trackHorizontal;
+        const trackWidth = getInnerWidth(trackHorizontal);
         const { target, clientX } = event;
         const { left: targetLeft } = target.getBoundingClientRect();
         const { width: thumbWidth, diff: thumbDiff } = this.getThumbHorizontalConfig();
@@ -228,7 +230,7 @@ export default createClass({
     handleVerticalTrackMouseDown(event) {
         const { view, trackVertical } = this.refs;
         const { scrollHeight } = view;
-        const { clientHeight: trackHeight } = trackVertical;
+        const trackHeight = getInnerHeight(trackVertical);
         const { target, clientY } = event;
         const { top: targetTop } = target.getBoundingClientRect();
         const { height: thumbHeight, diff: thumbDiff } = this.getThumbVerticalConfig();
@@ -262,7 +264,7 @@ export default createClass({
             const { clientX } = event;
             const { view, trackHorizontal } = this.refs;
             const { scrollWidth } = view;
-            const { clientWidth: trackWidth } = trackHorizontal;
+            const trackWidth = getInnerWidth(trackHorizontal);
             const { left: trackLeft } = trackHorizontal.getBoundingClientRect();
             const { finalWidth: thumbFinalWidth, diff: thumbDiff } = this.getThumbHorizontalConfig();
             const offset = -(trackLeft - clientX);
@@ -274,7 +276,7 @@ export default createClass({
             const { clientY } = event;
             const { view, trackVertical } = this.refs;
             const { scrollHeight } = view;
-            const { clientHeight: trackHeight } = trackVertical;
+            const trackHeight = getInnerHeight(trackVertical);
             const { top: trackTop } = trackVertical.getBoundingClientRect();
             const { finalHeight: thumbFinalHeight, diff: thumbDiff } = this.getThumbVerticalConfig();
             const offset = -(trackTop - clientY);
@@ -370,7 +372,7 @@ export default createClass({
             if (getScrollbarWidth()) {
                 const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical } = this.refs;
                 const { scrollLeft, clientWidth, scrollWidth } = values;
-                const { clientWidth: trackHorizontalWidth } = trackHorizontal;
+                const trackHorizontalWidth = getInnerWidth(trackHorizontal);
                 const { finalWidth: thumbHorizontalWidth } = this.getThumbHorizontalConfig();
                 const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
                 const thumbHorizontalStyle = {
@@ -378,7 +380,7 @@ export default createClass({
                     transform: `translateX(${thumbHorizontalX}px)`
                 };
                 const { scrollTop, clientHeight, scrollHeight } = values;
-                const { clientHeight: trackVerticalHeight } = trackVertical;
+                const trackVerticalHeight = getInnerHeight(trackVertical);
                 const { finalHeight: thumbVerticalHeight } = this.getThumbVerticalConfig();
                 const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
                 const thumbVerticalStyle = {
