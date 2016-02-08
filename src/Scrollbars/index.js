@@ -95,12 +95,12 @@ export default createClass({
         return view.scrollHeight;
     },
 
-    getWidth() {
+    getClientWidth() {
         const { view } = this.refs;
         return view.clientWidth;
     },
 
-    getHeight() {
+    getClientHeight() {
         const { view } = this.refs;
         return view.clientHeight;
     },
