@@ -74,7 +74,7 @@ export default createClass({
     componentWillUnmount() {
         this.removeListeners();
         if (this.requestFrame) caf(this.requestFrame);
-        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
+        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
         if (this.detectScrollingInterval) clearInterval(this.detectScrollingInterval);
     },
 
@@ -132,19 +132,19 @@ export default createClass({
     },
 
     getThumbHorizontalWidth() {
+        const { thumbMinSize } = this.props;
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth, clientWidth } = view;
         const trackWidth = getInnerWidth(trackHorizontal);
-        const { thumbMinSize } = this.props;
         const width = clientWidth / scrollWidth * trackWidth;
         return Math.max(width, thumbMinSize);
     },
 
     getThumbVerticalHeight() {
+        const { thumbMinSize } = this.props;
         const { view, trackVertical } = this.refs;
         const { scrollHeight, clientHeight } = view;
         const trackHeight = getInnerHeight(trackVertical);
-        const { thumbMinSize } = this.props;
         const height = clientHeight / scrollHeight * trackHeight;
         return Math.max(height, thumbMinSize);
     },
@@ -216,7 +216,12 @@ export default createClass({
     handleScroll(event) {
         const { onScroll, onScrollFrame } = this.props;
         if (onScroll) onScroll(event);
-        this.update(onScrollFrame);
+        this.update(values => {
+            const { scrollLeft, scrollTop } = values;
+            this.viewScrollLeft = scrollLeft;
+            this.viewScrollTop = scrollTop;
+            if (onScrollFrame) onScrollFrame(values);
+        });
         this.detectScrolling();
     },
 
@@ -384,7 +389,7 @@ export default createClass({
         if (this.trackVisible) return;
         this.trackVisible = true;
         const { trackHorizontal, trackVertical } = this.refs;
-        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
+        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
         css(trackHorizontal, { opacity: 1 });
         css(trackVertical, { opacity: 1 });
     },
@@ -397,8 +402,8 @@ export default createClass({
         this.trackVisible = false;
         const { autoHideTimeout } = this.props;
         const { trackHorizontal, trackVertical } = this.refs;
-        if (this.hideTrackTimer) clearTimeout(this.hideTrackTimer);
-        this.hideTrackTimer = setTimeout(() => {
+        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
+        this.hideTrackTimeout = setTimeout(() => {
             css(trackHorizontal, { opacity: 0 });
             css(trackVertical, { opacity: 0 });
         }, autoHideTimeout);
@@ -433,8 +438,6 @@ export default createClass({
                     height: thumbVerticalHeight < trackVerticalHeight ? thumbVerticalHeight : 0,
                     transform: `translateY(${thumbVerticalY}px)`
                 };
-                this.viewScrollLeft = scrollLeft;
-                this.viewScrollTop = scrollTop;
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);
             }
