@@ -108,12 +108,12 @@ export default createClass({
     getValues() {
         const { view } = this.refs;
         const {
-            scrollTop,
             scrollLeft,
-            scrollHeight,
+            scrollTop,
             scrollWidth,
-            clientHeight,
-            clientWidth
+            scrollHeight,
+            clientWidth,
+            clientHeight
         } = view;
 
         return {
@@ -128,17 +128,6 @@ export default createClass({
         };
     },
 
-    getThumbVerticalConfig() {
-        const { view, trackVertical } = this.refs;
-        const { scrollHeight, clientHeight } = view;
-        const trackHeight = getInnerHeight(trackVertical);
-        const { thumbMinSize } = this.props;
-        const height = clientHeight / scrollHeight * trackHeight;
-        const finalHeight = Math.max(height, thumbMinSize);
-        const diff = finalHeight - height;
-        return { height, finalHeight, diff };
-    },
-
     getThumbHorizontalConfig() {
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth, clientWidth } = view;
@@ -148,6 +137,17 @@ export default createClass({
         const finalWidth = Math.max(width, thumbMinSize);
         const diff = finalWidth - width;
         return { width, finalWidth, diff };
+    },
+
+    getThumbVerticalConfig() {
+        const { view, trackVertical } = this.refs;
+        const { scrollHeight, clientHeight } = view;
+        const trackHeight = getInnerHeight(trackVertical);
+        const { thumbMinSize } = this.props;
+        const height = clientHeight / scrollHeight * trackHeight;
+        const finalHeight = Math.max(height, thumbMinSize);
+        const diff = finalHeight - height;
+        return { height, finalHeight, diff };
     },
 
     scrollLeft(left = 0) {
@@ -238,20 +238,20 @@ export default createClass({
         view.scrollTop = (offset - (thumbHeight / 2) - (thumbDiff / 2)) / (trackHeight - thumbDiff) * scrollHeight;
     },
 
-    handleVerticalThumbMouseDown(event) {
-        this.handleDragStart(event);
-        const { target, clientY } = event;
-        const { offsetHeight } = target;
-        const { top } = target.getBoundingClientRect();
-        this.prevPageY = offsetHeight - (clientY - top);
-    },
-
     handleHorizontalThumbMouseDown(event) {
         this.handleDragStart(event);
         const { target, clientX } = event;
         const { offsetWidth } = target;
         const { left } = target.getBoundingClientRect();
         this.prevPageX = offsetWidth - (clientX - left);
+    },
+
+    handleVerticalThumbMouseDown(event) {
+        this.handleDragStart(event);
+        const { target, clientY } = event;
+        const { offsetHeight } = target;
+        const { top } = target.getBoundingClientRect();
+        this.prevPageY = offsetHeight - (clientY - top);
     },
 
     handleDocumentMouseUp() {
