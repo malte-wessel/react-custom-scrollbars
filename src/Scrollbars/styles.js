@@ -21,6 +21,12 @@ export const scrollbarsInvisibleViewStyle = {
     WebkitOverflowScrolling: 'touch'
 };
 
+export const universalInitialViewStyle = {
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden'
+};
+
 export const defaultTrackHorizontalStyle = {
     position: 'absolute',
     height: 6

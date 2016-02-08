@@ -10,6 +10,7 @@ import {
     containerStyle,
     scrollbarsVisibleViewStyle,
     scrollbarsInvisibleViewStyle,
+    universalInitialViewStyle,
     defaultTrackHorizontalStyle,
     defaultTrackVerticalStyle,
     defaultThumbHorizontalStyle,
@@ -45,6 +46,7 @@ export default createClass({
         autoHideDuration: PropTypes.number,
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
+        universal: PropTypes.bool,
         style: PropTypes.object,
         children: PropTypes.node,
     },
@@ -59,13 +61,27 @@ export default createClass({
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200,
-            thumbMinSize: 30
+            thumbMinSize: 30,
+            universal: false
+        };
+    },
+
+    getInitialState() {
+        return {
+            didMountUniversal: false
         };
     },
 
     componentDidMount() {
         this.addListeners();
         this.update();
+        this.componentDidMountUniversal();
+    },
+
+    componentDidMountUniversal() { // eslint-disable-line react/sort-comp
+        const { universal } = this.props;
+        if (!universal) return;
+        this.setState({ didMountUniversal: true });
     },
 
     componentDidUpdate() {
@@ -454,19 +470,27 @@ export default createClass({
     render() {
         const scrollbarWidth = getScrollbarWidth();
         const {
-            style,
+            onScroll,
+            onScrollFrame,
+            onScrollStart,
+            onScrollStop,
+            renderView,
             renderTrackHorizontal,
             renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
-            renderView,
             autoHide,
-            autoHideDuration,
             autoHideTimeout,
-            onScroll,
+            autoHideDuration,
+            thumbSize,
+            thumbMinSize,
+            universal,
+            style,
             children,
             ...props
         } = this.props;
+
+        const { didMountUniversal } = this.state;
 
         const finalContainerStyle = {
             ...containerStyle,
@@ -477,6 +501,8 @@ export default createClass({
             ...scrollbarsVisibleViewStyle,
             right: -scrollbarWidth,
             bottom: -scrollbarWidth,
+            ...(universal && !didMountUniversal ? universalInitialViewStyle : undefined
+            )
         } : scrollbarsInvisibleViewStyle;
 
         const finalTrackHorizontalStyle = autoHide ? {
