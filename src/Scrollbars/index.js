@@ -43,6 +43,7 @@ export default createClass({
         autoHide: PropTypes.bool,
         autoHideTimeout: PropTypes.number,
         autoHideDuration: PropTypes.number,
+        thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         style: PropTypes.object,
         children: PropTypes.node,
@@ -132,20 +133,24 @@ export default createClass({
     },
 
     getThumbHorizontalWidth() {
-        const { thumbMinSize } = this.props;
+        const { thumbSize, thumbMinSize } = this.props;
         const { view, trackHorizontal } = this.refs;
         const { scrollWidth, clientWidth } = view;
         const trackWidth = getInnerWidth(trackHorizontal);
         const width = clientWidth / scrollWidth * trackWidth;
+        if (trackWidth === width) return 0;
+        if (thumbSize) return thumbSize;
         return Math.max(width, thumbMinSize);
     },
 
     getThumbVerticalHeight() {
-        const { thumbMinSize } = this.props;
+        const { thumbSize, thumbMinSize } = this.props;
         const { view, trackVertical } = this.refs;
         const { scrollHeight, clientHeight } = view;
         const trackHeight = getInnerHeight(trackVertical);
         const height = clientHeight / scrollHeight * trackHeight;
+        if (trackHeight === height) return 0;
+        if (thumbSize) return thumbSize;
         return Math.max(height, thumbMinSize);
     },
 
@@ -427,7 +432,7 @@ export default createClass({
                 const thumbHorizontalWidth = this.getThumbHorizontalWidth();
                 const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
                 const thumbHorizontalStyle = {
-                    width: thumbHorizontalWidth < trackHorizontalWidth ? thumbHorizontalWidth : 0,
+                    width: thumbHorizontalWidth,
                     transform: `translateX(${thumbHorizontalX}px)`
                 };
                 const { scrollTop, clientHeight, scrollHeight } = values;
@@ -435,7 +440,7 @@ export default createClass({
                 const thumbVerticalHeight = this.getThumbVerticalHeight();
                 const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
                 const thumbVerticalStyle = {
-                    height: thumbVerticalHeight < trackVerticalHeight ? thumbVerticalHeight : 0,
+                    height: thumbVerticalHeight,
                     transform: `translateY(${thumbVerticalY}px)`
                 };
                 css(thumbHorizontal, thumbHorizontalStyle);
