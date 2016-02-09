@@ -28,8 +28,8 @@ export default function createTests(scrollbarWidth) {
                     const { view, thumbHorizontal: thumb } = this.refs;
                     const { left } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
-                        currentTarget: thumb,
-                        clientX: left
+                        target: thumb,
+                        clientX: left + 1
                     });
                     simulant.fire(document, 'mousemove', {
                         clientX: left + 100
@@ -51,8 +51,8 @@ export default function createTests(scrollbarWidth) {
                     const { thumbHorizontal: thumb } = this.refs;
                     const { left } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
-                        currentTarget: thumb,
-                        clientX: left
+                        target: thumb,
+                        clientX: left + 1
                     });
                     expect(document.body.style.webkitUserSelect).toEqual('none');
                     simulant.fire(document, 'mouseup');
@@ -74,8 +74,8 @@ export default function createTests(scrollbarWidth) {
                     const { view, thumbVertical: thumb } = this.refs;
                     const { top } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
-                        currentTarget: thumb,
-                        clientY: top
+                        target: thumb,
+                        clientY: top + 1
                     });
                     simulant.fire(document, 'mousemove', {
                         clientY: top + 100
@@ -97,8 +97,8 @@ export default function createTests(scrollbarWidth) {
                     const { thumbVertical: thumb } = this.refs;
                     const { top } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
-                        currentTarget: thumb,
-                        clientY: top
+                        target: thumb,
+                        clientY: top + 1
                     });
                     expect(document.body.style.webkitUserSelect).toEqual('none');
                     simulant.fire(document, 'mouseup');

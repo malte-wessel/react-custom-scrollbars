@@ -248,6 +248,8 @@ export default createClass({
         thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
         document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
+        // Possibly registered by `handleDragStart`
+        document.removeEventListener('mousemove', this.handleDocumentMouseMove);
     },
 
     handleScroll(event) {
