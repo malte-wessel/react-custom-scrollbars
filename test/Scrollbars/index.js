@@ -5,6 +5,7 @@ import resizing from './resizing';
 import clickTrack from './clickTrack';
 import dragThumb from './dragThumb';
 import flexbox from './flexbox';
+import autoHide from './autoHide';
 
 export default function Scrollbars(scrollbarWidth, envScrollbarWidth) {
     describe('Scrollbars', () => {
@@ -15,5 +16,6 @@ export default function Scrollbars(scrollbarWidth, envScrollbarWidth) {
         clickTrack(scrollbarWidth, envScrollbarWidth);
         dragThumb(scrollbarWidth, envScrollbarWidth);
         flexbox(scrollbarWidth, envScrollbarWidth);
+        autoHide(scrollbarWidth, envScrollbarWidth);
     });
 }
