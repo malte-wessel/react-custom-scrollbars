@@ -170,6 +170,22 @@ export default createClass({
         return Math.max(height, thumbMinSize);
     },
 
+    getScrollLeftForOffset(offset) {
+        const { view, trackHorizontal } = this.refs;
+        const { scrollWidth, clientWidth } = view;
+        const trackWidth = getInnerWidth(trackHorizontal);
+        const thumbWidth = this.getThumbHorizontalWidth();
+        return offset / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
+    },
+
+    getScrollTopForOffset(offset) {
+        const { view, trackVertical } = this.refs;
+        const { scrollHeight, clientHeight } = view;
+        const trackHeight = getInnerHeight(trackVertical);
+        const thumbHeight = this.getThumbVerticalHeight();
+        return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
+    },
+
     scrollLeft(left = 0) {
         const { view } = this.refs;
         view.scrollLeft = left;
@@ -287,25 +303,21 @@ export default createClass({
     },
 
     handleHorizontalTrackMouseDown() {
-        const { view, trackHorizontal } = this.refs;
-        const { scrollWidth, clientWidth } = view;
-        const trackWidth = getInnerWidth(trackHorizontal);
+        const { view } = this.refs;
         const { target, clientX } = event;
         const { left: targetLeft } = target.getBoundingClientRect();
         const thumbWidth = this.getThumbHorizontalWidth();
-        const offset = Math.abs(targetLeft - clientX);
-        view.scrollLeft = (offset - thumbWidth / 2) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
+        const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
+        view.scrollLeft = this.getScrollLeftForOffset(offset);
     },
 
     handleVerticalTrackMouseDown(event) {
-        const { view, trackVertical } = this.refs;
-        const { scrollHeight, clientHeight } = view;
-        const trackHeight = getInnerHeight(trackVertical);
+        const { view } = this.refs;
         const { target, clientY } = event;
         const { top: targetTop } = target.getBoundingClientRect();
         const thumbHeight = this.getThumbVerticalHeight();
-        const offset = Math.abs(targetTop - clientY);
-        view.scrollTop = (offset - thumbHeight / 2) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
+        const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
+        view.scrollTop = this.getScrollTopForOffset(offset);
     },
 
     handleHorizontalThumbMouseDown(event) {
@@ -333,25 +345,21 @@ export default createClass({
         if (this.prevPageX) {
             const { clientX } = event;
             const { view, trackHorizontal } = this.refs;
-            const { scrollWidth, clientWidth } = view;
-            const trackWidth = getInnerWidth(trackHorizontal);
             const { left: trackLeft } = trackHorizontal.getBoundingClientRect();
             const thumbWidth = this.getThumbHorizontalWidth();
             const clickPosition = thumbWidth - this.prevPageX;
-            const offset = -(trackLeft - clientX);
-            view.scrollLeft = (offset - clickPosition) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
+            const offset = -trackLeft + clientX - clickPosition;
+            view.scrollLeft = this.getScrollLeftForOffset(offset);
             return false;
         }
         if (this.prevPageY) {
             const { clientY } = event;
             const { view, trackVertical } = this.refs;
-            const { scrollHeight, clientHeight } = view;
-            const trackHeight = getInnerHeight(trackVertical);
             const { top: trackTop } = trackVertical.getBoundingClientRect();
             const thumbHeight = this.getThumbVerticalHeight();
             const clickPosition = thumbHeight - this.prevPageY;
-            const offset = -(trackTop - clientY);
-            view.scrollTop = (offset - clickPosition) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
+            const offset = -trackTop + clientY - clickPosition;
+            view.scrollTop = this.getScrollTopForOffset(offset);
             return false;
         }
     },
