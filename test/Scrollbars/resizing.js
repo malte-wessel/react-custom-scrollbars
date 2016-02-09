@@ -4,6 +4,9 @@ import React from 'react';
 import simulant from 'simulant';
 
 export default function createTests(scrollbarWidth) {
+    // Not for mobile environment
+    if (!scrollbarWidth) return;
+
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -15,21 +18,18 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when resizing window', () => {
-        describe('when native scrollbars have a width', () => {
-            if (!scrollbarWidth) return;
-            it('should update scrollbars', done => {
-                render((
-                    <Scrollbars style={{ width: 100, height: 100 }}>
-                        <div style={{ width: 200, height: 200 }}/>
-                    </Scrollbars>
-                ), node, function callback() {
-                    setTimeout(() => {
-                        const spy = spyOn(this, 'update');
-                        simulant.fire(window, 'resize');
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 100);
-                });
+        it('should update scrollbars', done => {
+            render((
+                <Scrollbars style={{ width: 100, height: 100 }}>
+                    <div style={{ width: 200, height: 200 }}/>
+                </Scrollbars>
+            ), node, function callback() {
+                setTimeout(() => {
+                    const spy = spyOn(this, 'update');
+                    simulant.fire(window, 'resize');
+                    expect(spy.calls.length).toEqual(1);
+                    done();
+                }, 100);
             });
         });
     });

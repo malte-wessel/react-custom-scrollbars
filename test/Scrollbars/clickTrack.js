@@ -4,6 +4,9 @@ import React from 'react';
 import simulant from 'simulant';
 
 export default function createTests(scrollbarWidth) {
+    // Not for mobile environment
+    if (!scrollbarWidth) return;
+
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -15,9 +18,6 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when clicking on horizontal track', () => {
-        // Not for mobile environment
-        if (!scrollbarWidth) return;
-
         it('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
@@ -39,9 +39,6 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when clicking on vertical track', () => {
-        // Not for mobile environment
-        if (!scrollbarWidth) return;
-
         it('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
