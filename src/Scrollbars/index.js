@@ -337,8 +337,9 @@ export default createClass({
             const trackWidth = getInnerWidth(trackHorizontal);
             const { left: trackLeft } = trackHorizontal.getBoundingClientRect();
             const thumbWidth = this.getThumbHorizontalWidth();
+            const clickPosition = thumbWidth - this.prevPageX;
             const offset = -(trackLeft - clientX);
-            view.scrollLeft = (offset - thumbWidth / 2) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
+            view.scrollLeft = (offset - clickPosition) / (trackWidth - thumbWidth) * (scrollWidth - clientWidth);
             return false;
         }
         if (this.prevPageY) {
@@ -348,8 +349,9 @@ export default createClass({
             const trackHeight = getInnerHeight(trackVertical);
             const { top: trackTop } = trackVertical.getBoundingClientRect();
             const thumbHeight = this.getThumbVerticalHeight();
+            const clickPosition = thumbHeight - this.prevPageY;
             const offset = -(trackTop - clientY);
-            view.scrollTop = (offset - thumbHeight / 2) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
+            view.scrollTop = (offset - clickPosition) / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
             return false;
         }
     },
