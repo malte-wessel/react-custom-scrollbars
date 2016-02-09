@@ -1,11 +1,11 @@
-export const containerStyle = {
+export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
     width: '100%',
     height: '100%',
 };
 
-export const scrollbarsVisibleViewStyle = {
+export const viewStyleScrollbarsVisible = {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -13,7 +13,7 @@ export const scrollbarsVisibleViewStyle = {
     WebkitOverflowScrolling: 'touch'
 };
 
-export const scrollbarsInvisibleViewStyle = {
+export const viewStyleScrollbarsInvisible = {
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -21,29 +21,29 @@ export const scrollbarsInvisibleViewStyle = {
     WebkitOverflowScrolling: 'touch'
 };
 
-export const universalInitialViewStyle = {
+export const viewStyleUniversalInitial = {
     right: 0,
     bottom: 0,
     overflow: 'hidden'
 };
 
-export const defaultTrackHorizontalStyle = {
+export const trackHorizontalStyleDefault = {
     position: 'absolute',
     height: 6
 };
 
-export const defaultTrackVerticalStyle = {
+export const trackVerticalStyleDefault = {
     position: 'absolute',
     width: 6
 };
 
-export const defaultThumbHorizontalStyle = {
+export const thumbHorizontalStyleDefault = {
     position: 'relative',
     display: 'block',
     height: '100%'
 };
 
-export const defaultThumbVerticalStyle = {
+export const thumbVerticalStyleDefault = {
     position: 'relative',
     display: 'block',
     width: '100%'
@@ -53,6 +53,6 @@ export const disableSelectStyle = {
     userSelect: 'none'
 };
 
-export const resetDisableSelectStyle = {
+export const disableSelectStyleReset = {
     userSelect: ''
 };

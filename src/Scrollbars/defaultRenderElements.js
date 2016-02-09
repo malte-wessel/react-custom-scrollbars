@@ -1,10 +1,10 @@
 import React from 'react';
 
-export function defaultRenderView(props) {
+export function renderViewDefault(props) {
     return <div {...props}/>;
 }
 
-export function defaultRenderTrackHorizontal({ style, ...props }) {
+export function renderTrackHorizontalDefault({ style, ...props }) {
     const finalStyle = {
         ...style,
         right: 2,
@@ -16,7 +16,7 @@ export function defaultRenderTrackHorizontal({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function defaultRenderTrackVertical({ style, ...props }) {
+export function renderTrackVerticalDefault({ style, ...props }) {
     const finalStyle = {
         ...style,
         right: 2,
@@ -28,7 +28,7 @@ export function defaultRenderTrackVertical({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function defaultRenderThumbHorizontal({ style, ...props }) {
+export function renderThumbHorizontalDefault({ style, ...props }) {
     const finalStyle = {
         ...style,
         cursor: 'pointer',
@@ -38,7 +38,7 @@ export function defaultRenderThumbHorizontal({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-export function defaultRenderThumbVertical({ style, ...props }) {
+export function renderThumbVerticalDefault({ style, ...props }) {
     const finalStyle = {
         ...style,
         cursor: 'pointer',

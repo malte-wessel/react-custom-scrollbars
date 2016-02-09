@@ -7,24 +7,24 @@ import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
 
 import {
-    containerStyle,
-    scrollbarsVisibleViewStyle,
-    scrollbarsInvisibleViewStyle,
-    universalInitialViewStyle,
-    defaultTrackHorizontalStyle,
-    defaultTrackVerticalStyle,
-    defaultThumbHorizontalStyle,
-    defaultThumbVerticalStyle,
+    containerStyleDefault,
+    viewStyleScrollbarsVisible,
+    viewStyleScrollbarsInvisible,
+    viewStyleUniversalInitial,
+    trackHorizontalStyleDefault,
+    trackVerticalStyleDefault,
+    thumbHorizontalStyleDefault,
+    thumbVerticalStyleDefault,
     disableSelectStyle,
-    resetDisableSelectStyle
+    disableSelectStyleReset
 } from './styles';
 
 import {
-    defaultRenderView,
-    defaultRenderTrackHorizontal,
-    defaultRenderTrackVertical,
-    defaultRenderThumbHorizontal,
-    defaultRenderThumbVertical
+    renderViewDefault,
+    renderTrackHorizontalDefault,
+    renderTrackVerticalDefault,
+    renderThumbHorizontalDefault,
+    renderThumbVerticalDefault
 } from './defaultRenderElements';
 
 export default createClass({
@@ -53,11 +53,11 @@ export default createClass({
 
     getDefaultProps() {
         return {
-            renderView: defaultRenderView,
-            renderTrackHorizontal: defaultRenderTrackHorizontal,
-            renderTrackVertical: defaultRenderTrackVertical,
-            renderThumbHorizontal: defaultRenderThumbHorizontal,
-            renderThumbVertical: defaultRenderThumbVertical,
+            renderView: renderViewDefault,
+            renderTrackHorizontal: renderTrackHorizontalDefault,
+            renderTrackVertical: renderTrackVerticalDefault,
+            renderThumbHorizontal: renderThumbHorizontalDefault,
+            renderThumbVertical: renderThumbVerticalDefault,
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200,
@@ -372,7 +372,7 @@ export default createClass({
         if (!document) return;
         this.dragging = false;
         this.prevPageX = this.prevPageY = 0;
-        css(document.body, resetDisableSelectStyle);
+        css(document.body, disableSelectStyleReset);
         document.removeEventListener('mousemove', this.handleDocumentMouseMove);
         document.onselectstart = undefined;
         this.handleDragEndAutoHide();
@@ -492,23 +492,23 @@ export default createClass({
 
         const { didMountUniversal } = this.state;
 
-        const finalContainerStyle = {
-            ...containerStyle,
+        const containerStyle = {
+            ...containerStyleDefault,
             ...style
         };
 
         const viewStyle = scrollbarWidth ? {
-            ...scrollbarsVisibleViewStyle,
+            ...viewStyleScrollbarsVisible,
             right: -scrollbarWidth,
             bottom: -scrollbarWidth,
             ...(universal && !didMountUniversal
-                ? universalInitialViewStyle
+                ? viewStyleUniversalInitial
                 : undefined
             )
-        } : scrollbarsInvisibleViewStyle;
+        } : viewStyleScrollbarsInvisible;
 
-        const finalTrackHorizontalStyle = {
-            ...defaultTrackHorizontalStyle,
+        const trackHorizontalStyle = {
+            ...trackHorizontalStyleDefault,
             ...(autoHide
                 ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
                 : undefined
@@ -519,8 +519,8 @@ export default createClass({
             )
         };
 
-        const finalTrackVerticalStyle = {
-            ...defaultTrackVerticalStyle,
+        const trackVerticalStyle = {
+            ...trackVerticalStyleDefault,
             ...(autoHide
                 ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
                 : undefined
@@ -532,25 +532,25 @@ export default createClass({
         };
 
         return (
-            <div {...props} style={finalContainerStyle} ref="container">
+            <div {...props} style={containerStyle} ref="container">
                 {cloneElement(
                     renderView({ style: viewStyle }),
                     { ref: 'view' },
                     children
                 )}
                 {cloneElement(
-                    renderTrackHorizontal({ style: finalTrackHorizontalStyle }),
+                    renderTrackHorizontal({ style: trackHorizontalStyle }),
                     { ref: 'trackHorizontal' },
                     cloneElement(
-                        renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
+                        renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
                         { ref: 'thumbHorizontal' }
                     )
                 )}
                 {cloneElement(
-                    renderTrackVertical({ style: finalTrackVerticalStyle }),
+                    renderTrackVertical({ style: trackVerticalStyle }),
                     { ref: 'trackVertical' },
                     cloneElement(
-                        renderThumbVertical({ style: defaultThumbVerticalStyle }),
+                        renderThumbVertical({ style: thumbVerticalStyleDefault }),
                         { ref: 'thumbVertical' }
                     )
                 )}
