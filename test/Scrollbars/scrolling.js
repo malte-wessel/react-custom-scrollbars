@@ -52,6 +52,105 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             });
         });
 
+        describe('when scrolling x-axis', () => {
+            it('should call `onScroll`', done => {
+                const spy = createSpy();
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }} onScroll={spy}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    this.scrollLeft(50);
+                    setTimeout(() => {
+                        expect(spy.calls.length).toEqual(1);
+                        const args = spy.calls[0].arguments;
+                        const event = args[0];
+                        expect(event).toBeA(Event);
+                        done();
+                    }, 100);
+                });
+            });
+            it('should call `onScroll`', done => {
+                const spy = createSpy();
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }} onScrollFrame={spy}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    this.scrollLeft(50);
+                    setTimeout(() => {
+                        expect(spy.calls.length).toEqual(1);
+                        const args = spy.calls[0].arguments;
+                        const values = args[0];
+                        expect(values).toBeA(Object);
+
+                        if (scrollbarWidth) {
+                            expect(values).toEqual({
+                                left: 0.5,
+                                top: 0,
+                                scrollLeft: 50,
+                                scrollTop: 0,
+                                scrollWidth: 200,
+                                scrollHeight: 200,
+                                clientWidth: 100,
+                                clientHeight: 100
+                            });
+                        } else {
+                            expect(values).toEqual({
+                                left: values.scrollLeft / (values.scrollWidth - (values.clientWidth)),
+                                top: 0,
+                                scrollLeft: 50,
+                                scrollTop: 0,
+                                scrollWidth: 200,
+                                scrollHeight: 200,
+                                clientWidth: 100 - envScrollbarWidth,
+                                clientHeight: 100 - envScrollbarWidth
+                            });
+                        }
+                        done();
+                    }, 100);
+                });
+            });
+            it('should call `onScrollStart` once', done => {
+                const spy = createSpy();
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }} onScrollStart={spy}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    this.scrollLeft(50);
+                    this.scrollLeft(60);
+                    this.scrollLeft(70);
+                    this.scrollLeft(80);
+                    this.scrollLeft(90);
+                    this.scrollLeft(100);
+                    setTimeout(() => {
+                        expect(spy.calls.length).toEqual(1);
+                        done();
+                    }, 100);
+                });
+            });
+            it('should call `onScrollStop` once when scrolling stops', done => {
+                const spy = createSpy();
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }} onScrollStop={spy}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    this.scrollLeft(50);
+                    this.scrollLeft(60);
+                    this.scrollLeft(70);
+                    this.scrollLeft(80);
+                    this.scrollLeft(90);
+                    this.scrollLeft(100);
+                    setTimeout(() => {
+                        expect(spy.calls.length).toEqual(1);
+                        done();
+                    }, 300);
+                });
+            });
+        });
+
         describe('when scrolling y-axis', () => {
             it('should call `onScroll`', done => {
                 const spy = createSpy();
@@ -111,65 +210,42 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     }, 100);
                 });
             });
-        });
-
-        describe('when scrolling x-axis', () => {
-            it('should call `onScroll`', done => {
+            it('should call `onScrollStart` once', done => {
                 const spy = createSpy();
                 render((
-                    <Scrollbars style={{ width: 100, height: 100 }} onScroll={spy}>
+                    <Scrollbars style={{ width: 100, height: 100 }} onScrollStart={spy}>
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollLeft(50);
+                    this.scrollTop(50);
+                    this.scrollTop(60);
+                    this.scrollTop(70);
+                    this.scrollTop(80);
+                    this.scrollTop(90);
+                    this.scrollTop(100);
                     setTimeout(() => {
                         expect(spy.calls.length).toEqual(1);
-                        const args = spy.calls[0].arguments;
-                        const event = args[0];
-                        expect(event).toBeA(Event);
                         done();
                     }, 100);
                 });
             });
-            it('should call `onScroll`', done => {
+            it('should call `onScrollStop` once when scrolling stops', done => {
                 const spy = createSpy();
                 render((
-                    <Scrollbars style={{ width: 100, height: 100 }} onScrollFrame={spy}>
+                    <Scrollbars style={{ width: 100, height: 100 }} onScrollStop={spy}>
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollLeft(50);
+                    this.scrollTop(50);
+                    this.scrollTop(60);
+                    this.scrollTop(70);
+                    this.scrollTop(80);
+                    this.scrollTop(90);
+                    this.scrollTop(100);
                     setTimeout(() => {
                         expect(spy.calls.length).toEqual(1);
-                        const args = spy.calls[0].arguments;
-                        const values = args[0];
-                        expect(values).toBeA(Object);
-
-                        if (scrollbarWidth) {
-                            expect(values).toEqual({
-                                left: 0.5,
-                                top: 0,
-                                scrollLeft: 50,
-                                scrollTop: 0,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100,
-                                clientHeight: 100
-                            });
-                        } else {
-                            expect(values).toEqual({
-                                left: values.scrollLeft / (values.scrollWidth - (values.clientWidth)),
-                                top: 0,
-                                scrollLeft: 50,
-                                scrollTop: 0,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100 - envScrollbarWidth,
-                                clientHeight: 100 - envScrollbarWidth
-                            });
-                        }
                         done();
-                    }, 100);
+                    }, 300);
                 });
             });
         });
