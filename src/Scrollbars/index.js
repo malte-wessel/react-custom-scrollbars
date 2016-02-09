@@ -501,21 +501,35 @@ export default createClass({
             ...scrollbarsVisibleViewStyle,
             right: -scrollbarWidth,
             bottom: -scrollbarWidth,
-            ...(universal && !didMountUniversal ? universalInitialViewStyle : undefined
+            ...(universal && !didMountUniversal
+                ? universalInitialViewStyle
+                : undefined
             )
         } : scrollbarsInvisibleViewStyle;
 
-        const finalTrackHorizontalStyle = autoHide ? {
+        const finalTrackHorizontalStyle = {
             ...defaultTrackHorizontalStyle,
-            transition: `opacity ${autoHideDuration}ms`,
-            opacity: 0
-        } : defaultTrackHorizontalStyle;
+            ...(autoHide
+                ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
+                : undefined
+            ),
+            ...(!scrollbarWidth || universal && !didMountUniversal
+                ? { display: 'none' }
+                : undefined
+            )
+        };
 
-        const finalTrackVerticalStyle = autoHide ? {
+        const finalTrackVerticalStyle = {
             ...defaultTrackVerticalStyle,
-            transition: `opacity ${autoHideDuration}ms`,
-            opacity: 0
-        } : defaultTrackVerticalStyle;
+            ...(autoHide
+                ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
+                : undefined
+            ),
+            ...(!scrollbarWidth || universal && !didMountUniversal
+                ? { display: 'none' }
+                : undefined
+            )
+        };
 
         return (
             <div {...props} style={finalContainerStyle} ref="container">
@@ -524,28 +538,22 @@ export default createClass({
                     { ref: 'view' },
                     children
                 )}
-                {scrollbarWidth ?
+                {cloneElement(
+                    renderTrackHorizontal({ style: finalTrackHorizontalStyle }),
+                    { ref: 'trackHorizontal' },
                     cloneElement(
-                        renderTrackHorizontal({ style: finalTrackHorizontalStyle }),
-                        { ref: 'trackHorizontal' },
-                        cloneElement(
-                            renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
-                            { ref: 'thumbHorizontal' }
-                        )
+                        renderThumbHorizontal({ style: defaultThumbHorizontalStyle }),
+                        { ref: 'thumbHorizontal' }
                     )
-                    : undefined
-                }
-                {scrollbarWidth ?
+                )}
+                {cloneElement(
+                    renderTrackVertical({ style: finalTrackVerticalStyle }),
+                    { ref: 'trackVertical' },
                     cloneElement(
-                        renderTrackVertical({ style: finalTrackVerticalStyle }),
-                        { ref: 'trackVertical' },
-                        cloneElement(
-                            renderThumbVertical({ style: defaultThumbVerticalStyle }),
-                            { ref: 'thumbVertical' }
-                        )
+                        renderThumbVertical({ style: defaultThumbVerticalStyle }),
+                        { ref: 'thumbVertical' }
                     )
-                    : undefined
-                }
+                )}
             </div>
         );
     }
