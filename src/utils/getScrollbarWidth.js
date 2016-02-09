@@ -11,7 +11,7 @@ export default function getScrollbarWidth() {
             position: 'absolute',
             top: -9999,
             overflow: 'scroll',
-            '-ms-overflow-style': 'scrollbar'
+            MsOverflowStyle: 'scrollbar'
         });
         document.body.appendChild(div);
         scrollbarWidth = (div.offsetWidth - div.clientWidth);
