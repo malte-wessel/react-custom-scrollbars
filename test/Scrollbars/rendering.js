@@ -118,8 +118,9 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.thumbVertical.style.height).toEqual('50%');
-                            expect(this.refs.thumbHorizontal.style.width).toEqual('50%');
+                            // 100 / 200 * 96 = 48
+                            expect(this.refs.thumbVertical.style.height).toEqual('48px');
+                            expect(this.refs.thumbHorizontal.style.width).toEqual('48px');
                             done();
                         }, 100);
                     });
@@ -247,7 +248,7 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
-            describe('when native scrollbars are overlayed', () => {
+            describe('when native scrollbars have no width', () => {
                 if (scrollbarWidth) return;
 
                 it('hides bars', done => {
@@ -257,8 +258,8 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.trackVertical).toEqual(undefined);
-                            expect(this.refs.trackHorizontal).toEqual(undefined);
+                            expect(this.refs.trackVertical.style.display).toEqual('none');
+                            expect(this.refs.trackHorizontal.style.display).toEqual('none');
                             done();
                         }, 100);
                     });

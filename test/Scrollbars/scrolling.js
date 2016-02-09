@@ -26,8 +26,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     this.scrollLeft(50);
                     setTimeout(() => {
                         if (scrollbarWidth) {
-                            expect(this.refs.thumbVertical.style.transform).toEqual('translateY(50%)');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(50%)');
+                            // 50 / (200 - 100) * (96 - 48) = 24
+                            expect(this.refs.thumbVertical.style.transform).toEqual('translateY(24px)');
+                            expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(24px)');
                         } else {
                             expect(this.refs.thumbVertical.style.transform).toEqual('');
                             expect(this.refs.thumbHorizontal.style.transform).toEqual('');
