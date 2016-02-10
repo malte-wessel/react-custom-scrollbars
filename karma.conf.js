@@ -6,8 +6,6 @@ var runCoverage = process.env.COVERAGE === 'true';
 var coverageLoaders = [];
 var coverageReporters = [];
 
-console.log('process.env.COVERAGE', process.env.COVERAGE);
-
 if (runCoverage) {
     coverageLoaders.push({
         test: /\.js$/,
@@ -43,8 +41,12 @@ module.exports = function karmaConfig(config) {
             }
         },
         coverageReporter: {
-            type: 'html',
-            dir: 'coverage/'
+            dir: 'coverage/',
+            reporters: [
+                { type: 'html', subdir: 'report-html' },
+                { type: 'text', subdir: '.', file: 'text.txt' },
+                { type: 'text-summary', subdir: '.', file: 'text-summary.txt' },
+            ]
         }
     });
 };
