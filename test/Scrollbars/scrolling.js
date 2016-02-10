@@ -118,16 +118,15 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollLeft(50);
-                    this.scrollLeft(60);
-                    this.scrollLeft(70);
-                    this.scrollLeft(80);
-                    this.scrollLeft(90);
-                    this.scrollLeft(100);
-                    setTimeout(() => {
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 100);
+                    let left = 0;
+                    const interval = setInterval(() => {
+                        this.scrollLeft(++left);
+                        if (left >= 50) {
+                            clearInterval(interval);
+                            expect(spy.calls.length).toEqual(1);
+                            done();
+                        }
+                    }, 10);
                 });
             });
             it('should call `onScrollStop` once when scrolling stops', done => {
@@ -137,16 +136,17 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollLeft(50);
-                    this.scrollLeft(60);
-                    this.scrollLeft(70);
-                    this.scrollLeft(80);
-                    this.scrollLeft(90);
-                    this.scrollLeft(100);
-                    setTimeout(() => {
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 300);
+                    let left = 0;
+                    const interval = setInterval(() => {
+                        this.scrollLeft(++left);
+                        if (left >= 50) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                expect(spy.calls.length).toEqual(1);
+                                done();
+                            }, 300);
+                        }
+                    }, 10);
                 });
             });
         });
@@ -217,16 +217,15 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollTop(50);
-                    this.scrollTop(60);
-                    this.scrollTop(70);
-                    this.scrollTop(80);
-                    this.scrollTop(90);
-                    this.scrollTop(100);
-                    setTimeout(() => {
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 100);
+                    let top = 0;
+                    const interval = setInterval(() => {
+                        this.scrollTop(++top);
+                        if (top >= 50) {
+                            clearInterval(interval);
+                            expect(spy.calls.length).toEqual(1);
+                            done();
+                        }
+                    }, 10);
                 });
             });
             it('should call `onScrollStop` once when scrolling stops', done => {
@@ -236,16 +235,17 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    this.scrollTop(50);
-                    this.scrollTop(60);
-                    this.scrollTop(70);
-                    this.scrollTop(80);
-                    this.scrollTop(90);
-                    this.scrollTop(100);
-                    setTimeout(() => {
-                        expect(spy.calls.length).toEqual(1);
-                        done();
-                    }, 300);
+                    let top = 0;
+                    const interval = setInterval(() => {
+                        this.scrollTop(++top);
+                        if (top >= 50) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                expect(spy.calls.length).toEqual(1);
+                                done();
+                            }, 300);
+                        }
+                    }, 10);
                 });
             });
         });

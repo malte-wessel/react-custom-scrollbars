@@ -88,6 +88,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     expect(this.getScrollLeft()).toEqual(50);
                     this.scrollToLeft();
                     expect(this.getScrollLeft()).toEqual(0);
+                    this.scrollLeft(50);
+                    this.scrollLeft();
+                    expect(this.getScrollLeft()).toEqual(0);
                     done();
                 });
             });
@@ -98,6 +101,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     this.scrollTop(50);
                     expect(this.getScrollTop()).toEqual(50);
                     this.scrollToTop();
+                    expect(this.getScrollTop()).toEqual(0);
+                    this.scrollTop(50);
+                    this.scrollTop();
                     expect(this.getScrollTop()).toEqual(0);
                     done();
                 });

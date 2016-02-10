@@ -16,7 +16,6 @@ export default function createTests(scrollbarWidth) {
         unmountComponentAtNode(node);
         document.body.removeChild(node);
     });
-
     describe('when dragging horizontal thumb', () => {
         it('should scroll to the respective position', done => {
             render((

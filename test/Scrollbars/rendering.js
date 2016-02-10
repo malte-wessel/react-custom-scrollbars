@@ -122,6 +122,38 @@ export default function createTests(scrollbarWidth) {
                     });
                 });
 
+                it('the thumbs size should not be less than the given `thumbMinSize`', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 2000, height: 2000 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        setTimeout(() => {
+                            // 100 / 200 * 96 = 48
+                            expect(this.refs.thumbVertical.style.height).toEqual('30px');
+                            expect(this.refs.thumbHorizontal.style.width).toEqual('30px');
+                            done();
+                        }, 100);
+                    });
+                });
+
+                describe('when thumbs have a fixed size', () => {
+                    it('thumbs should have the given fixed size', done => {
+                        render((
+                            <Scrollbars thumbSize={50} style={{ width: 100, height: 100 }}>
+                                <div style={{ width: 2000, height: 2000 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            setTimeout(() => {
+                                // 100 / 200 * 96 = 48
+                                expect(this.refs.thumbVertical.style.height).toEqual('50px');
+                                expect(this.refs.thumbHorizontal.style.width).toEqual('50px');
+                                done();
+                            }, 100);
+                        });
+                    });
+                });
+
                 describe('when custom `renderTrackHorizontal` is passed', () => {
                     it('should render custom element', done => {
                         render((

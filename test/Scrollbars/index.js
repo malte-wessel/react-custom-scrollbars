@@ -8,16 +8,14 @@ import flexbox from './flexbox';
 import autoHide from './autoHide';
 import universal from './universal';
 
-export default function Scrollbars(scrollbarWidth, envScrollbarWidth) {
-    describe('Scrollbars', () => {
-        rendering(scrollbarWidth, envScrollbarWidth);
-        gettersSetters(scrollbarWidth, envScrollbarWidth);
-        scrolling(scrollbarWidth, envScrollbarWidth);
-        resizing(scrollbarWidth, envScrollbarWidth);
-        clickTrack(scrollbarWidth, envScrollbarWidth);
-        dragThumb(scrollbarWidth, envScrollbarWidth);
-        flexbox(scrollbarWidth, envScrollbarWidth);
-        autoHide(scrollbarWidth, envScrollbarWidth);
-        universal(scrollbarWidth, envScrollbarWidth);
-    });
+export default function createTests(scrollbarWidth, envScrollbarWidth) {
+    rendering(scrollbarWidth, envScrollbarWidth);
+    gettersSetters(scrollbarWidth, envScrollbarWidth);
+    scrolling(scrollbarWidth, envScrollbarWidth);
+    resizing(scrollbarWidth, envScrollbarWidth);
+    clickTrack(scrollbarWidth, envScrollbarWidth);
+    dragThumb(scrollbarWidth, envScrollbarWidth);
+    flexbox(scrollbarWidth, envScrollbarWidth);
+    autoHide(scrollbarWidth, envScrollbarWidth);
+    universal(scrollbarWidth, envScrollbarWidth);
 }

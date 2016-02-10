@@ -46,9 +46,27 @@ export default function createTests(scrollbarWidth) {
                         done();
                     });
                 });
+                it('should not hide tracks', done => {
+                    render((
+                        <Scrollbars
+                            autoHide
+                            autoHideTimeout={0}
+                            style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const { trackHorizontal: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        setTimeout(() => this.hideTracks(), 10);
+                        setTimeout(() => {
+                            expect(track.style.opacity).toEqual('1');
+                        }, 100);
+                        done();
+                    });
+                });
             });
             describe('when leaving horizontal track', () => {
-                it('should show tracks', done => {
+                it('should hide tracks', done => {
                     render((
                         <Scrollbars
                             autoHide
@@ -81,9 +99,27 @@ export default function createTests(scrollbarWidth) {
                         done();
                     });
                 });
+                it('should not hide tracks', done => {
+                    render((
+                        <Scrollbars
+                            autoHide
+                            autoHideTimeout={0}
+                            style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const { trackVertical: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        setTimeout(() => this.hideTracks(), 10);
+                        setTimeout(() => {
+                            expect(track.style.opacity).toEqual('1');
+                        }, 100);
+                        done();
+                    });
+                });
             });
             describe('when leaving vertical track', () => {
-                it('should show tracks', done => {
+                it('should hide tracks', done => {
                     render((
                         <Scrollbars
                             autoHide
@@ -139,6 +175,25 @@ export default function createTests(scrollbarWidth) {
                     }, 300);
                 });
             });
+            it('should not hide tracks', done => {
+                render((
+                    <Scrollbars
+                        autoHide
+                        autoHideTimeout={0}
+                        style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    this.scrollTop(50);
+                    setTimeout(() => this.hideTracks());
+                    setTimeout(() => {
+                        const { trackHorizontal, trackVertical } = this.refs;
+                        expect(trackHorizontal.style.opacity).toEqual('1');
+                        expect(trackVertical.style.opacity).toEqual('1');
+                        done();
+                    }, 50);
+                });
+            });
         });
         describe('when dragging x-axis', () => {
             it('should show tracks', done => {
@@ -166,6 +221,31 @@ export default function createTests(scrollbarWidth) {
                     }, 100);
                 });
             });
+
+            it('should hide tracks on end', done => {
+                render((
+                    <Scrollbars
+                        autoHide
+                        autoHideTimeout={10}
+                        autoHideDuration={10}
+                        style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    const { thumbHorizontal: thumb, trackHorizontal: track } = this.refs;
+                    const { left } = thumb.getBoundingClientRect();
+                    simulant.fire(thumb, 'mousedown', {
+                        target: thumb,
+                        clientX: left + 1
+                    });
+                    simulant.fire(document, 'mouseup');
+                    setTimeout(() => {
+                        expect(track.style.opacity).toEqual('0');
+                        done();
+                    }, 100);
+                });
+            });
+
             describe('and leaving track', () => {
                 it('should not hide tracks', done => {
                     render((
@@ -223,6 +303,29 @@ export default function createTests(scrollbarWidth) {
                     }, 100);
                 });
             });
+            it('should hide tracks on end', done => {
+                render((
+                    <Scrollbars
+                        autoHide
+                        autoHideTimeout={10}
+                        autoHideDuration={10}
+                        style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    const { thumbVertical: thumb, trackVertical: track } = this.refs;
+                    const { top } = thumb.getBoundingClientRect();
+                    simulant.fire(thumb, 'mousedown', {
+                        target: thumb,
+                        clientY: top + 1
+                    });
+                    simulant.fire(document, 'mouseup');
+                    setTimeout(() => {
+                        expect(track.style.opacity).toEqual('0');
+                        done();
+                    }, 100);
+                });
+            });
             describe('and leaving track', () => {
                 it('should not hide tracks', done => {
                     render((
@@ -249,6 +352,77 @@ export default function createTests(scrollbarWidth) {
                                 expect(track.style.opacity).toEqual('1');
                                 done();
                             }, 200);
+                        }, 100);
+                    });
+                });
+            });
+        });
+    });
+
+    describe('when autoHide is disabed', () => {
+        describe('enter/leave track', () => {
+            describe('when entering horizontal track', () => {
+                it('should not call `showTracks`', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const spy = spyOn(this, 'showTracks');
+                        const { trackHorizontal: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        expect(spy.calls.length).toEqual(0);
+                        done();
+                    });
+                });
+            });
+            describe('when leaving horizontal track', () => {
+                it('should not call `hideTracks`', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const spy = spyOn(this, 'hideTracks');
+                        const { trackHorizontal: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        simulant.fire(track, 'mouseleave');
+                        setTimeout(() => {
+                            expect(spy.calls.length).toEqual(0);
+                            done();
+                        }, 100);
+                    });
+                });
+            });
+            describe('when entering vertical track', () => {
+                it('should not call `showTracks`', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const spy = spyOn(this, 'showTracks');
+                        const { trackVertical: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        expect(spy.calls.length).toEqual(0);
+                        done();
+                    });
+                });
+            });
+            describe('when leaving vertical track', () => {
+                it('should not call `hideTracks`', done => {
+                    render((
+                        <Scrollbars style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const spy = spyOn(this, 'hideTracks');
+                        const { trackVertical: track } = this.refs;
+                        simulant.fire(track, 'mouseenter');
+                        simulant.fire(track, 'mouseleave');
+                        setTimeout(() => {
+                            expect(spy.calls.length).toEqual(0);
+                            done();
                         }, 100);
                     });
                 });

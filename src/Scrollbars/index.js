@@ -89,9 +89,9 @@ export default createClass({
 
     componentWillUnmount() {
         this.removeListeners();
-        if (this.requestFrame) caf(this.requestFrame);
-        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
-        if (this.detectScrollingInterval) clearInterval(this.detectScrollingInterval);
+        caf(this.requestFrame);
+        clearTimeout(this.hideTracksTimeout);
+        clearInterval(this.detectScrollingInterval);
     },
 
     getScrollLeft() {
@@ -216,6 +216,7 @@ export default createClass({
     },
 
     addListeners() {
+        /* istanbul ignore if */
         if (typeof document === 'undefined') return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
         view.addEventListener('scroll', this.handleScroll);
@@ -228,11 +229,11 @@ export default createClass({
         trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        document.addEventListener('mouseup', this.handleDocumentMouseUp);
         window.addEventListener('resize', this.handleWindowResize);
     },
 
     removeListeners() {
+        /* istanbul ignore if */
         if (typeof document === 'undefined') return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
         view.removeEventListener('scroll', this.handleScroll);
@@ -245,10 +246,9 @@ export default createClass({
         trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
-        document.removeEventListener('mouseup', this.handleDocumentMouseUp);
         window.removeEventListener('resize', this.handleWindowResize);
-        // Possibly registered by `handleDragStart`
-        document.removeEventListener('mousemove', this.handleDocumentMouseMove);
+        // Possibly setup by `handleDragStart`
+        this.teardownDragging();
     },
 
     handleScroll(event) {
@@ -272,7 +272,7 @@ export default createClass({
     handleScrollStartAutoHide() {
         const { autoHide } = this.props;
         if (!autoHide) return;
-        this.showTrack();
+        this.showTracks();
     },
 
     handleScrollStop() {
@@ -284,23 +284,11 @@ export default createClass({
     handleScrollStopAutoHide() {
         const { autoHide } = this.props;
         if (!autoHide) return;
-        this.hideTrack();
+        this.hideTracks();
     },
 
-    detectScrolling() {
-        if (this.scrolling) return;
-        this.scrolling = true;
-        this.handleScrollStart();
-        this.detectScrollingInterval = setInterval(() => {
-            if (this.lastViewScrollLeft === this.viewScrollLeft
-                && this.lastViewScrollTop === this.viewScrollTop) {
-                clearInterval(this.detectScrollingInterval);
-                this.scrolling = false;
-                this.handleScrollStop();
-            }
-            this.lastViewScrollLeft = this.viewScrollLeft;
-            this.lastViewScrollTop = this.viewScrollTop;
-        }, 100);
+    handleWindowResize() {
+        this.update();
     },
 
     handleHorizontalTrackMouseDown() {
@@ -337,12 +325,27 @@ export default createClass({
         this.prevPageY = offsetHeight - (clientY - top);
     },
 
-    handleDocumentMouseUp() {
-        this.handleDragEnd();
+    setupDragging() {
+        css(document.body, disableSelectStyle);
+        document.addEventListener('mousemove', this.handleDrag);
+        document.addEventListener('mouseup', this.handleDragEnd);
+        document.onselectstart = returnFalse;
     },
 
-    handleDocumentMouseMove(event) {
-        if (this.dragging === false) return false;
+    teardownDragging() {
+        css(document.body, disableSelectStyleReset);
+        document.removeEventListener('mousemove', this.handleDrag);
+        document.removeEventListener('mouseup', this.handleDragEnd);
+        document.onselectstart = undefined;
+    },
+
+    handleDragStart(event) {
+        this.dragging = true;
+        event.stopImmediatePropagation();
+        this.setupDragging();
+    },
+
+    handleDrag(event) {
         if (this.prevPageX) {
             const { clientX } = event;
             const { view, trackHorizontal } = this.refs;
@@ -351,7 +354,6 @@ export default createClass({
             const clickPosition = thumbWidth - this.prevPageX;
             const offset = -trackLeft + clientX - clickPosition;
             view.scrollLeft = this.getScrollLeftForOffset(offset);
-            return false;
         }
         if (this.prevPageY) {
             const { clientY } = event;
@@ -361,38 +363,21 @@ export default createClass({
             const clickPosition = thumbHeight - this.prevPageY;
             const offset = -trackTop + clientY - clickPosition;
             view.scrollTop = this.getScrollTopForOffset(offset);
-            return false;
         }
-    },
-
-    handleWindowResize() {
-        this.update();
-    },
-
-    handleDragStart(event) {
-        if (!document) return;
-        event.stopImmediatePropagation();
-        this.dragging = true;
-        css(document.body, disableSelectStyle);
-        document.addEventListener('mousemove', this.handleDocumentMouseMove);
-        document.onselectstart = returnFalse;
+        return false;
     },
 
     handleDragEnd() {
-        if (!this.dragging) return;
-        if (!document) return;
         this.dragging = false;
         this.prevPageX = this.prevPageY = 0;
-        css(document.body, disableSelectStyleReset);
-        document.removeEventListener('mousemove', this.handleDocumentMouseMove);
-        document.onselectstart = undefined;
+        this.teardownDragging();
         this.handleDragEndAutoHide();
     },
 
     handleDragEndAutoHide() {
         const { autoHide } = this.props;
         if (!autoHide) return;
-        this.hideTrack();
+        this.hideTracks();
     },
 
     handleTrackMouseEnter() {
@@ -403,7 +388,7 @@ export default createClass({
     handleTrackMouseEnterAutoHide() {
         const { autoHide } = this.props;
         if (!autoHide) return;
-        this.showTrack();
+        this.showTracks();
     },
 
     handleTrackMouseLeave() {
@@ -414,31 +399,43 @@ export default createClass({
     handleTrackMouseLeaveAutoHide() {
         const { autoHide } = this.props;
         if (!autoHide) return;
-        this.hideTrack();
+        this.hideTracks();
     },
 
-    showTrack() {
-        if (this.trackVisible) return;
-        this.trackVisible = true;
+    showTracks() {
         const { trackHorizontal, trackVertical } = this.refs;
-        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
+        clearTimeout(this.hideTracksTimeout);
         css(trackHorizontal, { opacity: 1 });
         css(trackVertical, { opacity: 1 });
     },
 
-    hideTrack() {
+    hideTracks() {
         if (this.dragging) return;
         if (this.scrolling) return;
         if (this.trackMouseOver) return;
-        if (!this.trackVisible) return;
-        this.trackVisible = false;
         const { autoHideTimeout } = this.props;
         const { trackHorizontal, trackVertical } = this.refs;
-        if (this.hideTrackTimeout) clearTimeout(this.hideTrackTimeout);
-        this.hideTrackTimeout = setTimeout(() => {
+        clearTimeout(this.hideTracksTimeout);
+        this.hideTracksTimeout = setTimeout(() => {
             css(trackHorizontal, { opacity: 0 });
             css(trackVertical, { opacity: 0 });
         }, autoHideTimeout);
+    },
+
+    detectScrolling() {
+        if (this.scrolling) return;
+        this.scrolling = true;
+        this.handleScrollStart();
+        this.detectScrollingInterval = setInterval(() => {
+            if (this.lastViewScrollLeft === this.viewScrollLeft
+                && this.lastViewScrollTop === this.viewScrollTop) {
+                clearInterval(this.detectScrollingInterval);
+                this.scrolling = false;
+                this.handleScrollStop();
+            }
+            this.lastViewScrollLeft = this.viewScrollLeft;
+            this.lastViewScrollTop = this.viewScrollTop;
+        }, 100);
     },
 
     raf(callback) {
