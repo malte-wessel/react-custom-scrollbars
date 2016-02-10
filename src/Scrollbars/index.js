@@ -8,8 +8,7 @@ import getInnerHeight from '../utils/getInnerHeight';
 
 import {
     containerStyleDefault,
-    viewStyleScrollbarsVisible,
-    viewStyleScrollbarsInvisible,
+    viewStyleDefault,
     viewStyleUniversalInitial,
     trackHorizontalStyleDefault,
     trackVerticalStyleDefault,
@@ -509,15 +508,17 @@ export default createClass({
             ...style
         };
 
-        const viewStyle = scrollbarWidth ? {
-            ...viewStyleScrollbarsVisible,
-            right: -scrollbarWidth,
-            bottom: -scrollbarWidth,
+        const viewStyle = {
+            ...viewStyleDefault,
+            ...(scrollbarWidth
+                ? { right: -scrollbarWidth, bottom: -scrollbarWidth }
+                : { right: 0, bottom: 0 }
+            ),
             ...(universal && !didMountUniversal
                 ? viewStyleUniversalInitial
                 : undefined
             )
-        } : viewStyleScrollbarsInvisible;
+        };
 
         const trackHorizontalStyle = {
             ...trackHorizontalStyleDefault,

@@ -5,18 +5,10 @@ export const containerStyleDefault = {
     height: '100%',
 };
 
-export const viewStyleScrollbarsVisible = {
+export const viewStyleDefault = {
     position: 'absolute',
     top: 0,
     left: 0,
-    overflow: 'scroll',
-    WebkitOverflowScrolling: 'touch'
-};
-
-export const viewStyleScrollbarsInvisible = {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch'
 };

@@ -61,11 +61,7 @@ export default function createTests(scrollbarWidth) {
                     ), node, function callback() {
                         expect(this.refs.view.tagName).toEqual('SECTION');
                         expect(this.refs.view.style.color).toEqual('red');
-                        if (scrollbarWidth) {
-                            expect(this.refs.view.style.position).toEqual('absolute');
-                        } else {
-                            expect(this.refs.view.style.position).toEqual('relative');
-                        }
+                        expect(this.refs.view.style.position).toEqual('absolute');
                         done();
                     });
                 });
@@ -262,19 +258,6 @@ export default function createTests(scrollbarWidth) {
                             expect(this.refs.trackHorizontal.style.display).toEqual('none');
                             done();
                         }, 100);
-                    });
-                });
-
-                it('positions view relative', done => {
-                    render((
-                        <Scrollbars style={{ width: 100, height: 100 }}>
-                            <div style={{ width: 200, height: 200 }}/>
-                        </Scrollbars>
-                    ), node, function callback() {
-                        expect(this.refs.view.style.position).toEqual('relative');
-                        expect(this.refs.view.style.width).toEqual('100%');
-                        expect(this.refs.view.style.height).toEqual('100%');
-                        done();
                     });
                 });
             });
