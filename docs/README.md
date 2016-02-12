@@ -2,10 +2,9 @@
 
 * [Usage](usage.md)
   * [Auto hide](usage.md#auto-hide)
-  * [Working with events](usage.md#working-with-events)
+  * [Working with events](usage.md#events)
   * [Universal rendering](usage.md#universal-rendering)
 * [Customization](customization.md)
-  * [Render custom elements](customization.md#render-custom-elements)
 * [API](api.md)
 
 ## Older versions
