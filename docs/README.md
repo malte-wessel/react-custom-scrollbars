@@ -5,7 +5,7 @@
   * [Working with events](usage.md#events)
   * [Universal rendering](usage.md#universal-rendering)
 * [Customization](customization.md)
-* [API](api.md)
+* [API](API.md)
 
 ## Older versions
 * [Upgrade guide from v2.x to v3.x](upgrade-guide-v2-v3.md)
