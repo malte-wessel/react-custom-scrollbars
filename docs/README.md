@@ -9,4 +9,4 @@
 
 ## Older versions
 * [Upgrade guide from v2.x to v3.x](upgrade-guide-v2-v3.md)
-* [v2.x documentation](v2-documentation)
+* [v2.x documentation](v2-documentation.md)
