@@ -5,24 +5,16 @@ react-custom-scrollbars
 [![npm version](https://img.shields.io/npm/v/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 [![npm downloads](https://img.shields.io/npm/dm/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 
-* lightweight scrollbars made of 100% react goodness
 * frictionless native browser scrolling
 * native scrollbars for mobile devices
-* fully customizable
+* [fully customizable](#link)
+* [auto hide](#link)
+* [universal](#link) (runs on client & server)
 * `requestAnimationFrame` for 60fps
 * no extra stylesheets
-* IE9+ support
-* **[check out the demo](http://malte-wessel.github.io/react-custom-scrollbars/)**
+* well tested, [100% code coverage](#linktocc)
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Customization](#customization)
-- [API](#api)
-- [Examples](#examples)
-- [Tests](#tests)
-- [License](#license)
+**[Examples](http://malte-wessel.github.io/react-custom-scrollbars/) · [Documentation](http://malte-wessel.github.io/react-custom-scrollbars/)**
 
 ## Installation
 ```bash
@@ -30,6 +22,9 @@ npm install react-custom-scrollbars --save
 ```
 
 ## Usage
+
+This is the minimal configuration. [Check out the Documentation for advanced usage](#link).
+
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -44,74 +39,7 @@ class App extends Component {
 }
 ```
 
-Don't forget to set the `viewport` meta tag, if you want to support mobile devices
-
-```html
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-```
-
-## Customization
-```javascript
-import { Scrollbars } from 'react-custom-scrollbars';
-
-class CustomScrollbars extends Component {
-  render() {
-    return (
-      <Scrollbars
-        className="container"
-        renderScrollbarHorizontal={props => <div {...props} className="scrollbar-horizontal" />}
-        renderScrollbarVertical={props => <div {...props} className="scrollbar-vertical"/>}
-        renderThumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
-        renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}
-        renderView={props => <div {...props} className="view"/>}>
-        {this.props.children}
-      </Scrollbars>
-    );
-  }
-}
-
-class App extends Component {
-  render() {
-    return (
-      <CustomScrollbars style={{ width: 500, height: 300 }}>
-        <p>Some great content...</p>
-      </CustomScrollbars>
-    );
-  }
-}
-```
-
-**NOTE**: If you use `renderScrollbarHorizontal`, **make sure that you define a height value** with css or inline styles. If you use `renderScrollbarVertical`, **make sure that you define a width value with** css or inline styles.
-
-## API
-
-### `<Scrollbars>`
-
-#### Props
-
-* `renderScrollbarHorizontal`: (Function) Horizontal scrollbar element
-* `renderScrollbarVertical`: (Function) Vertical scrollbar element
-* `renderThumbHorizontal`: (Function) Horizontal thumb element
-* `renderThumbVertical`: (Function) Vertical thumb element
-* `renderView`: (Function) The element your content will be rendered in
-* `onScroll`: (Function) Event handler. Will be called with the native scroll event and some handy values about the current position.
-  * **Signature**: `onScroll(event, values)`
-  * `event`: (Event) Native onScroll event
-  * `values`: (Object) Values about the current position
-    * `values.top`: (Number) scrollTop progess, from 0 to 1
-    * `values.left`: (Number) scrollLeft progess, from 0 to 1
-    * `values.clientWidth`: (Number) width of the view
-    * `values.clientHeight`: (Number) height of the view
-    * `values.scrollWidth`: (Number) native scrollWidth
-    * `values.scrollHeight`: (Number) native scrollHeight
-    * `values.scrollLeft`: (Number) native scrollLeft
-    * `values.scrollTop`: (Number) native scrollTop
-
-**Don't forget to pass the received props to your custom element. Example:**
-
-**NOTE**: If you use `renderScrollbarHorizontal`, **make sure that you define a height value** with css or inline styles. If you use `renderScrollbarVertical`, **make sure that you define a width value with** css or inline styles.
+The `<Scrollbars>` component is completely customizable. Check out the following code:
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -120,88 +48,27 @@ class CustomScrollbars extends Component {
   render() {
     return (
       <Scrollbars
-        // Set a custom className
-        renderScrollbarHorizontal={props => <div {...props} className="scrollbar-vertical"/>}
-        // Customize inline styles
-        renderScrollbarVertical={({ style, ...props}) => {
-          return <div style={{...style, padding: 20}} {...props}/>;
-        }}>
-        {this.props.children}
-      </Scrollbars>
+        onScroll={this.handleScroll}
+        onScrollFrame={this.handleScrollFrame}
+        onScrollStart={this.handleScrollStart}
+        onScrollStop={this.handleScrollStop}
+        renderView={this.renderView}
+        renderTrackHorizontal={this.renderTrackHorizontal}
+        renderTrackVertical={this.renderTrackVertical}
+        renderThumbHorizontal={this.renderThumbHorizontal}
+        renderThumbVertical={this.renderThumbVertical}
+        autoHide={true}
+        autoHideTimeout={1000}
+        autoHideDuration={200}
+        thumbMinSize={30}
+        universal={true}
+        {...this.props}>
     );
   }
 }
 ```
 
-#### Methods
-
-* `scrollTop(top)`: scroll to the top value
-* `scrollLeft(left)`: scroll to the left value
-* `scrollToTop()`: scroll to top
-* `scrollToBottom()`: scroll to bottom
-* `scrollToLeft()`: scroll to left
-* `scrollToRight()`: scroll to right
-* `getScrollLeft`: get scrollLeft value
-* `getScrollTop`: get scrollTop value
-* `getScrollWidth`: get scrollWidth value
-* `getScrollHeight`: get scrollHeight value
-* `getWidth`: get view client width
-* `getHeight`: get view client height
-* `getValues`: get an object with values about the current position.
-    * `left`, `top`, `scrollLeft`, `scrollTop`, `scrollWidth`, `scrollHeight`, `clientWidth`, `clientHeight`
-
-```javascript
-import { Scrollbars } from 'react-custom-scrollbars';
-
-class App extends Component {
-  handleClick() {
-    this.refs.scrollbars.scrollToTop()
-  },
-  render() {
-    return (
-      <div>
-        <Scrollbars
-          ref="scrollbars"
-          style={{ width: 500, height: 300 }}>
-          {/* your content */}
-        </Scrollbars>
-        <button onClick={this.handleClick.bind(this)}>
-            Scroll to top
-        </button>
-      </div>
-    );
-  }
-}
-```
-
-### Receive values about the current position
-
-```javascript
-class CustomScrollbars extends Component {
-  handleScroll(event, values) {
-    console.log(values);
-    /*
-    {
-        left: 0,
-        top: 0.21513353115727002
-        clientWidth: 952
-        clientHeight: 300
-        scrollWidth: 952
-        scrollHeight: 1648
-        scrollLeft: 0
-        scrollTop: 290
-    }
-    */
-  }
-  render() {
-    return (
-      <Scrollbars onScroll={this.handleScroll}>
-        {this.props.children}
-      </Scrollbars>
-    );
-  }
-}
-```
+All properties are documented in the [API docs](#link)
 
 ## Examples
 
@@ -222,6 +89,14 @@ npm install
 # Run tests
 npm test
 ```
+
+### Code Coverage
+```bash
+# Run code coverage. Results can be found in `./coverage`
+npm run test:cov
+```
+
+
 ## License
 
 MIT
