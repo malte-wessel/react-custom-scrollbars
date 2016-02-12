@@ -1,6 +1,6 @@
 import getScrollbarWidth from '../src/utils/getScrollbarWidth';
-import createTests from './createTests';
+import createTests from './Scrollbars';
 
-describe('Browser', () => {
+describe('Scrollbars (browser)', () => {
     createTests(getScrollbarWidth(), getScrollbarWidth());
 });

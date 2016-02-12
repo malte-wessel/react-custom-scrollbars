@@ -1,24 +1,11 @@
-export const defaultThumbHorizontalStyle = {
+export const containerStyleDefault = {
     position: 'relative',
-    display: 'block',
-    height: '100%'
+    overflow: 'hidden',
+    width: '100%',
+    height: '100%',
 };
 
-export const defaultThumbVerticalStyle = {
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-};
-
-export const defaultScrollbarHorizontalStyle = {
-    position: 'absolute'
-};
-
-export const defaultScrollbarVerticalStyle = {
-    position: 'absolute'
-};
-
-export const scrollbarsVisibleViewStyle = {
+export const viewStyleDefault = {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -26,28 +13,38 @@ export const scrollbarsVisibleViewStyle = {
     WebkitOverflowScrolling: 'touch'
 };
 
-export const scrollbarsInvisibleViewStyle = {
+export const viewStyleUniversalInitial = {
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden'
+};
+
+export const trackHorizontalStyleDefault = {
+    position: 'absolute',
+    height: 6
+};
+
+export const trackVerticalStyleDefault = {
+    position: 'absolute',
+    width: 6
+};
+
+export const thumbHorizontalStyleDefault = {
     position: 'relative',
-    width: '100%',
-    height: '100%',
-    overflow: 'scroll',
-    WebkitOverflowScrolling: 'touch'
+    display: 'block',
+    height: '100%'
+};
+
+export const thumbVerticalStyleDefault = {
+    position: 'relative',
+    display: 'block',
+    width: '100%'
 };
 
 export const disableSelectStyle = {
-    '-webkit-touch-callout': 'none',
-    '-webkit-user-select': 'none',
-    '-khtml-user-select': 'none',
-    '-moz-user-select': 'none',
-    '-ms-user-select': 'none',
-    'user-select': 'none'
+    userSelect: 'none'
 };
 
-export const resetDisableSelectStyle = {
-    '-webkit-touch-callout': '',
-    '-webkit-user-select': '',
-    '-khtml-user-select': '',
-    '-moz-user-select': '',
-    '-ms-user-select': '',
-    'user-select': ''
+export const disableSelectStyleReset = {
+    userSelect: ''
 };

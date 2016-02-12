@@ -3,6 +3,7 @@ let scrollbarWidth = false;
 
 export default function getScrollbarWidth() {
     if (scrollbarWidth !== false) return scrollbarWidth;
+    /* istanbul ignore else */
     if (typeof document !== 'undefined') {
         const div = document.createElement('div');
         css(div, {
@@ -11,7 +12,7 @@ export default function getScrollbarWidth() {
             position: 'absolute',
             top: -9999,
             overflow: 'scroll',
-            '-ms-overflow-style': 'scrollbar'
+            MsOverflowStyle: 'scrollbar'
         });
         document.body.appendChild(div);
         scrollbarWidth = (div.offsetWidth - div.clientWidth);

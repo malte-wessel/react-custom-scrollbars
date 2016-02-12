@@ -1,8 +1,8 @@
-import createTests from './createTests';
 const getScrollbarWidthModule = require('../src/utils/getScrollbarWidth');
 const envScrollbarWidth = getScrollbarWidthModule.default();
+import createTests from './Scrollbars';
 
-describe('Mobile', () => {
+describe('Scrollbars (mobile)', () => {
     const mobileScrollbarsWidth = 0;
     let getScrollbarWidthSpy;
 
