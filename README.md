@@ -14,7 +14,7 @@ react-custom-scrollbars
 * no extra stylesheets
 * well tested, [100% code coverage](#linktocc)
 
-**[Examples](http://malte-wessel.github.io/react-custom-scrollbars/) · [Documentation](http://malte-wessel.github.io/react-custom-scrollbars/)**
+**[Examples](http://malte-wessel.github.io/react-custom-scrollbars/) · [Documentation](https://github.com/malte-wessel/react-custom-scrollbars/tree/master/docs)**
 
 ## Installation
 ```bash
@@ -23,7 +23,7 @@ npm install react-custom-scrollbars --save
 
 ## Usage
 
-This is the minimal configuration. [Check out the Documentation for advanced usage](#link).
+This is the minimal configuration. [Check out the Documentation for advanced usage](https://github.com/malte-wessel/react-custom-scrollbars/tree/master/docs).
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
