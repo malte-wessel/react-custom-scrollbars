@@ -1,8 +1,8 @@
 # Customization
 
-The `<Scrollbars>` consists of the following elements:
+The `<Scrollbars>` component consists of the following elements:
 
-* `view` The wrapper your content is rendered in
+* `view` The element your content is rendered in
 * `trackHorizontal` The horizontal scrollbars track
 * `trackVertical` The vertical scrollbars track
 * `thumbHorizontal` The horizontal thumb
@@ -42,7 +42,7 @@ class App extends Component {
 **Important**: **You will always need to pass through the given props** for the respective element like in the example above: `<div {...props} className="track-horizontal"/>`.
 This is because we need to pass some default `styles` down to the element in order to make the component work.
 
-If you are working with **inline styles**, you could do something like the following:
+If you are working with **inline styles**, you could do something like this:
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
