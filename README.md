@@ -7,12 +7,12 @@ react-custom-scrollbars
 
 * frictionless native browser scrolling
 * native scrollbars for mobile devices
-* [fully customizable](#link)
-* [auto hide](#link)
-* [universal](#link) (runs on client & server)
+* [fully customizable](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/customization.md)
+* [auto hide](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/usage.md#auto-hide)
+* [universal](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/usage.md#universal-rendering) (runs on client & server)
 * `requestAnimationFrame` for 60fps
 * no extra stylesheets
-* well tested, [100% code coverage](#linktocc)
+* well tested, 100% code coverage
 
 **[Examples](http://malte-wessel.github.io/react-custom-scrollbars/) · [Documentation](https://github.com/malte-wessel/react-custom-scrollbars/tree/master/docs)**
 
