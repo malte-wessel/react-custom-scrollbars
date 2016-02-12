@@ -68,7 +68,7 @@ class CustomScrollbars extends Component {
 }
 ```
 
-All properties are documented in the [API docs](#link)
+All properties are documented in the [API docs](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/API.md)
 
 ## Examples
 
