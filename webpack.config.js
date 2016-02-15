@@ -21,6 +21,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
+    externals: {
+        react: {
+            root: 'React',
+            commonjs2: 'react',
+            commonjs: 'react',
+            amd: 'react'
+        }
+    },
     module: {
         loaders: [{
             test: /\.js$/,
@@ -29,7 +37,7 @@ module.exports = {
         }]
     },
     output: {
-        library: 'react-custom-scrollbars',
+        library: 'ReactCustomScrollbars',
         libraryTarget: 'umd'
     },
     plugins: plugins,

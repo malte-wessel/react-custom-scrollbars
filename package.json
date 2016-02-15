@@ -6,12 +6,13 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "build": "babel src --out-dir lib",
-    "build:umd": "webpack src/index.js dist/react-custom-scrollbars.js && NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
+    "build:umd": "NODE_ENV=development webpack src/index.js dist/react-custom-scrollbars.js",
+    "build:umd:min": "NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
     "lint": "eslint src test examples",
     "test": "NODE_ENV=test karma start",
     "test:watch": "NODE_ENV=test karma start --auto-watch --no-single-run",
     "test:cov": "NODE_ENV=test COVERAGE=true karma start --single-run",
-    "prepublish": "npm run lint && npm run test && npm run clean && npm run build"
+    "prepublish": "npm run lint && npm run test && npm run clean && npm run build && npm run build:umd && npm run build:umd:min && node ./prepublish"
   },
   "repository": {
     "type": "git",
@@ -41,10 +42,12 @@
     "babel-preset-stage-1": "^6.1.18",
     "babel-register": "^6.3.13",
     "babel-runtime": "^6.3.19",
+    "es3ify": "^0.2.1",
     "eslint": "^1.6.0",
     "eslint-config-airbnb": "^5.0.0",
     "eslint-plugin-react": "^3.5.1",
     "expect": "^1.6.0",
+    "glob": "^7.0.0",
     "isparta-loader": "^2.0.0",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.1",
