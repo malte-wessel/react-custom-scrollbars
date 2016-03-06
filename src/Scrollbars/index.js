@@ -43,6 +43,7 @@ export default createClass({
         autoHide: PropTypes.bool,
         autoHideTimeout: PropTypes.number,
         autoHideDuration: PropTypes.number,
+        hideIfNotNeeded: PropTypes.bool,
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         universal: PropTypes.bool,
@@ -60,6 +61,7 @@ export default createClass({
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200,
+            hideIfNotNeeded: false,
             thumbMinSize: 30,
             universal: false
         };
@@ -126,25 +128,30 @@ export default createClass({
 
     getValues() {
         const { view } = this.refs;
-        const {
-            scrollLeft,
-            scrollTop,
-            scrollWidth,
-            scrollHeight,
-            clientWidth,
-            clientHeight
-        } = view;
+        if (typeof view !== 'undefined') {
+            const {
+                scrollLeft,
+                scrollTop,
+                scrollWidth,
+                scrollHeight,
+                clientWidth,
+                clientHeight
+            } = view;
 
-        return {
-            left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
-            top: (scrollTop / (scrollHeight - clientHeight)) || 0,
-            scrollLeft,
-            scrollTop,
-            scrollWidth,
-            scrollHeight,
-            clientWidth,
-            clientHeight
-        };
+            return {
+                left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
+                top: (scrollTop / (scrollHeight - clientHeight)) || 0,
+                scrollLeft,
+                scrollTop,
+                scrollWidth,
+                scrollHeight,
+                clientWidth,
+                clientHeight
+            };
+        } else {
+            return {};
+        }
+        
     },
 
     getThumbHorizontalWidth() {
@@ -490,6 +497,7 @@ export default createClass({
             autoHide,
             autoHideTimeout,
             autoHideDuration,
+            hideIfNotNeeded,
             thumbSize,
             thumbMinSize,
             universal,
@@ -497,6 +505,8 @@ export default createClass({
             children,
             ...props
         } = this.props;
+        
+        const values = this.getValues();
 
         const { didMountUniversal } = this.state;
 
@@ -517,6 +527,7 @@ export default createClass({
             )
         };
 
+        const { clientWidth, scrollWidth } = values;
         const trackHorizontalStyle = {
             ...trackHorizontalStyleDefault,
             ...(autoHide
@@ -526,9 +537,14 @@ export default createClass({
             ...(!scrollbarWidth || universal && !didMountUniversal
                 ? { display: 'none' }
                 : undefined
+            ),
+            ...(hideIfNotNeeded && scrollWidth <= clientWidth
+                ? { display: 'none' }
+                : {}
             )
         };
 
+        const { clientHeight, scrollHeight } = values;
         const trackVerticalStyle = {
             ...trackVerticalStyleDefault,
             ...(autoHide
@@ -538,6 +554,10 @@ export default createClass({
             ...(!scrollbarWidth || universal && !didMountUniversal
                 ? { display: 'none' }
                 : undefined
+            ),
+            ...(hideIfNotNeeded && scrollHeight <= clientHeight
+                ? { display: 'none' }
+                : {}
             )
         };
 
