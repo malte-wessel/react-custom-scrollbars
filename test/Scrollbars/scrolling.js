@@ -70,7 +70,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     }, 100);
                 });
             });
-            it('should call `onScroll`', done => {
+            it('should call `onScrollFrame`', done => {
                 const spy = createSpy();
                 render((
                     <Scrollbars style={{ width: 100, height: 100 }} onScrollFrame={spy}>
