@@ -19,6 +19,8 @@
     * `values.scrollTop`: (Number) Native scrollTop
 * `onScrollStart` (Function) Called when scrolling starts
 * `onScrollStop` (Function) Called when scrolling stops
+* `onUpdate` (Function) Called when ever the component is updated. Runs inside the animation frame
+  * Signature: `onUpdate(values)`
 * `renderView`: (Function) The element your content will be rendered in
 * `renderTrackHorizontal`: (Function) Horizontal track element
 * `renderTrackVertical`: (Function) Vertical track element

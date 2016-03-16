@@ -56,6 +56,7 @@ class CustomScrollbars extends Component {
         onScrollFrame={this.handleScrollFrame}
         onScrollStart={this.handleScrollStart}
         onScrollStop={this.handleScrollStop}
+        onUpdate={this.handleUpdate}
         renderView={this.renderView}
         renderTrackHorizontal={this.renderTrackHorizontal}
         renderTrackVertical={this.renderTrackVertical}
