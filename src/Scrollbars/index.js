@@ -35,6 +35,7 @@ export default createClass({
         onScrollFrame: PropTypes.func,
         onScrollStart: PropTypes.func,
         onScrollStop: PropTypes.func,
+        onUpdate: PropTypes.func,
         renderView: PropTypes.func,
         renderTrackHorizontal: PropTypes.func,
         renderTrackVertical: PropTypes.func,
@@ -448,6 +449,7 @@ export default createClass({
 
     update(callback) {
         this.raf(() => {
+            const { onUpdate } = this.props;
             const values = this.getValues();
             if (getScrollbarWidth()) {
                 const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical } = this.refs;
@@ -470,6 +472,7 @@ export default createClass({
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);
             }
+            if (onUpdate) onUpdate(values);
             if (typeof callback !== 'function') return;
             callback(values);
         });
