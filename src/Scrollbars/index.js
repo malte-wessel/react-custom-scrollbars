@@ -479,9 +479,6 @@ export default createClass({
                     height: thumbVerticalHeight,
                     transform: `translateY(${thumbVerticalY}px)`
                 };
-                css(thumbHorizontal, thumbHorizontalStyle);
-                css(thumbVertical, thumbVerticalStyle);
-
                 if (hideTracksWhenNotNeeded) {
                     const trackHorizontalStyle = {
                         visibility: scrollWidth > clientWidth ? 'visible' : 'hidden'
@@ -492,6 +489,8 @@ export default createClass({
                     css(trackHorizontal, trackHorizontalStyle);
                     css(trackVertical, trackVerticalStyle);
                 }
+                css(thumbHorizontal, thumbHorizontalStyle);
+                css(thumbVertical, thumbVerticalStyle);
             }
             if (onUpdate) onUpdate(values);
             if (typeof callback !== 'function') return;
@@ -539,12 +538,12 @@ export default createClass({
 
         const viewStyle = {
             ...viewStyleDefault,
-            // Hide scrollbars by setting a negtaive margin
+            // Hide scrollbars by setting a negative margin
             marginRight: scrollbarWidth ? -scrollbarWidth : 0,
             marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
-                minHeight: autoHeightMin,
+                minHeight: autoHeightMin + scrollbarWidth,
                 maxHeight: autoHeightMax + scrollbarWidth
             }),
             ...(universal && !didMountUniversal && viewStyleUniversalInitial)
