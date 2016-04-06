@@ -11,7 +11,7 @@ export default createClass({
         };
     },
 
-    handleScrollFrame(values) {
+    handleUpdate(values) {
         const { top } = values;
         this.setState({ top });
     },
@@ -49,7 +49,7 @@ export default createClass({
                 renderView={this.renderView}
                 renderThumbHorizontal={this.renderThumb}
                 renderThumbVertical={this.renderThumb}
-                onScrollFrame={this.handleScrollFrame}
+                onUpdate={this.handleUpdate}
                 {...this.props}/>
         );
     }

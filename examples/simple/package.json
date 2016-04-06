@@ -26,8 +26,10 @@
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
     "babel-core": "^6.2.1",
+    "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.0",
     "bootstrap-sass": "^3.3.6",
+    "dom-css": "^2.0.0",
     "eslint": "^1.6.0",
     "eslint-config-airbnb": "^5.0.0",
     "eslint-plugin-react": "^3.5.1",
