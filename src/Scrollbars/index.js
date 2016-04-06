@@ -43,15 +43,16 @@ export default createClass({
         renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
+        thumbSize: PropTypes.number,
+        thumbMinSize: PropTypes.number,
+        hideTracksWhenNotNeeded: PropTypes.bool,
         autoHide: PropTypes.bool,
         autoHideTimeout: PropTypes.number,
         autoHideDuration: PropTypes.number,
-        thumbSize: PropTypes.number,
-        thumbMinSize: PropTypes.number,
-        universal: PropTypes.bool,
         autoHeight: PropTypes.bool,
         autoHeightMin: PropTypes.number,
         autoHeightMax: PropTypes.number,
+        universal: PropTypes.bool,
         style: PropTypes.object,
         children: PropTypes.node,
     },
@@ -63,14 +64,15 @@ export default createClass({
             renderTrackVertical: renderTrackVerticalDefault,
             renderThumbHorizontal: renderThumbHorizontalDefault,
             renderThumbVertical: renderThumbVerticalDefault,
+            thumbMinSize: 30,
+            hideTracksWhenNotNeeded: false,
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200,
-            thumbMinSize: 30,
-            universal: false,
             autoHeight: false,
             autoHeightMin: 0,
-            autoHeightMax: 200
+            autoHeightMax: 200,
+            universal: false,
         };
     },
 
@@ -457,7 +459,7 @@ export default createClass({
 
     update(callback) {
         this.raf(() => {
-            const { onUpdate } = this.props;
+            const { onUpdate, hideTracksWhenNotNeeded } = this.props;
             const values = this.getValues();
             if (getScrollbarWidth()) {
                 const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical } = this.refs;
@@ -479,6 +481,17 @@ export default createClass({
                 };
                 css(thumbHorizontal, thumbHorizontalStyle);
                 css(thumbVertical, thumbVerticalStyle);
+
+                if (hideTracksWhenNotNeeded) {
+                    const trackHorizontalStyle = {
+                        visibility: scrollWidth > clientWidth ? 'visible' : 'hidden'
+                    };
+                    const trackVerticalStyle = {
+                        visibility: scrollHeight > clientHeight ? 'visible' : 'hidden'
+                    };
+                    css(trackHorizontal, trackHorizontalStyle);
+                    css(trackVertical, trackVerticalStyle);
+                }
             }
             if (onUpdate) onUpdate(values);
             if (typeof callback !== 'function') return;
