@@ -26,12 +26,17 @@
 * `renderTrackVertical`: (Function) Vertical track element
 * `renderThumbHorizontal`: (Function) Horizontal thumb element
 * `renderThumbVertical`: (Function) Vertical thumb element
-* `autoHide`: (Boolean) Auto hide (default: `false`)
+* `hideTracksWhenNotNeeded`: (Boolean) Hide tracks (`visibility: hidden`) when content does not overflow container. (default: false)
+* `thumbSize`: (Number) Set a fixed size for thumbs in px.
+* `thumbMinSize`: (Number) Minimal thumb size in px. (default: 30)
+* `autoHide`: (Boolean) Enable auto-hide mode (default: `false`)
   * When `true` tracks will hide automatically and are only visible while scrolling.
 * `autoHideTimeout`: (Number) Hide delay in ms. (default: 1000)
 * `autoHideDuration`: (Number) Duration for hide animation in ms. (default: 200)
-* `thumbSize`: (Number) Set a fixed size for thumbs in px.
-* `thumbMinSize`: (Number) Minimal thumb size in px. (default: 30)
+* `autoHeight`: (Boolean) Enable auto-height mode. (default: false)
+  * When `true` container grows with content
+* `autoHeightMin`: (Number) Set a minimum height for auto-height mode (default: 0)
+* `autoHeightMax`: (Number) Set a maximum height for auto-height mode (default: 200)
 * `universal`: (Boolean) Enable universal rendering (default: `false`)
     * [Learn how to use universal rendering](#link)
 

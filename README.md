@@ -9,6 +9,7 @@ react-custom-scrollbars
 * native scrollbars for mobile devices
 * [fully customizable](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/customization.md)
 * [auto hide](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/usage.md#auto-hide)
+* [auto height](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/usage.md#auto-height)
 * [universal](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/usage.md#universal-rendering) (runs on client & server)
 * `requestAnimationFrame` for 60fps
 * no extra stylesheets
