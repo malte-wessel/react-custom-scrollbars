@@ -8,7 +8,9 @@ import getInnerHeight from '../utils/getInnerHeight';
 
 import {
     containerStyleDefault,
+    containerStyleAutoHeight,
     viewStyleDefault,
+    viewStyleAutoHeight,
     viewStyleUniversalInitial,
     trackHorizontalStyleDefault,
     trackVerticalStyleDefault,
@@ -47,6 +49,9 @@ export default createClass({
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         universal: PropTypes.bool,
+        autoHeight: PropTypes.bool,
+        autoHeightMin: PropTypes.number,
+        autoHeightMax: PropTypes.number,
         style: PropTypes.object,
         children: PropTypes.node,
     },
@@ -62,7 +67,10 @@ export default createClass({
             autoHideTimeout: 1000,
             autoHideDuration: 200,
             thumbMinSize: 30,
-            universal: false
+            universal: false,
+            autoHeight: false,
+            autoHeightMin: 0,
+            autoHeightMax: 200
         };
     },
 
@@ -496,6 +504,9 @@ export default createClass({
             thumbSize,
             thumbMinSize,
             universal,
+            autoHeight,
+            autoHeightMin,
+            autoHeightMax,
             style,
             children,
             ...props
@@ -505,43 +516,47 @@ export default createClass({
 
         const containerStyle = {
             ...containerStyleDefault,
+            ...(autoHeight && {
+                ...containerStyleAutoHeight,
+                minHeight: autoHeightMin,
+                maxHeight: autoHeightMax
+            }),
             ...style
         };
 
         const viewStyle = {
             ...viewStyleDefault,
-            ...(scrollbarWidth
-                ? { right: -scrollbarWidth, bottom: -scrollbarWidth }
-                : { right: 0, bottom: 0 }
-            ),
-            ...(universal && !didMountUniversal
-                ? viewStyleUniversalInitial
-                : undefined
-            )
+            // Hide scrollbars by setting a negtaive margin
+            marginRight: scrollbarWidth ? -scrollbarWidth : 0,
+            marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
+            ...(autoHeight && {
+                ...viewStyleAutoHeight,
+                minHeight: autoHeightMin,
+                maxHeight: autoHeightMax + scrollbarWidth
+            }),
+            ...(universal && !didMountUniversal && viewStyleUniversalInitial)
         };
 
         const trackHorizontalStyle = {
             ...trackHorizontalStyleDefault,
-            ...(autoHide
-                ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
-                : undefined
-            ),
-            ...(!scrollbarWidth || universal && !didMountUniversal
-                ? { display: 'none' }
-                : undefined
-            )
+            ...(autoHide && {
+                transition: `opacity ${autoHideDuration}ms`,
+                opacity: 0
+            }),
+            ...((!scrollbarWidth || universal) && !didMountUniversal && {
+                display: 'none'
+            })
         };
 
         const trackVerticalStyle = {
             ...trackVerticalStyleDefault,
-            ...(autoHide
-                ? { transition: `opacity ${autoHideDuration}ms`, opacity: 0 }
-                : undefined
-            ),
-            ...(!scrollbarWidth || universal && !didMountUniversal
-                ? { display: 'none' }
-                : undefined
-            )
+            ...(autoHide && {
+                transition: `opacity ${autoHideDuration}ms`,
+                opacity: 0
+            }),
+            ...((!scrollbarWidth || universal) && !didMountUniversal && {
+                display: 'none'
+            })
         };
 
         return (

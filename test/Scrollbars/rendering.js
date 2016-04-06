@@ -77,8 +77,8 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         const width = `-${scrollbarWidth}px`;
-                        expect(this.refs.view.style.right).toEqual(width);
-                        expect(this.refs.view.style.bottom).toEqual(width);
+                        expect(this.refs.view.style.marginRight).toEqual(width);
+                        expect(this.refs.view.style.marginBottom).toEqual(width);
                         done();
                     });
                 });
