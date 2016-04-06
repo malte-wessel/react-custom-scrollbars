@@ -6,6 +6,8 @@ import clickTrack from './clickTrack';
 import dragThumb from './dragThumb';
 import flexbox from './flexbox';
 import autoHide from './autoHide';
+import autoHeight from './autoHeight';
+import hideTracks from './hideTracks';
 import universal from './universal';
 import onUpdate from './onUpdate';
 
@@ -18,6 +20,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
     dragThumb(scrollbarWidth, envScrollbarWidth);
     flexbox(scrollbarWidth, envScrollbarWidth);
     autoHide(scrollbarWidth, envScrollbarWidth);
+    autoHeight(scrollbarWidth, envScrollbarWidth);
+    hideTracks(scrollbarWidth, envScrollbarWidth);
     universal(scrollbarWidth, envScrollbarWidth);
     onUpdate(scrollbarWidth, envScrollbarWidth);
 }
