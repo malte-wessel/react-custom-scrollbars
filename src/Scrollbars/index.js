@@ -52,6 +52,7 @@ export default createClass({
         autoHeight: PropTypes.bool,
         autoHeightMin: PropTypes.number,
         autoHeightMax: PropTypes.number,
+        invertWheelDirection: PropTypes.bool,
         universal: PropTypes.bool,
         style: PropTypes.object,
         children: PropTypes.node,
@@ -66,6 +67,7 @@ export default createClass({
             renderThumbVertical: renderThumbVerticalDefault,
             thumbMinSize: 30,
             hideTracksWhenNotNeeded: false,
+            invertWheelDirection: false,
             autoHide: false,
             autoHideTimeout: 1000,
             autoHideDuration: 200,
@@ -230,6 +232,7 @@ export default createClass({
         /* istanbul ignore if */
         if (typeof document === 'undefined') return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
+        view.addEventListener('mousewheel', this.handleWheel);
         view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
@@ -247,6 +250,7 @@ export default createClass({
         /* istanbul ignore if */
         if (typeof document === 'undefined') return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this.refs;
+        view.removeEventListener('mousewheel', this.handleWheel);
         view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
@@ -260,6 +264,15 @@ export default createClass({
         window.removeEventListener('resize', this.handleWindowResize);
         // Possibly setup by `handleDragStart`
         this.teardownDragging();
+    },
+
+    handleWheel(event) {
+        if (this.props.invertWheelDirection) {
+            const view = this.refs.view;
+            view.scrollLeft += event.deltaY;
+            view.scrollTop += event.deltaX;
+            event.preventDefault();
+        }
     },
 
     handleScroll(event) {
