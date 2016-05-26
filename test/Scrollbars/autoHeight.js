@@ -1,6 +1,6 @@
 import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
-import React from 'react';
+import React, { createClass } from 'react';
 
 export default function createTests(scrollbarWidth, envScrollbarWidth) {
     describe('autoHeight', () => {
@@ -142,6 +142,65 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         expect(thumbVertical.clientHeight).toEqual(0);
                         done();
                     }, 100);
+                });
+            });
+        });
+
+        describe('when using perecentages', () => {
+            it('should use calc', done => {
+                const Root = createClass({
+                    render() {
+                        return (
+                            <div style={{ width: 500, height: 500 }}>
+                                <Scrollbars
+                                    ref="scrollbars"
+                                    autoHeight
+                                    autoHeightMin="50%"
+                                    autoHeightMax="100%">
+                                    <div style={{ width: 200, height: 200 }}/>
+                                </Scrollbars>
+                            </div>
+                        );
+                    }
+                });
+                render(<Root/>, node, function callback() {
+                    setTimeout(() => {
+                        const { scrollbars } = this.refs;
+                        const $scrollbars = findDOMNode(scrollbars);
+                        const view = scrollbars.refs.view;
+                        expect($scrollbars.clientWidth).toEqual(500);
+                        expect($scrollbars.clientHeight).toEqual(250);
+                        expect($scrollbars.style.position).toEqual('relative');
+                        expect($scrollbars.style.minHeight).toEqual('50%');
+                        expect($scrollbars.style.maxHeight).toEqual('100%');
+                        expect(view.style.position).toEqual('relative');
+                        expect(view.style.minHeight).toEqual(`calc(50% + ${scrollbarWidth}px)`);
+                        expect(view.style.maxHeight).toEqual(`calc(100% + ${scrollbarWidth}px)`);
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
+        describe('when using other units', () => {
+            it('should use calc', done => {
+                render((
+                    <Scrollbars
+                        autoHeight
+                        autoHeightMin="10em"
+                        autoHeightMax="100em">
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    const scrollbars = findDOMNode(this);
+                    const view = this.refs.view;
+                    expect(scrollbars.style.position).toEqual('relative');
+                    expect(scrollbars.style.minHeight).toEqual('10em');
+                    expect(scrollbars.style.maxHeight).toEqual('100em');
+                    expect(view.style.position).toEqual('relative');
+                    expect(view.style.minHeight).toEqual(`calc(10em + ${scrollbarWidth}px)`);
+                    expect(view.style.maxHeight).toEqual(`calc(100em + ${scrollbarWidth}px)`);
+                    done();
                 });
             });
         });
