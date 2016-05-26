@@ -53,7 +53,7 @@ export default createClass({
         return (
             <div style={containerStyle}>
                 <Scrollbars
-					ref="scrollbars"
+                    ref="scrollbars"
                     onUpdate={this.handleUpdate}
                     {...props}/>
                 <div
