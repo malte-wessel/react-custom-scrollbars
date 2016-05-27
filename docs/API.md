@@ -48,10 +48,10 @@
 * `scrollToBottom()`: scroll to bottom
 * `scrollToLeft()`: scroll to left
 * `scrollToRight()`: scroll to right
-* `getScrollLeft`: get scrollLeft value
-* `getScrollTop`: get scrollTop value
-* `getScrollWidth`: get scrollWidth value
-* `getScrollHeight`: get scrollHeight value
-* `getWidth`: get view client width
-* `getHeight`: get view client height
-* `getValues`: get an object with values about the current position.
+* `getScrollLeft()`: get scrollLeft value
+* `getScrollTop()`: get scrollTop value
+* `getScrollWidth()`: get scrollWidth value
+* `getScrollHeight()`: get scrollHeight value
+* `getClientWidth()`: get view client width
+* `getClientHeight()`: get view client height
+* `getValues()`: get an object with values about the current position.
