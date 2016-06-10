@@ -171,7 +171,6 @@ export default createClass({
         const { scrollWidth, clientWidth } = view;
         const trackWidth = getInnerWidth(trackHorizontal);
         const width = clientWidth / scrollWidth * trackWidth;
-        if (trackWidth === width) return 0;
         if (thumbSize) return thumbSize;
         return Math.max(width, thumbMinSize);
     },
@@ -182,7 +181,6 @@ export default createClass({
         const { scrollHeight, clientHeight } = view;
         const trackHeight = getInnerHeight(trackVertical);
         const height = clientHeight / scrollHeight * trackHeight;
-        if (trackHeight === height) return 0;
         if (thumbSize) return thumbSize;
         return Math.max(height, thumbMinSize);
     },
