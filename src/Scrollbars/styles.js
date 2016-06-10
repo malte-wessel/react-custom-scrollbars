@@ -5,6 +5,11 @@ export const containerStyleDefault = {
     height: '100%',
 };
 
+export const viewWrappedStyleDefault = {
+    display: 'inline-block',
+    width: '100%'
+};
+
 // Overrides containerStyleDefault properties
 export const containerStyleAutoHeight = {
     height: 'auto'
@@ -20,8 +25,8 @@ export const viewStyleDefault = {
     WebkitOverflowScrolling: 'touch',
     height: '100%',
     width: '100%',
-    paddingRight: '500%',
-    paddingBottom: '500%',
+    paddingRight: 100,
+    paddingBottom: 100,
     boxSizing: 'content-box'
 };
 
