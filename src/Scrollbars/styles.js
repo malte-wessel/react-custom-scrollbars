@@ -19,7 +19,8 @@ export const viewStyleDefault = {
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch'
     width: '100%',
-    padding: '500%',
+    paddingRight: '500%',
+    paddingBottom: '500%',
     boxSizing: 'content-box';
 };
 
