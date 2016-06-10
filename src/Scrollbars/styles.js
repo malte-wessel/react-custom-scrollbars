@@ -22,7 +22,7 @@ export const viewStyleDefault = {
     width: '100%',
     paddingRight: '500%',
     paddingBottom: '500%',
-    boxSizing: 'content-box';
+    boxSizing: 'content-box'
 };
 
 // Overrides viewStyleDefault properties
