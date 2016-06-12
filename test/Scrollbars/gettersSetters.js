@@ -16,8 +16,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
     describe('getters', () => {
         function renderScrollbars(callback) {
             render((
-                <Scrollbars style={{ width: 100, height: 100 }}>
-                    <div style={{ width: 200, height: 200 }}/>
+                <Scrollbars style={{ width: 100, height: 100}}>
+                    <div style={{ width: 200, height: 200}}/>
                 </Scrollbars>
             ), node, callback);
         }
@@ -58,7 +58,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         describe('getClientWidth', () => {
             it('should return scrollWidth', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getClientWidth()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                    expect(this.getClientWidth()).toEqual(100);
                     done();
                 });
             });
@@ -66,7 +66,23 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         describe('getClientHeight', () => {
             it('should return scrollHeight', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getClientHeight()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                    expect(this.getClientHeight()).toEqual(100);
+                    done();
+                });
+            });
+        });
+         describe('getPaddingWidth', () => {
+            it('should return scrollHeight', done => {
+                renderScrollbars(function callback() {
+                    expect(this.getPaddingWidth()).toEqual(100);
+                    done();
+                });
+            });
+        });
+         describe('getPaddingHeight', () => {
+            it('should return scrollHeight', done => {
+                renderScrollbars(function callback() {
+                    expect(this.getPaddingHeight())).toEqual(100);
                     done();
                 });
             });
@@ -113,7 +129,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             it('should scroll to right', done => {
                 renderScrollbars(function callback() {
                     this.scrollToRight();
-                    expect(this.getScrollLeft()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                    expect(this.getScrollLeft()).toEqual(100);
                     done();
                 });
             });
@@ -122,7 +138,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             it('should scroll to bottom', done => {
                 renderScrollbars(function callback() {
                     this.scrollToBottom();
-                    expect(this.getScrollTop()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                    expect(this.getScrollTop()).toEqual(100);
                     done();
                 });
             });

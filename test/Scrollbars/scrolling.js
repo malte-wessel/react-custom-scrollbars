@@ -67,7 +67,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const event = args[0];
                         expect(event).toBeA(Event);
                         done();
-                    }, 100);
+                    }, 200);
                 });
             });
             it('should call `onScrollFrame`', done => {
@@ -108,7 +108,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             });
                         }
                         done();
-                    }, 100);
+                    }, 200);
                 });
             });
             it('should call `onScrollStart` once', done => {
@@ -166,7 +166,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const event = args[0];
                         expect(event).toBeA(Event);
                         done();
-                    }, 100);
+                    }, 200);
                 });
             });
             it('should call `onScrollFrame`', done => {
@@ -207,7 +207,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             });
                         }
                         done();
-                    }, 100);
+                    }, 200);
                 });
             });
             it('should call `onScrollStart` once', done => {

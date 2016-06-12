@@ -56,8 +56,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when native scrollbars have no width', () => {
-            if (scrollbarWidth) return;
-            it('hides bars', done => {
+            it('shows bars', done => {
                 render((
                     <Scrollbars
                         autoHeight
@@ -66,8 +65,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     </Scrollbars>
                 ), node, function callback() {
                     setTimeout(() => {
-                        expect(this.refs.trackVertical.style.display).toEqual('none');
-                        expect(this.refs.trackHorizontal.style.display).toEqual('none');
+                        expect(this.refs.trackVertical.style.display).toEqual('');
+                        expect(this.refs.trackHorizontal.style.display).toEqual('');
                         done();
                     }, 100);
                 });
@@ -88,8 +87,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
                         expect(scrollbars.clientHeight).toEqual(50 + (envScrollbarWidth - scrollbarWidth));
-                        expect(view.clientHeight).toEqual(50);
-                        expect(view.scrollHeight).toEqual(50);
+                        expect(view.clientHeight).toEqual(150);
+                        expect(view.scrollHeight).toEqual(150);
                         expect(thumbVertical.clientHeight).toEqual(0);
                         done();
                     }, 100);
@@ -111,8 +110,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
                         expect(scrollbars.clientHeight).toEqual(100);
-                        expect(view.clientHeight).toEqual(100 - (envScrollbarWidth - scrollbarWidth));
-                        expect(view.scrollHeight).toEqual(200);
+                        expect(view.clientHeight).toEqual(200 - (envScrollbarWidth - scrollbarWidth));
+                        expect(view.scrollHeight).toEqual(300);
                         if (scrollbarWidth) {
                             // 100 / 200 * 96 = 48
                             expect(thumbVertical.clientHeight).toEqual(48);
@@ -138,7 +137,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
                         expect(scrollbars.clientHeight).toEqual(100);
-                        expect(view.clientHeight).toEqual(100 - (envScrollbarWidth - scrollbarWidth));
+                        expect(view.clientHeight).toEqual(200 - (envScrollbarWidth - scrollbarWidth));
                         expect(thumbVertical.clientHeight).toEqual(0);
                         done();
                     }, 100);

@@ -50,6 +50,18 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
+
+            it('renders viewWrapped', done => {
+                render((
+                    <Scrollbars style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    expect(this.refs.viewWrapped).toBeA(Node);
+                    done();
+                });
+            });
+
             describe('when custom `renderView` is passed', () => {
                 it('should render custom element', done => {
                     render((
@@ -59,9 +71,11 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        expect(this.refs.view.tagName).toEqual('SECTION');
-                        expect(this.refs.view.style.color).toEqual('red');
-                        expect(this.refs.view.style.position).toEqual('absolute');
+                        expect(this.refs.viewWrapped.tagName).toEqual('SECTION');
+                        expect(this.refs.viewWrapped.style.color).toEqual('red');
+                        expect(this.refs.viewWrapped.style.position).toEqual('relative');
+                        expect(this.refs.viewWrapped.style.display).toEqual('inline-block');
+                        expect(this.refs.viewWrapped.style.width).toEqual('auto');
                         done();
                     });
                 });
@@ -279,15 +293,15 @@ export default function createTests(scrollbarWidth) {
             describe('when native scrollbars have no width', () => {
                 if (scrollbarWidth) return;
 
-                it('hides bars', done => {
+                it('shows bars', done => {
                     render((
                         <Scrollbars style={{ width: 100, height: 100 }}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            expect(this.refs.trackVertical.style.display).toEqual('none');
-                            expect(this.refs.trackHorizontal.style.display).toEqual('none');
+                            expect(this.refs.trackVertical.style.display).toEqual('');
+                            expect(this.refs.trackHorizontal.style.display).toEqual('');
                             done();
                         }, 100);
                     });

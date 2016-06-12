@@ -6,8 +6,10 @@ export const containerStyleDefault = {
 };
 
 export const viewWrappedStyleDefault = {
+    position: 'relative',
     display: 'inline-block',
-    width: '100%'
+    verticalAlign: 'top',
+    width: 'auto'
 };
 
 // Overrides containerStyleDefault properties
@@ -23,11 +25,13 @@ export const viewStyleDefault = {
     bottom: 0,
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch',
-    height: '100%',
-    width: '100%',
+    height: 'auto',
+    width: 'auto',
     paddingRight: 100,
     paddingBottom: 100,
-    boxSizing: 'content-box'
+    boxSizing: 'content-box',
+    marginRight: -100,
+    marginBottom: -100
 };
 
 // Overrides viewStyleDefault properties
