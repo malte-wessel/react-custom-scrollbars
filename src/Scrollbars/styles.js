@@ -1,15 +1,27 @@
 export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
-    width: '100%',
+    width: 'auto',
     height: '100%',
+};
+
+
+export const viewWrapperStyleDefault = {
+    paddingRight: 100,
+    paddingBottom: 100,
+    width: 'auto',
+    minWidth: '100%',
+    boxSizing: 'border-box',
+    verticalAlign: 'top',
+    display: 'inline-block'
 };
 
 export const viewWrappedStyleDefault = {
     position: 'relative',
-    display: 'inline-block',
+    display: 'block',
     verticalAlign: 'top',
-    width: 'auto'
+    width: '100%',
+    boxSizing: 'border-box'
 };
 
 // Overrides containerStyleDefault properties
@@ -27,8 +39,6 @@ export const viewStyleDefault = {
     WebkitOverflowScrolling: 'touch',
     height: 'auto',
     width: 'auto',
-    paddingRight: 100,
-    paddingBottom: 100,
     boxSizing: 'content-box'
 };
 

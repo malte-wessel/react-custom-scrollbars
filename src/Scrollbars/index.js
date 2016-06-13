@@ -11,6 +11,7 @@ import {
     containerStyleDefault,
     containerStyleAutoHeight,
     viewStyleDefault,
+    viewWrapperStyleDefault,
     viewWrappedStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
@@ -575,6 +576,10 @@ export default createClass({
             ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
         };
 
+        const viewWrapperStyle = {
+            ...viewWrapperStyleDefault
+        };
+
         const viewWrappedStyle = {
             ...viewWrappedStyleDefault
         };
@@ -603,12 +608,15 @@ export default createClass({
 
         return (
             <div {...props} style={containerStyle} ref="container">
+
                 <div style={viewStyle} ref="view">
+                    <div style={viewWrapperStyle} ref="viewWrapper">
                     {cloneElement(
                         renderView({ style: viewWrappedStyle }),
                         { ref: 'viewWrapped' },
                         children
                     )}
+                </div>
                 </div>
                 {cloneElement(
                     renderTrackHorizontal({ style: trackHorizontalStyle }),

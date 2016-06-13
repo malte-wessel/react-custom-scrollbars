@@ -4,8 +4,8 @@
   "description": "Simple example",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=development node server.js",
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
+    "start": "set NODE_ENV=development && node server.js",
+    "build": "set NODE_ENV=production && node_modules/.bin/webpack",
     "build:pages": "npm run build && cp index.html ../../ && rm -rf ../../static && mv static ../../"
   },
   "repository": {

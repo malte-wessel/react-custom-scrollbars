@@ -74,8 +74,15 @@ export default function createTests(scrollbarWidth) {
                         expect(this.refs.viewWrapped.tagName).toEqual('SECTION');
                         expect(this.refs.viewWrapped.style.color).toEqual('red');
                         expect(this.refs.viewWrapped.style.position).toEqual('relative');
-                        expect(this.refs.viewWrapped.style.display).toEqual('inline-block');
-                        expect(this.refs.viewWrapped.style.width).toEqual('auto');
+                        expect(this.refs.viewWrapped.style.display).toEqual('block');
+                        expect(this.refs.viewWrapped.style.width).toEqual('100%');
+                        expect(this.refs.viewWrapped.style.boxSizing).toEqual('border-box');
+                        expect(this.refs.viewWrapper.style.paddingRight).toEqual('100px');
+                        expect(this.refs.viewWrapper.style.paddingBottom).toEqual('100px');
+                        expect(this.refs.viewWrapper.style.display).toEqual('inline-block');
+                        expect(this.refs.viewWrapper.style.width).toEqual('auto');
+                        expect(this.refs.viewWrapper.style.minWidth).toEqual('100%');
+                        expect(this.refs.viewWrapper.style.boxSizing).toEqual('border-box');
                         done();
                     });
                 });
