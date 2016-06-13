@@ -135,7 +135,6 @@ export default createClass({
 
     getClientWidth() {
         const { view } = this.refs;
-        const scrollbarWidth = getScrollbarWidth();
         return view.clientWidth - this.getPaddingWidth();
     },
 
@@ -145,13 +144,13 @@ export default createClass({
     },
 
     getPaddingWidth() {
-        const { view } = this.refs;
-        return 100;//parseInt(window.getComputedStyle(view, null).getPropertyValue('padding-right'), 10);
+        // const { view } = this.refs;
+        return 100; // parseInt(window.getComputedStyle(view, null).getPropertyValue('padding-right'), 10);
     },
 
     getPaddingHeight() {
-        const { view } = this.refs;
-        return 100;//parseInt(window.getComputedStyle(view, null).getPropertyValue('padding-bottom'), 10);
+        // const { view } = this.refs;
+        return 100; // parseInt(window.getComputedStyle(view, null).getPropertyValue('padding-bottom'), 10);
     },
 
     getValues() {

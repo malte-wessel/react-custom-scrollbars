@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
+export default function createTests() {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
