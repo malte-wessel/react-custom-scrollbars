@@ -47,9 +47,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const width = `-${scrollbarWidth}px`;
-                    expect(this.refs.view.style.marginRight).toEqual(width);
-                    expect(this.refs.view.style.marginBottom).toEqual(width);
+                    expect(this.refs.view.style.marginRight).toEqual(`-${100 + scrollbarWidth}px`);
+                    expect(this.refs.view.style.marginBottom).toEqual(`-${100 + scrollbarWidth}px`);
                     done();
                 });
             });

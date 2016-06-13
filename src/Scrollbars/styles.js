@@ -29,9 +29,7 @@ export const viewStyleDefault = {
     width: 'auto',
     paddingRight: 100,
     paddingBottom: 100,
-    boxSizing: 'content-box',
-    marginRight: -100,
-    marginBottom: -100
+    boxSizing: 'content-box'
 };
 
 // Overrides viewStyleDefault properties

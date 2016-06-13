@@ -82,7 +82,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
          describe('getPaddingHeight', () => {
             it('should return scrollHeight', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getPaddingHeight())).toEqual(100);
+                    expect(this.getPaddingHeight()).toEqual(100);
                     done();
                 });
             });

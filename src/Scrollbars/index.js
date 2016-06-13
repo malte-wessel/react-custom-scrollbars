@@ -2,6 +2,7 @@ import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
 import React, { createClass, PropTypes, cloneElement } from 'react';
 import isString from '../utils/isString';
+import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -134,6 +135,7 @@ export default createClass({
 
     getClientWidth() {
         const { view } = this.refs;
+        const scrollbarWidth = getScrollbarWidth();
         return view.clientWidth - this.getPaddingWidth();
     },
 
@@ -519,6 +521,7 @@ export default createClass({
     },
 
     render() {
+        const scrollbarWidth = getScrollbarWidth();
         const {
             onScroll,
             onScrollFrame,
@@ -558,14 +561,17 @@ export default createClass({
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
+            marginRight: -100 + (scrollbarWidth ? -scrollbarWidth : 0),
+            marginBottom: -100 + (scrollbarWidth ? -scrollbarWidth : 0),
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
+                // Add scrollbarWidth to autoHeight in order to compensate negative margins
                 minHeight: isString(autoHeightMin)
-                    ? `calc(${autoHeightMin} + 0px)`
-                    : autoHeightMin,
+                    ? `calc(${autoHeightMin} + ${scrollbarWidth}px)`
+                    : autoHeightMin + scrollbarWidth,
                 maxHeight: isString(autoHeightMax)
-                    ? `calc(${autoHeightMax} + 0px)`
-                    : autoHeightMax
+                    ? `calc(${autoHeightMax} + ${scrollbarWidth}px)`
+                    : autoHeightMax + scrollbarWidth
             }),
             ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
         };
