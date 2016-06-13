@@ -6,12 +6,12 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "build": "babel src --out-dir lib",
-    "build:umd": "set NODE_ENV=development webpack src/index.js dist/react-custom-scrollbars.js",
-    "build:umd:min": "set NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
+    "build:umd": "set NODE_ENV=development && webpack src/index.js dist/react-custom-scrollbars.js",
+    "build:umd:min": "set NODE_ENV=production && webpack src/index.js dist/react-custom-scrollbars.min.js",
     "lint": "eslint src test examples",
-    "test": "set NODE_ENV=test karma start",
-    "test:watch": "set NODE_ENV=test karma start --auto-watch --no-single-run",
-    "test:cov": "set NODE_ENV=test COVERAGE=true karma start --single-run",
+    "test": "set NODE_ENV=test && karma start",
+    "test:watch": "set NODE_ENV=test && karma start --auto-watch --no-single-run",
+    "test:cov": "set NODE_ENV=test && COVERAGE=true karma start --single-run",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build && npm run build:umd && npm run build:umd:min && node ./prepublish"
   },
   "repository": {
