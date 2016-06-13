@@ -16,8 +16,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
     describe('getters', () => {
         function renderScrollbars(callback) {
             render((
-                <Scrollbars style={{ width: 100, height: 100}}>
-                    <div style={{ width: 200, height: 200}}/>
+                <Scrollbars style={{ width: 100, height: 100 }}>
+                    <div style={{ width: 200, height: 200 }}/>
                 </Scrollbars>
             ), node, callback);
         }
