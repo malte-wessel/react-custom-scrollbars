@@ -16,6 +16,9 @@ export const viewWrapperStyleDefault = {
     display: 'inline-block'
 };
 
+export const viewWrapperStyleAutoWidth = {
+};
+
 export const viewWrappedStyleDefault = {
     position: 'relative',
     display: 'block',

@@ -12,6 +12,7 @@ import {
     containerStyleAutoHeight,
     viewStyleDefault,
     viewWrapperStyleDefault,
+    viewWrapperStyleAutoHeight,
     viewWrappedStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
@@ -61,6 +62,15 @@ export default createClass({
             PropTypes.number,
             PropTypes.string
         ]),
+        autoWidth: PropTypes.bool,
+        autoWidthMin: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+        autoWidthMax: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
         universal: PropTypes.bool,
         style: PropTypes.object,
         children: PropTypes.node,
@@ -81,6 +91,9 @@ export default createClass({
             autoHeight: false,
             autoHeightMin: 0,
             autoHeightMax: 200,
+            autoWidth: false,
+            autoWidthMin: '100%',
+            autoWidthMax: '100%',
             universal: false,
         };
     },
@@ -541,6 +554,9 @@ export default createClass({
             autoHeight,
             autoHeightMin,
             autoHeightMax,
+            autoWidth,
+            autoWidthMin,
+            autoWidthMax,
             style,
             children,
             ...props
@@ -577,7 +593,12 @@ export default createClass({
         };
 
         const viewWrapperStyle = {
-            ...viewWrapperStyleDefault
+            ...viewWrapperStyleDefault,
+            ...(autoWidth && {
+                ...viewWrapperStyleAutoHeight,
+                minWidth: autoWidthMin,
+                maxWidth: autoWidthMax
+            }),
         };
 
         const viewWrappedStyle = {
