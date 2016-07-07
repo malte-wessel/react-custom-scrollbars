@@ -519,6 +519,7 @@ export default createClass({
             renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
+            hideTracksWhenNotNeeded,
             autoHide,
             autoHideTimeout,
             autoHideDuration,
