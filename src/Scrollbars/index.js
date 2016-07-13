@@ -13,6 +13,7 @@ import {
     viewStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
+    viewStyleAutoHeightUniversalInitial,
     trackHorizontalStyleDefault,
     trackVerticalStyleDefault,
     thumbHorizontalStyleDefault,
@@ -563,6 +564,12 @@ export default createClass({
                     ? `calc(${autoHeightMax} + ${scrollbarWidth}px)`
                     : autoHeightMax + scrollbarWidth
             }),
+            // Override min/max height for initial universal rendering
+            ...((autoHeight && universal && !didMountUniversal) && {
+                minHeight: autoHeightMin,
+                maxHeight: autoHeightMax
+            }),
+            // Override
             ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
         };
 
