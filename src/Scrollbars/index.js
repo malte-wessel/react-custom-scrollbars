@@ -1,6 +1,6 @@
 import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
-import React, { createClass, PropTypes, cloneElement } from 'react';
+import { createClass, createElement, PropTypes, cloneElement } from 'react';
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
@@ -13,7 +13,6 @@ import {
     viewStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
-    viewStyleAutoHeightUniversalInitial,
     trackHorizontalStyleDefault,
     trackVerticalStyleDefault,
     thumbHorizontalStyleDefault,
@@ -45,6 +44,7 @@ export default createClass({
         renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
+        tagName: PropTypes.string,
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         hideTracksWhenNotNeeded: PropTypes.bool,
@@ -72,6 +72,7 @@ export default createClass({
             renderTrackVertical: renderTrackVerticalDefault,
             renderThumbHorizontal: renderThumbHorizontalDefault,
             renderThumbVertical: renderThumbVerticalDefault,
+            tagName: 'div',
             thumbMinSize: 30,
             hideTracksWhenNotNeeded: false,
             autoHide: false,
@@ -522,6 +523,7 @@ export default createClass({
             renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
+            tagName,
             hideTracksWhenNotNeeded,
             autoHide,
             autoHideTimeout,
@@ -595,30 +597,28 @@ export default createClass({
             })
         };
 
-        return (
-            <div {...props} style={containerStyle} ref="container">
-                {cloneElement(
-                    renderView({ style: viewStyle }),
-                    { ref: 'view' },
-                    children
-                )}
-                {cloneElement(
-                    renderTrackHorizontal({ style: trackHorizontalStyle }),
-                    { ref: 'trackHorizontal' },
-                    cloneElement(
-                        renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
-                        { ref: 'thumbHorizontal' }
-                    )
-                )}
-                {cloneElement(
-                    renderTrackVertical({ style: trackVerticalStyle }),
-                    { ref: 'trackVertical' },
-                    cloneElement(
-                        renderThumbVertical({ style: thumbVerticalStyleDefault }),
-                        { ref: 'thumbVertical' }
-                    )
-                )}
-            </div>
-        );
+        return createElement(tagName, { ...props, style: containerStyle, ref: 'container' }, [
+            cloneElement(
+                renderView({ style: viewStyle }),
+                { key: 'view', ref: 'view' },
+                children
+            ),
+            cloneElement(
+                renderTrackHorizontal({ style: trackHorizontalStyle }),
+                { key: 'trackHorizontal', ref: 'trackHorizontal' },
+                cloneElement(
+                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
+                    { ref: 'thumbHorizontal' }
+                )
+            ),
+            cloneElement(
+                renderTrackVertical({ style: trackVerticalStyle }),
+                { key: 'trackVertical', ref: 'trackVertical' },
+                cloneElement(
+                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
+                    { ref: 'thumbVertical' }
+                )
+            )
+        ]);
     }
 });

@@ -50,6 +50,22 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
+            describe('when using custom tagName', () => {
+                it('should use the defined tagName', done => {
+                    render((
+                        <Scrollbars
+                            tagName="nav"
+                            style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const el = findDOMNode(this);
+                        expect(el.tagName.toLowerCase()).toEqual('nav');
+                        done();
+                    });
+                });
+            });
+
             describe('when custom `renderView` is passed', () => {
                 it('should render custom element', done => {
                     render((
