@@ -516,6 +516,7 @@ export default createClass({
             onScrollFrame,
             onScrollStart,
             onScrollStop,
+            onUpdate,
             renderView,
             renderTrackHorizontal,
             renderTrackVertical,
