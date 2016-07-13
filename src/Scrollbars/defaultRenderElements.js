@@ -1,4 +1,5 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
 
 export function renderViewDefault(props) {
     return <div {...props}/>;

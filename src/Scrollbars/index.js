@@ -509,6 +509,7 @@ export default createClass({
 
     render() {
         const scrollbarWidth = getScrollbarWidth();
+        /* eslint-disable no-unused-vars */
         const {
             onScroll,
             onScrollFrame,
@@ -533,6 +534,7 @@ export default createClass({
             children,
             ...props
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         const { didMountUniversal } = this.state;
 
