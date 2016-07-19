@@ -628,7 +628,7 @@ export default createClass({
         };
 
         return (
-            <div {...props} style={containerStyle} ref="container">
+            <div {...props.className ? {className: props.className} : {}} style={containerStyle} ref="container">
 
                 <div style={viewStyle} ref="view">
                     <div style={viewWrapperStyle} ref="viewWrapper">
