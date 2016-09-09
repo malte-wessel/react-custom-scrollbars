@@ -498,8 +498,9 @@ export default createClass({
 
     _update(callback) {
         const { onUpdate, hideTracksWhenNotNeeded } = this.props;
+        const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical, container } = this.refs;
+        container.scrollTop = 0;
         const values = this.getValues();
-        const { thumbHorizontal, thumbVertical, trackHorizontal, trackVertical } = this.refs;
         const { scrollLeft, clientWidth, scrollWidth } = values;
         const trackHorizontalWidth = getInnerWidth(trackHorizontal);
         const thumbHorizontalWidth = this.getThumbHorizontalWidth();
