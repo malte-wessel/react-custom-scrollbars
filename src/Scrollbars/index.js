@@ -3,6 +3,7 @@ import css from 'dom-css';
 import { createClass, createElement, PropTypes, cloneElement } from 'react';
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
+import { isRtl } from '../utils/getDirection';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -203,6 +204,11 @@ export default createClass({
         const trackHeight = getInnerHeight(trackVertical);
         const thumbHeight = this.getThumbVerticalHeight();
         return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
+    },
+
+    getRtl(){
+        const { style } = this.props;
+        return style && typeof(style.direction) === 'string' && style.direction.toLowerCase() === 'rtl' || isRtl();
     },
 
     scrollLeft(left = 0) {
@@ -478,7 +484,17 @@ export default createClass({
             const { scrollLeft, clientWidth, scrollWidth } = values;
             const trackHorizontalWidth = getInnerWidth(trackHorizontal);
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
-            const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
+            const rtl = this.getRtl();
+
+            let thumbHorizontalX;
+            var isWebkit = /AppleWebKit/.test(navigator.userAgent);
+            if(rtl && isWebkit){
+                thumbHorizontalX = -1*(scrollWidth - clientWidth - scrollLeft) / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
+            }
+            else{
+                thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
+            }
+
             const thumbHorizontalStyle = {
                 width: thumbHorizontalWidth,
                 transform: `translateX(${thumbHorizontalX}px)`
@@ -552,10 +568,13 @@ export default createClass({
             ...style
         };
 
+        const rtl = this.getRtl(),
+            marginDirection = rtl ? 'Left' : 'Right';
+
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: scrollbarWidth ? -scrollbarWidth : 0,
+            [`margin${marginDirection}`]: scrollbarWidth ? -scrollbarWidth : 0,
             marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
@@ -612,7 +631,7 @@ export default createClass({
                 )
             ),
             cloneElement(
-                renderTrackVertical({ style: trackVerticalStyle }),
+                renderTrackVertical({ style: trackVerticalStyle, rtl }),
                 { key: 'trackVertical', ref: 'trackVertical' },
                 cloneElement(
                     renderThumbVertical({ style: thumbVerticalStyleDefault }),
