@@ -87,7 +87,8 @@ export default createClass({
 
     getInitialState() {
         return {
-            didMountUniversal: false
+            didMountUniversal: false,
+            scrollbarWidth: getScrollbarWidth()
         };
     },
 
@@ -308,6 +309,14 @@ export default createClass({
     },
 
     handleWindowResize() {
+        // In most of the browsers on zoom-out event
+        // scrollbar width changes between 15-60px
+        // due to this on resize event scrollbar width must be recalculated
+        const { scrollbarWidth } = this.state;
+        const recalculatedScrollbarWidth = getScrollbarWidth(true);
+        if (scrollbarWidth !== recalculatedScrollbarWidth) {
+            this.setState({ scrollbarWidth: recalculatedScrollbarWidth });
+        }
         this.update();
     },
 
