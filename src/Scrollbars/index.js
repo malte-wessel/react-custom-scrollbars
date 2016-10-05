@@ -487,7 +487,7 @@ export default createClass({
             const rtl = this.getRtl();
 
             let thumbHorizontalX;
-            var isWebkit = /AppleWebKit/.test(navigator.userAgent);
+            const isWebkit = /AppleWebKit/.test(navigator.userAgent);
             if(rtl && isWebkit){
                 thumbHorizontalX = -1*(scrollWidth - clientWidth - scrollLeft) / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
             }
