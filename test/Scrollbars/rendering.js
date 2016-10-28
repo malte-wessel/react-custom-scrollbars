@@ -224,7 +224,6 @@ export default function createTests(scrollbarWidth) {
                             const attr2 = vTracks[1].getAttribute('style');
 
                             expect(attr1).toBe(attr2);
-
                             done();
                         });
                     });
