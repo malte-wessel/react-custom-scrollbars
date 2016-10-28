@@ -206,19 +206,21 @@ export default function createTests(scrollbarWidth) {
                     it('should render same style with default track', done => {
                         render((
                             <div>
-                                <Scrollbars className="sc"
-                                  style={{width: 100, height: 100}}>
+                                <Scrollbars
+                                  className="sc"
+                                  style={{ width: 100, height: 100 }}>
                                     <div style={{ width: 200, height: 200 }}/>
                                 </Scrollbars>
-                                <Scrollbars className="sc"
+                                <Scrollbars
+                                  className="sc"
                                   renderTrackVertical={p => <div {...p} />}
-                                  style={{width: 100, height: 100}}>
+                                  style={{ width: 100, height: 100 }}>
                                     <div style={{ width: 200, height: 200 }}/>
                                 </Scrollbars>
                             </div>
                         ), node, function callback() {
-                            const node = findDOMNode(this);
-                            const vTracks = node.querySelectorAll('.sc > div:last-child');
+                            const root = findDOMNode(this);
+                            const vTracks = root.querySelectorAll('.sc > div:last-child');
 
                             const attr1 = vTracks[0].getAttribute('style');
                             const attr2 = vTracks[1].getAttribute('style');
@@ -231,9 +233,9 @@ export default function createTests(scrollbarWidth) {
                     it('should override default style.', done => {
                         render((
                             <Scrollbars
-                                renderTrackHorizontal={({style, ...props}) => {
-                                  return <div {...props} style={{...style, right: 4}} />;
-                                }}>
+                                renderTrackHorizontal={({ style, ...props }) =>
+                                  <div {...props} style={{ ...style, right: 4 }} />
+                                }>
                                 <div style={{ width: 200, height: 200 }}/>
                             </Scrollbars>
                         ), node, function callback() {
