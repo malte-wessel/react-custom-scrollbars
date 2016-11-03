@@ -69,6 +69,9 @@ class CustomScrollbars extends Component {
         autoHeight
         autoHeightMin={0}
         autoHeightMax={200}
+        autoWidth
+        autoWidthMin={0}
+        autoWidthMax={200}
         thumbMinSize={30}
         universal={true}
         {...this.props}>
