@@ -1,6 +1,6 @@
 import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
-import React, { createClass, PropTypes, cloneElement } from 'react';
+import { createClass, createElement, PropTypes, cloneElement } from 'react';
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
@@ -47,6 +47,7 @@ export default createClass({
         renderTrackVertical: PropTypes.func,
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
+        tagName: PropTypes.string,
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         hideTracksWhenNotNeeded: PropTypes.bool,
@@ -83,6 +84,7 @@ export default createClass({
             renderTrackVertical: renderTrackVerticalDefault,
             renderThumbHorizontal: renderThumbHorizontalDefault,
             renderThumbVertical: renderThumbVerticalDefault,
+            tagName: 'div',
             thumbMinSize: 30,
             hideTracksWhenNotNeeded: false,
             autoHide: false,
@@ -537,16 +539,20 @@ export default createClass({
 
     render() {
         const scrollbarWidth = getScrollbarWidth();
+        /* eslint-disable no-unused-vars */
         const {
             onScroll,
             onScrollFrame,
             onScrollStart,
             onScrollStop,
+            onUpdate,
             renderView,
             renderTrackHorizontal,
             renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
+            tagName,
+            hideTracksWhenNotNeeded,
             autoHide,
             autoHideTimeout,
             autoHideDuration,
@@ -563,6 +569,7 @@ export default createClass({
             children,
             ...props
         } = this.props;
+        /* eslint-enable no-unused-vars */
 
         const { didMountUniversal } = this.state;
 
@@ -591,6 +598,12 @@ export default createClass({
                     ? `calc(${autoHeightMax} + ${scrollbarWidth}px)`
                     : autoHeightMax + scrollbarWidth
             }),
+            // Override min/max height for initial universal rendering
+            ...((autoHeight && universal && !didMountUniversal) && {
+                minHeight: autoHeightMin,
+                maxHeight: autoHeightMax
+            }),
+            // Override
             ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
         };
 
@@ -629,35 +642,33 @@ export default createClass({
             })
         };
 
-        return (
-            <div {...props.className ? {className: props.className} : {}} style={containerStyle} ref="container">
 
-                <div style={viewStyle} ref="view">
-                    <div style={viewWrapperStyle} ref="viewWrapper">
-                    {cloneElement(
+        return createElement(tagName, { className: props.className ? props.className : '', style: containerStyle, ref: 'container' }, [
+            createElement('div', { style: viewStyle, key: 'view', ref: 'view' }, [
+                createElement('div', { style: viewWrapperStyle, key: 'viewWrapper', ref: 'viewWrapper' }, [
+                    cloneElement(
                         renderView({ style: viewWrappedStyle }),
-                        { ref: 'viewWrapped' },
+                        { key: 'viewWrapped', ref: 'viewWrapped' },
                         children
-                    )}
-                </div>
-                </div>
-                {cloneElement(
-                    renderTrackHorizontal({ style: trackHorizontalStyle }),
-                    { ref: 'trackHorizontal' },
-                    cloneElement(
-                        renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
-                        { ref: 'thumbHorizontal' }
                     )
-                )}
-                {cloneElement(
-                    renderTrackVertical({ style: trackVerticalStyle }),
-                    { ref: 'trackVertical' },
-                    cloneElement(
-                        renderThumbVertical({ style: thumbVerticalStyleDefault }),
-                        { ref: 'thumbVertical' }
-                    )
-                )}
-            </div>
-        );
+                ])
+            ]),
+            cloneElement(
+                renderTrackHorizontal({ style: trackHorizontalStyle }),
+                { key: 'trackHorizontal', ref: 'trackHorizontal' },
+                cloneElement(
+                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
+                    { ref: 'thumbHorizontal' }
+                )
+            ),
+            cloneElement(
+                renderTrackVertical({ style: trackVerticalStyle }),
+                { key: 'trackVertical', ref: 'trackVertical' },
+                cloneElement(
+                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
+                    { ref: 'thumbVertical' }
+                )
+            )
+        ]);
     }
 });

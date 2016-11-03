@@ -24,7 +24,7 @@ npm install react-custom-scrollbars --save
 
 This assumes that you’re using [npm](http://npmjs.com/) package manager with a module bundler like [Webpack](http://webpack.github.io) or [Browserify](http://browserify.org/) to consume [CommonJS modules](http://webpack.github.io/docs/commonjs.html).
 
-If you don’t yet use [npm](http://npmjs.com/) or a modern module bundler, and would rather prefer a single-file [UMD](https://github.com/umdjs/umd) build that makes `ReactCustomScrollbars` available as a global object, you can grab a pre-built version from [npmcdn](https://npmcdn.com/react-custom-scrollbars@3.0.1/dist/react-custom-scrollbars.js). We *don’t* recommend this approach for any serious application, as most of the libraries complementary to `react-custom-scrollbars` are only available on [npm](http://npmjs.com/).
+If you don’t yet use [npm](http://npmjs.com/) or a modern module bundler, and would rather prefer a single-file [UMD](https://github.com/umdjs/umd) build that makes `ReactCustomScrollbars` available as a global object, you can grab a pre-built version from [unpkg](https://unpkg.com/react-custom-scrollbars@3.0.1/dist/react-custom-scrollbars.js). We *don’t* recommend this approach for any serious application, as most of the libraries complementary to `react-custom-scrollbars` are only available on [npm](http://npmjs.com/).
 
 ## Usage
 
@@ -63,9 +63,12 @@ class CustomScrollbars extends Component {
         renderTrackVertical={this.renderTrackVertical}
         renderThumbHorizontal={this.renderThumbHorizontal}
         renderThumbVertical={this.renderThumbVertical}
-        autoHide={true}
+        autoHide
         autoHideTimeout={1000}
         autoHideDuration={200}
+        autoHeight
+        autoHeightMin={0}
+        autoHeightMax={200}
         thumbMinSize={30}
         universal={true}
         {...this.props}>

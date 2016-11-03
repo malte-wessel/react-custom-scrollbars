@@ -50,7 +50,6 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
-
             it('renders viewWrapped', done => {
                 render((
                     <Scrollbars style={{ width: 100, height: 100 }}>
@@ -59,6 +58,22 @@ export default function createTests(scrollbarWidth) {
                 ), node, function callback() {
                     expect(this.refs.viewWrapped).toBeA(Node);
                     done();
+                });
+            });
+
+            describe('when using custom tagName', () => {
+                it('should use the defined tagName', done => {
+                    render((
+                        <Scrollbars
+                            tagName="nav"
+                            style={{ width: 100, height: 100 }}>
+                            <div style={{ width: 200, height: 200 }}/>
+                        </Scrollbars>
+                    ), node, function callback() {
+                        const el = findDOMNode(this);
+                        expect(el.tagName.toLowerCase()).toEqual('nav');
+                        done();
+                    });
                 });
             });
 
