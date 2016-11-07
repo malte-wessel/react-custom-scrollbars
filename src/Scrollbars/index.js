@@ -60,6 +60,7 @@ export default createClass({
             PropTypes.number,
             PropTypes.string
         ]),
+        noNative: PropTypes.bool,
         universal: PropTypes.bool,
         style: PropTypes.object,
         children: PropTypes.node,
@@ -81,6 +82,7 @@ export default createClass({
             autoHeight: false,
             autoHeightMin: 0,
             autoHeightMax: 200,
+            noNative: false,
             universal: false,
         };
     },
@@ -534,6 +536,7 @@ export default createClass({
             autoHeight,
             autoHeightMin,
             autoHeightMax,
+            noNative,
             style,
             children,
             ...props
@@ -584,7 +587,7 @@ export default createClass({
         const trackHorizontalStyle = {
             ...trackHorizontalStyleDefault,
             ...(autoHide && trackAutoHeightStyle),
-            ...((!scrollbarWidth || (universal && !didMountUniversal)) && {
+            ...(((!scrollbarWidth && !noNative) || (universal && !didMountUniversal)) && {
                 display: 'none'
             })
         };
@@ -592,7 +595,7 @@ export default createClass({
         const trackVerticalStyle = {
             ...trackVerticalStyleDefault,
             ...(autoHide && trackAutoHeightStyle),
-            ...((!scrollbarWidth || (universal && !didMountUniversal)) && {
+            ...(((!scrollbarWidth && !noNative) || (universal && !didMountUniversal)) && {
                 display: 'none'
             })
         };
