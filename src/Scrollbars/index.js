@@ -311,7 +311,7 @@ export default createClass({
         this.update();
     },
 
-    handleHorizontalTrackMouseDown() {
+    handleHorizontalTrackMouseDown(event) {
         const { view } = this.refs;
         const { target, clientX } = event;
         const { left: targetLeft } = target.getBoundingClientRect();
