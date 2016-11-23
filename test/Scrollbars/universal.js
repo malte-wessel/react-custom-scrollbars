@@ -51,8 +51,8 @@ export default function createTests(scrollbarWidth) {
                     ), node, function callback() {
                         const { view } = this.refs;
                         expect(view.style.overflow).toEqual('scroll');
-                        expect(view.style.marginBottom).toEqual(`${-100 - scrollbarWidth}px`);
-                        expect(view.style.marginRight).toEqual(`${-100 - scrollbarWidth}px`);
+                        expect(view.style.marginBottom).toEqual(`${-scrollbarWidth}px`);
+                        expect(view.style.marginRight).toEqual(`${-scrollbarWidth}px`);
                         done();
                     });
                 });
@@ -93,8 +93,8 @@ export default function createTests(scrollbarWidth) {
                     ), node, function callback() {
                         const { view } = this.refs;
                         expect(view.style.overflow).toEqual('scroll');
-                        expect(view.style.marginBottom).toEqual(`${-100 - scrollbarWidth}px`);
-                        expect(view.style.marginRight).toEqual(`${-100 - scrollbarWidth}px`);
+                        expect(view.style.marginBottom).toEqual(`${-scrollbarWidth}px`);
+                        expect(view.style.marginRight).toEqual(`${-scrollbarWidth}px`);
                         expect(view.style.minHeight).toEqual(`${scrollbarWidth}px`);
                         expect(view.style.maxHeight).toEqual(`${100 + scrollbarWidth}px`);
                         done();
