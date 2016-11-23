@@ -11,17 +11,17 @@ import hideTracks from './hideTracks';
 import universal from './universal';
 import onUpdate from './onUpdate';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
-    rendering(scrollbarWidth, envScrollbarWidth);
-    gettersSetters(scrollbarWidth, envScrollbarWidth);
-    scrolling(scrollbarWidth, envScrollbarWidth);
-    resizing(scrollbarWidth, envScrollbarWidth);
-    clickTrack(scrollbarWidth, envScrollbarWidth);
-    dragThumb(scrollbarWidth, envScrollbarWidth);
-    flexbox(scrollbarWidth, envScrollbarWidth);
-    autoHide(scrollbarWidth, envScrollbarWidth);
-    autoHeight(scrollbarWidth, envScrollbarWidth);
-    hideTracks(scrollbarWidth, envScrollbarWidth);
-    universal(scrollbarWidth, envScrollbarWidth);
-    onUpdate(scrollbarWidth, envScrollbarWidth);
+export default function createTests(scrollbarWidth) {
+    rendering(scrollbarWidth);
+    gettersSetters(scrollbarWidth);
+    scrolling(scrollbarWidth);
+    resizing(scrollbarWidth);
+    clickTrack(scrollbarWidth);
+    dragThumb(scrollbarWidth);
+    flexbox(scrollbarWidth);
+    autoHide(scrollbarWidth);
+    autoHeight(scrollbarWidth);
+    hideTracks(scrollbarWidth);
+    universal(scrollbarWidth);
+    onUpdate(scrollbarWidth);
 }

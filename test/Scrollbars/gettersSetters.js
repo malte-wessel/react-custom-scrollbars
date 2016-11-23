@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests() {
+export default function createTests(scrollbarWidth) {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -74,7 +74,7 @@ export default function createTests() {
          describe('getPaddingWidth', () => {
             it('should return scrollHeight', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getPaddingWidth()).toEqual(100);
+                    expect(this.getPaddingWidth()).toEqual(scrollbarWidth);
                     done();
                 });
             });
@@ -82,7 +82,7 @@ export default function createTests() {
          describe('getPaddingHeight', () => {
             it('should return scrollHeight', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getPaddingHeight()).toEqual(100);
+                    expect(this.getPaddingHeight()).toEqual(scrollbarWidth);
                     done();
                 });
             });

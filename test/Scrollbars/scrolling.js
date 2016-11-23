@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
+export default function createTests(scrollbarWidth) {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -103,8 +103,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                                 scrollTop: 0,
                                 scrollWidth: 200,
                                 scrollHeight: 200,
-                                clientWidth: 100 - envScrollbarWidth,
-                                clientHeight: 100 - envScrollbarWidth
+                                clientWidth: 100,
+                                clientHeight: 100
                             });
                         }
                         done();
@@ -202,8 +202,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                                 scrollTop: 50,
                                 scrollWidth: 200,
                                 scrollHeight: 200,
-                                clientWidth: 100 - envScrollbarWidth,
-                                clientHeight: 100 - envScrollbarWidth,
+                                clientWidth: 100,
+                                clientHeight: 100,
                             });
                         }
                         done();

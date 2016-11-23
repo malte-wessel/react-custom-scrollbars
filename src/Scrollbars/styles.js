@@ -1,3 +1,5 @@
+export const scrollbarSize = 100;
+
 export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
@@ -7,8 +9,8 @@ export const containerStyleDefault = {
 
 
 export const viewWrapperStyleDefault = {
-    paddingRight: 100,
-    paddingBottom: 100,
+    paddingRight: scrollbarSize,
+    paddingBottom: scrollbarSize,
     width: 'auto',
     minWidth: '100%',
     boxSizing: 'border-box',
