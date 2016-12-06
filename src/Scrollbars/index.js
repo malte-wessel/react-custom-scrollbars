@@ -312,6 +312,7 @@ export default createClass({
     },
 
     handleHorizontalTrackMouseDown(event) {
+        event.preventDefault();
         const { view } = this.refs;
         const { target, clientX } = event;
         const { left: targetLeft } = target.getBoundingClientRect();
@@ -321,6 +322,7 @@ export default createClass({
     },
 
     handleVerticalTrackMouseDown(event) {
+        event.preventDefault();
         const { view } = this.refs;
         const { target, clientY } = event;
         const { top: targetTop } = target.getBoundingClientRect();
@@ -330,6 +332,7 @@ export default createClass({
     },
 
     handleHorizontalThumbMouseDown(event) {
+        event.preventDefault();
         this.handleDragStart(event);
         const { target, clientX } = event;
         const { offsetWidth } = target;
@@ -338,6 +341,7 @@ export default createClass({
     },
 
     handleVerticalThumbMouseDown(event) {
+        event.preventDefault();
         this.handleDragStart(event);
         const { target, clientY } = event;
         const { offsetHeight } = target;
