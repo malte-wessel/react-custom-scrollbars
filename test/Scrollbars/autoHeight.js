@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
 import React, { createClass } from 'react';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
+export default function createTests(scrollbarSize, scrollbarWidth) {
     describe('autoHeight', () => {
         let node;
         beforeEach(() => {
@@ -30,15 +30,14 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     expect(scrollbars.style.minHeight).toEqual('0px');
                     expect(scrollbars.style.maxHeight).toEqual('100px');
                     expect(view.style.position).toEqual('relative');
-                    expect(view.style.minHeight).toEqual(`${scrollbarWidth}px`);
-                    expect(view.style.maxHeight).toEqual(`${100 + scrollbarWidth}px`);
+                    expect(view.style.minHeight).toEqual(`${scrollbarSize + scrollbarWidth}px`);
+                    expect(view.style.maxHeight).toEqual(`${100 + scrollbarSize + scrollbarWidth}px`);
                     done();
                 });
             });
         });
 
         describe('when native scrollbars have a width', () => {
-            if (!scrollbarWidth) return;
             it('hides native scrollbars', done => {
                 render((
                     <Scrollbars
@@ -47,7 +46,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const width = `-${scrollbarWidth}px`;
+                    const width = `-${scrollbarSize + scrollbarWidth}px`;
                     expect(this.refs.view.style.marginRight).toEqual(width);
                     expect(this.refs.view.style.marginBottom).toEqual(width);
                     done();
@@ -56,8 +55,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when native scrollbars have no width', () => {
-            if (scrollbarWidth) return;
-            it('hides bars', done => {
+            it('hides native scrollbars', done => {
                 render((
                     <Scrollbars
                         autoHeight
@@ -66,8 +64,12 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     </Scrollbars>
                 ), node, function callback() {
                     setTimeout(() => {
-                        expect(this.refs.trackVertical.style.display).toEqual('none');
-                        expect(this.refs.trackHorizontal.style.display).toEqual('none');
+                        const width = `-${scrollbarSize + scrollbarWidth}px`;
+                        expect(this.refs.view.style.marginRight).toEqual(width);
+                        expect(this.refs.view.style.marginBottom).toEqual(width);
+
+                        expect(this.refs.trackVertical.style.display).toEqual('');
+                        expect(this.refs.trackHorizontal.style.display).toEqual('');
                         done();
                     }, 100);
                 });
@@ -87,9 +89,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const scrollbars = findDOMNode(this);
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
-                        expect(scrollbars.clientHeight).toEqual(50 + (envScrollbarWidth - scrollbarWidth));
-                        expect(view.clientHeight).toEqual(50);
-                        expect(view.scrollHeight).toEqual(50);
+                        expect(scrollbars.clientHeight).toEqual(50);
+                        expect(view.clientHeight).toEqual(scrollbarSize + 50);
+                        expect(view.scrollHeight).toEqual(scrollbarSize + 50);
                         expect(thumbVertical.clientHeight).toEqual(0);
                         done();
                     }, 100);
@@ -111,12 +113,9 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
                         expect(scrollbars.clientHeight).toEqual(100);
-                        expect(view.clientHeight).toEqual(100 - (envScrollbarWidth - scrollbarWidth));
-                        expect(view.scrollHeight).toEqual(200);
-                        if (scrollbarWidth) {
-                            // 100 / 200 * 96 = 48
-                            expect(thumbVertical.clientHeight).toEqual(48);
-                        }
+                        expect(view.clientHeight).toEqual(scrollbarSize + 100);
+                        expect(view.scrollHeight).toEqual(scrollbarSize + 200);
+                        expect(thumbVertical.clientHeight).toEqual(48);
                         done();
                     }, 100);
                 });
@@ -138,7 +137,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         const view = this.refs.view;
                         const thumbVertical = this.refs.thumbVertical;
                         expect(scrollbars.clientHeight).toEqual(100);
-                        expect(view.clientHeight).toEqual(100 - (envScrollbarWidth - scrollbarWidth));
+                        expect(view.clientHeight).toEqual(scrollbarSize + 100);
                         expect(thumbVertical.clientHeight).toEqual(0);
                         done();
                     }, 100);
@@ -174,8 +173,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                         expect($scrollbars.style.minHeight).toEqual('50%');
                         expect($scrollbars.style.maxHeight).toEqual('100%');
                         expect(view.style.position).toEqual('relative');
-                        expect(view.style.minHeight).toEqual(`calc(50% + ${scrollbarWidth}px)`);
-                        expect(view.style.maxHeight).toEqual(`calc(100% + ${scrollbarWidth}px)`);
+                        expect(view.style.minHeight).toEqual(`calc(50% + ${scrollbarSize + scrollbarWidth}px)`);
+                        expect(view.style.maxHeight).toEqual(`calc(100% + ${scrollbarSize + scrollbarWidth}px)`);
                         done();
                     }, 100);
                 });
@@ -198,8 +197,8 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     expect(scrollbars.style.minHeight).toEqual('10em');
                     expect(scrollbars.style.maxHeight).toEqual('100em');
                     expect(view.style.position).toEqual('relative');
-                    expect(view.style.minHeight).toEqual(`calc(10em + ${scrollbarWidth}px)`);
-                    expect(view.style.maxHeight).toEqual(`calc(100em + ${scrollbarWidth}px)`);
+                    expect(view.style.minHeight).toEqual(`calc(10em + ${scrollbarSize + scrollbarWidth}px)`);
+                    expect(view.style.maxHeight).toEqual(`calc(100em + ${scrollbarSize + scrollbarWidth}px)`);
                     done();
                 });
             });

@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
+export default function createTests(scrollbarSize) {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -58,7 +58,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         describe('getClientWidth', () => {
             it('should return scrollWidth', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getClientWidth()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                    expect(this.getClientWidth()).toEqual(100);
                     done();
                 });
             });
@@ -66,7 +66,23 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         describe('getClientHeight', () => {
             it('should return scrollHeight', done => {
                 renderScrollbars(function callback() {
-                    expect(this.getClientHeight()).toEqual(100 + (scrollbarWidth - envScrollbarWidth));
+                    expect(this.getClientHeight()).toEqual(100);
+                    done();
+                });
+            });
+        });
+         describe('getPaddingWidth', () => {
+            it('should return scrollHeight', done => {
+                renderScrollbars(function callback() {
+                    expect(this.getPaddingWidth()).toEqual(scrollbarSize);
+                    done();
+                });
+            });
+        });
+         describe('getPaddingHeight', () => {
+            it('should return scrollHeight', done => {
+                renderScrollbars(function callback() {
+                    expect(this.getPaddingHeight()).toEqual(scrollbarSize);
                     done();
                 });
             });
@@ -113,7 +129,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             it('should scroll to right', done => {
                 renderScrollbars(function callback() {
                     this.scrollToRight();
-                    expect(this.getScrollLeft()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                    expect(this.getScrollLeft()).toEqual(100);
                     done();
                 });
             });
@@ -122,7 +138,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
             it('should scroll to bottom', done => {
                 renderScrollbars(function callback() {
                     this.scrollToBottom();
-                    expect(this.getScrollTop()).toEqual(100 + (envScrollbarWidth - scrollbarWidth));
+                    expect(this.getScrollTop()).toEqual(100);
                     done();
                 });
             });

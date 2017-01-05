@@ -1,8 +1,32 @@
+export const scrollbarSize = 100;
+
 export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
-    width: '100%',
+    width: 'auto',
     height: '100%',
+};
+
+
+export const viewWrapperStyleDefault = {
+    paddingRight: scrollbarSize,
+    paddingBottom: scrollbarSize,
+    width: 'auto',
+    minWidth: '100%',
+    boxSizing: 'border-box',
+    verticalAlign: 'top',
+    display: 'inline-block'
+};
+
+export const viewWrapperStyleAutoWidth = {
+};
+
+export const viewWrappedStyleDefault = {
+    position: 'relative',
+    display: 'block',
+    verticalAlign: 'top',
+    width: '100%',
+    boxSizing: 'border-box'
 };
 
 // Overrides containerStyleDefault properties
@@ -17,7 +41,10 @@ export const viewStyleDefault = {
     right: 0,
     bottom: 0,
     overflow: 'scroll',
-    WebkitOverflowScrolling: 'touch'
+    WebkitOverflowScrolling: 'touch',
+    height: 'auto',
+    width: 'auto',
+    boxSizing: 'content-box'
 };
 
 // Overrides viewStyleDefault properties

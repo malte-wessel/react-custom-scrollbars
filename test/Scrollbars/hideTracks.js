@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth) {
+export default function createTests() {
     describe('hide tracks', () => {
         let node;
         beforeEach(() => {
@@ -15,7 +15,6 @@ export default function createTests(scrollbarWidth) {
         });
 
         describe('when native scrollbars have a width', () => {
-            if (!scrollbarWidth) return;
             describe('when content is greater than wrapper', () => {
                 it('should show tracks', done => {
                     render((

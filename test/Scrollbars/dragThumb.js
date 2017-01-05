@@ -3,10 +3,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 import simulant from 'simulant';
 
-export default function createTests(scrollbarWidth) {
-    // Not for mobile environment
-    if (!scrollbarWidth) return;
-
+export default function createTests() {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
