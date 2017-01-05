@@ -2,6 +2,7 @@ import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
 import { createClass, createElement, PropTypes, cloneElement } from 'react';
 import isString from '../utils/isString';
+import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -536,6 +537,7 @@ export default createClass({
     },
 
     render() {
+        const scrollbarWidth = getScrollbarWidth();
         /* eslint-disable no-unused-vars */
         const {
             onScroll,
@@ -583,17 +585,17 @@ export default createClass({
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: -this.getPaddingWidth(),
-            marginBottom: -this.getPaddingHeight(),
+            marginRight: -this.getPaddingWidth() + (scrollbarWidth ? -scrollbarWidth : 0),
+            marginBottom: -this.getPaddingHeight() + (scrollbarWidth ? -scrollbarWidth : 0),
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
-                // Add paddingHeight to autoHeight in order to compensate negative margins
+                // Add paddingHeight and scrollbarWidth to autoHeight in order to compensate negative margins
                 minHeight: isString(autoHeightMin)
-                    ? `calc(${autoHeightMin} + ${this.getPaddingHeight()}px)`
-                    : autoHeightMin + this.getPaddingHeight(),
+                    ? `calc(${autoHeightMin} + ${this.getPaddingHeight() + scrollbarWidth}px)`
+                    : autoHeightMin + this.getPaddingHeight() + scrollbarWidth,
                 maxHeight: isString(autoHeightMax)
-                    ? `calc(${autoHeightMax} + ${this.getPaddingHeight()}px)`
-                    : autoHeightMax + this.getPaddingHeight()
+                    ? `calc(${autoHeightMax} + ${this.getPaddingHeight() + scrollbarWidth}px)`
+                    : autoHeightMax + this.getPaddingHeight() + scrollbarWidth
             }),
             // Override min/max height for initial universal rendering
             ...((autoHeight && universal && !didMountUniversal) && {

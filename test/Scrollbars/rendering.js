@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth) {
+export default function createTests(scrollbarSize, scrollbarWidth) {
     describe('rendering', () => {
         let node;
         beforeEach(() => {
@@ -86,7 +86,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const width = `${scrollbarWidth}px`;
+                        const width = `${scrollbarSize}px`;
                         expect(this.refs.viewWrapped.tagName).toEqual('SECTION');
                         expect(this.refs.viewWrapped.style.color).toEqual('red');
                         expect(this.refs.viewWrapped.style.position).toEqual('relative');
@@ -104,16 +104,14 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
-            describe('when native scrollbars have a width', () => {
-                if (!scrollbarWidth) return;
-
+            describe('when native scrollbars have a width or no width', () => {
                 it('hides native scrollbars', done => {
                     render((
                         <Scrollbars style={{ width: 100, height: 100 }}>
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const width = `-${scrollbarWidth}px`;
+                        const width = `-${scrollbarSize + scrollbarWidth}px`;
                         expect(this.refs.view.style.marginRight).toEqual(width);
                         expect(this.refs.view.style.marginBottom).toEqual(width);
                         done();
@@ -313,9 +311,7 @@ export default function createTests(scrollbarWidth) {
                 });
             });
 
-            describe('when native scrollbars have no width', () => {
-                if (scrollbarWidth) return;
-
+            describe('when native scrollbars have a width or no width', () => {
                 it('shows bars', done => {
                     render((
                         <Scrollbars style={{ width: 100, height: 100 }}>

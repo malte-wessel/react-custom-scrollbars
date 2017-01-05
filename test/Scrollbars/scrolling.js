@@ -2,7 +2,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode } from 'react-dom';
 import React from 'react';
 
-export default function createTests(scrollbarWidth) {
+export default function createTests() {
     let node;
     beforeEach(() => {
         node = document.createElement('div');
@@ -15,7 +15,6 @@ export default function createTests(scrollbarWidth) {
 
     describe('when scrolling', () => {
         describe('when native scrollbars have a width', () => {
-            if (!scrollbarWidth) return;
             it('should update thumbs position', done => {
                 render((
                     <Scrollbars style={{ width: 100, height: 100 }}>
@@ -25,14 +24,9 @@ export default function createTests(scrollbarWidth) {
                     this.scrollTop(50);
                     this.scrollLeft(50);
                     setTimeout(() => {
-                        if (scrollbarWidth) {
-                            // 50 / (200 - 100) * (96 - 48) = 24
-                            expect(this.refs.thumbVertical.style.transform).toEqual('translateY(24px)');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(24px)');
-                        } else {
-                            expect(this.refs.thumbVertical.style.transform).toEqual('');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('');
-                        }
+                        // 50 / (200 - 100) * (96 - 48) = 24
+                        expect(this.refs.thumbVertical.style.transform).toEqual('translateY(24px)');
+                        expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(24px)');
                         done();
                     }, 100);
                 });
@@ -83,30 +77,16 @@ export default function createTests(scrollbarWidth) {
                         const args = spy.calls[0].arguments;
                         const values = args[0];
                         expect(values).toBeA(Object);
-
-                        if (scrollbarWidth) {
-                            expect(values).toEqual({
-                                left: 0.5,
-                                top: 0,
-                                scrollLeft: 50,
-                                scrollTop: 0,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100,
-                                clientHeight: 100
-                            });
-                        } else {
-                            expect(values).toEqual({
-                                left: values.scrollLeft / (values.scrollWidth - (values.clientWidth)),
-                                top: 0,
-                                scrollLeft: 50,
-                                scrollTop: 0,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100,
-                                clientHeight: 100
-                            });
-                        }
+                        expect(values).toEqual({
+                            left: 0.5,
+                            top: 0,
+                            scrollLeft: 50,
+                            scrollTop: 0,
+                            scrollWidth: 200,
+                            scrollHeight: 200,
+                            clientWidth: 100,
+                            clientHeight: 100
+                        });
                         done();
                     }, 200);
                 });
@@ -182,30 +162,16 @@ export default function createTests(scrollbarWidth) {
                         const args = spy.calls[0].arguments;
                         const values = args[0];
                         expect(values).toBeA(Object);
-
-                        if (scrollbarWidth) {
-                            expect(values).toEqual({
-                                left: 0,
-                                top: 0.5,
-                                scrollLeft: 0,
-                                scrollTop: 50,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100,
-                                clientHeight: 100,
-                            });
-                        } else {
-                            expect(values).toEqual({
-                                left: 0,
-                                top: values.scrollTop / (values.scrollHeight - (values.clientHeight)),
-                                scrollLeft: 0,
-                                scrollTop: 50,
-                                scrollWidth: 200,
-                                scrollHeight: 200,
-                                clientWidth: 100,
-                                clientHeight: 100,
-                            });
-                        }
+                        expect(values).toEqual({
+                            left: 0,
+                            top: 0.5,
+                            scrollLeft: 0,
+                            scrollTop: 50,
+                            scrollWidth: 200,
+                            scrollHeight: 200,
+                            clientWidth: 100,
+                            clientHeight: 100,
+                        });
                         done();
                     }, 200);
                 });
