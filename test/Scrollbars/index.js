@@ -11,17 +11,17 @@ import hideTracks from './hideTracks';
 import universal from './universal';
 import onUpdate from './onUpdate';
 
-export default function createTests(scrollbarWidth, envScrollbarWidth) {
-    rendering(scrollbarWidth, envScrollbarWidth);
-    gettersSetters(scrollbarWidth, envScrollbarWidth);
-    scrolling(scrollbarWidth, envScrollbarWidth);
-    resizing(scrollbarWidth, envScrollbarWidth);
-    clickTrack(scrollbarWidth, envScrollbarWidth);
-    dragThumb(scrollbarWidth, envScrollbarWidth);
-    flexbox(scrollbarWidth, envScrollbarWidth);
-    autoHide(scrollbarWidth, envScrollbarWidth);
-    autoHeight(scrollbarWidth, envScrollbarWidth);
-    hideTracks(scrollbarWidth, envScrollbarWidth);
-    universal(scrollbarWidth, envScrollbarWidth);
-    onUpdate(scrollbarWidth, envScrollbarWidth);
+export default function createTests(scrollbarSize, scrollbarWidth) {
+    rendering(scrollbarSize, scrollbarWidth);
+    gettersSetters(scrollbarSize, scrollbarWidth);
+    scrolling(scrollbarSize, scrollbarWidth);
+    resizing(scrollbarSize, scrollbarWidth);
+    clickTrack(scrollbarSize, scrollbarWidth);
+    dragThumb(scrollbarSize, scrollbarWidth);
+    flexbox(scrollbarSize, scrollbarWidth);
+    autoHide(scrollbarSize, scrollbarWidth);
+    autoHeight(scrollbarSize, scrollbarWidth);
+    hideTracks(scrollbarSize, scrollbarWidth);
+    universal(scrollbarSize, scrollbarWidth);
+    onUpdate(scrollbarSize, scrollbarWidth);
 }
