@@ -37,24 +37,38 @@ export const viewStyleUniversalInitial = {
 
 export const trackHorizontalStyleDefault = {
     position: 'absolute',
-    height: 6
+    height: 6,
+    right: 2,
+    bottom: 2,
+    left: 2,
+    borderRadius: 3
 };
 
 export const trackVerticalStyleDefault = {
     position: 'absolute',
-    width: 6
+    width: 6,
+    right: 2,
+    bottom: 2,
+    top: 2,
+    borderRadius: 3
 };
 
 export const thumbHorizontalStyleDefault = {
     position: 'relative',
     display: 'block',
-    height: '100%'
+    height: '100%',
+    cursor: 'pointer',
+    borderRadius: 'inherit',
+    backgroundColor: 'rgba(0,0,0,.2)'
 };
 
 export const thumbVerticalStyleDefault = {
     position: 'relative',
     display: 'block',
-    width: '100%'
+    width: '100%',
+    cursor: 'pointer',
+    borderRadius: 'inherit',
+    backgroundColor: 'rgba(0,0,0,.2)'
 };
 
 export const disableSelectStyle = {

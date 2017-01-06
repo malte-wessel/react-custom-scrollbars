@@ -202,6 +202,47 @@ export default function createTests(scrollbarWidth) {
                             done();
                         });
                     });
+
+                    it('should render same style with default track', done => {
+                        render((
+                            <div>
+                                <Scrollbars
+                                  className="sc"
+                                  style={{ width: 100, height: 100 }}>
+                                    <div style={{ width: 200, height: 200 }}/>
+                                </Scrollbars>
+                                <Scrollbars
+                                  className="sc"
+                                  renderTrackVertical={p => <div {...p} />}
+                                  style={{ width: 100, height: 100 }}>
+                                    <div style={{ width: 200, height: 200 }}/>
+                                </Scrollbars>
+                            </div>
+                        ), node, function callback() {
+                            const root = findDOMNode(this);
+                            const vTracks = root.querySelectorAll('.sc > div:last-child');
+
+                            const attr1 = vTracks[0].getAttribute('style');
+                            const attr2 = vTracks[1].getAttribute('style');
+
+                            expect(attr1).toBe(attr2);
+                            done();
+                        });
+                    });
+
+                    it('should override default style.', done => {
+                        render((
+                            <Scrollbars
+                                renderTrackHorizontal={({ style, ...props }) =>
+                                  <div {...props} style={{ ...style, right: 4 }} />
+                                }>
+                                <div style={{ width: 200, height: 200 }}/>
+                            </Scrollbars>
+                        ), node, function callback() {
+                            expect(this.refs.trackHorizontal.style.right).toBe('4px');
+                            done();
+                        });
+                    });
                 });
 
                 describe('when custom `renderThumbHorizontal` is passed', () => {
