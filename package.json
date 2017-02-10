@@ -3,6 +3,7 @@
   "version": "4.0.1",
   "description": "React scrollbars component",
   "main": "lib/index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "clean": "rimraf lib dist",
     "build": "babel src --out-dir lib",
