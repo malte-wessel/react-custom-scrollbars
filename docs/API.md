@@ -42,8 +42,8 @@
 
 ### Methods
 
-* `scrollTop(top)`: scroll to the top value
-* `scrollLeft(left)`: scroll to the left value
+* `scrollTop(top = 0)`: scroll to the top value
+* `scrollLeft(left = 0)`: scroll to the left value
 * `scrollToTop()`: scroll to top
 * `scrollToBottom()`: scroll to bottom
 * `scrollToLeft()`: scroll to left
