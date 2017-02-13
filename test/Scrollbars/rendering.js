@@ -311,6 +311,24 @@ export default function createTests(scrollbarWidth) {
             });
         });
 
+        describe('when native scrollbars have no width but noNative is true', () => {
+            if (scrollbarWidth) return;
+
+            it('should not hide bars', done => {
+                render((
+                    <Scrollbars noNative style={{ width: 100, height: 100 }}>
+                        <div style={{ width: 200, height: 200 }}/>
+                    </Scrollbars>
+                ), node, function callback() {
+                    setTimeout(() => {
+                        expect(this.refs.trackVertical.style.display).toEqual('');
+                        expect(this.refs.trackHorizontal.style.display).toEqual('');
+                        done();
+                    }, 100);
+                });
+            });
+        });
+
         describe('when rerendering Scrollbars', () => {
             function renderScrollbars(callback) {
                 render((
