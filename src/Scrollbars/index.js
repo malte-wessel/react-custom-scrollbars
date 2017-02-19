@@ -62,6 +62,7 @@ export default createClass({
         ]),
         universal: PropTypes.bool,
         style: PropTypes.object,
+        viewStyle: PropTypes.object,
         children: PropTypes.node,
     },
 
@@ -82,6 +83,7 @@ export default createClass({
             autoHeightMin: 0,
             autoHeightMax: 200,
             universal: false,
+            viewStyle: {},
         };
     },
 
@@ -539,6 +541,7 @@ export default createClass({
             autoHeightMin,
             autoHeightMax,
             style,
+            viewStyle,
             children,
             ...props
         } = this.props;
@@ -577,7 +580,9 @@ export default createClass({
                 maxHeight: autoHeightMax
             }),
             // Override
-            ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
+            ...((universal && !didMountUniversal) && viewStyleUniversalInitial),
+            // Override with custom styles
+            ...viewStyle
         };
 
         const trackAutoHeightStyle = {
