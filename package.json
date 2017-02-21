@@ -6,12 +6,12 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "build": "babel src --out-dir lib",
-    "build:umd": "NODE_ENV=development webpack src/index.js dist/react-custom-scrollbars.js",
-    "build:umd:min": "NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/react-custom-scrollbars.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/react-custom-scrollbars.min.js",
     "lint": "eslint src test examples",
-    "test": "NODE_ENV=test karma start",
-    "test:watch": "NODE_ENV=test karma start --auto-watch --no-single-run",
-    "test:cov": "NODE_ENV=test COVERAGE=true karma start --single-run",
+    "test": "cross-env NODE_ENV=test karma start",
+    "test:watch": "cross-env NODE_ENV=test karma start --auto-watch --no-single-run",
+    "test:cov": "cross-env NODE_ENV=test COVERAGE=true karma start --single-run",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build && npm run build:umd && npm run build:umd:min && node ./prepublish"
   },
   "repository": {
@@ -42,6 +42,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "babel-register": "^6.3.13",
     "babel-runtime": "^6.3.19",
+    "cross-env": "^3.1.4",
     "es3ify": "^0.2.1",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^9.0.1",
