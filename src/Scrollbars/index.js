@@ -1,7 +1,7 @@
 import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
 import { createClass, createElement, PropTypes, cloneElement } from 'react';
-import {findDOMNode} from 'react-dom'
+import { findDOMNode } from 'react-dom';
 
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
@@ -350,7 +350,7 @@ export default createClass({
 
     setupDragging() {
         css(document.body, disableSelectStyle);
-        if(this.ownerDocument) {
+        if (this.ownerDocument) {
           this.ownerDocument.addEventListener('mousemove', this.handleDrag);
           this.ownerDocument.addEventListener('mouseup', this.handleDragEnd);
           this.ownerDocument.onselectstart = returnFalse;
@@ -359,7 +359,7 @@ export default createClass({
 
     teardownDragging() {
         css(document.body, disableSelectStyleReset);
-        if(this.ownerDocument) {
+        if (this.ownerDocument) {
           this.ownerDocument.removeEventListener('mousemove', this.handleDrag);
           this.ownerDocument.removeEventListener('mouseup', this.handleDragEnd);
           this.ownerDocument.onselectstart = undefined;
