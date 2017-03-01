@@ -36,6 +36,10 @@ export default createClass({
     propTypes: {
         onScroll: PropTypes.func,
         onScrollFrame: PropTypes.func,
+        onScrollAtTop: PropTypes.func,
+        onScrollAtBottom: PropTypes.func,
+        onScrollAtLeft: PropTypes.func,
+        onScrollAtRight: PropTypes.func,
         onScrollStart: PropTypes.func,
         onScrollStop: PropTypes.func,
         onUpdate: PropTypes.func,
@@ -45,6 +49,8 @@ export default createClass({
         renderThumbHorizontal: PropTypes.func,
         renderThumbVertical: PropTypes.func,
         tagName: PropTypes.string,
+        edgeXThreshold: PropTypes.number,
+        edgeYThreshold: PropTypes.number,
         thumbSize: PropTypes.number,
         thumbMinSize: PropTypes.number,
         hideTracksWhenNotNeeded: PropTypes.bool,
@@ -73,6 +79,8 @@ export default createClass({
             renderThumbHorizontal: renderThumbHorizontalDefault,
             renderThumbVertical: renderThumbVerticalDefault,
             tagName: 'div',
+            edgeXThreshold: 30,
+            edgeYThreshold: 30,
             thumbMinSize: 30,
             hideTracksWhenNotNeeded: false,
             autoHide: false,
@@ -154,10 +162,18 @@ export default createClass({
             clientWidth,
             clientHeight
         } = view;
+        const {
+            edgeXThreshold, 
+            edgeYThreshold
+        } = this.props;
 
         return {
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0,
+            atLeft: (scrollLeft < edgeXThreshold),
+            atRight: (scrollWidth - clientWidth - scrollLeft < edgeXThreshold),
+            atTop: (scrollTop < edgeYThreshold), 
+            atBottom: (scrollHeight - clientHeight - scrollTop < edgeYThreshold),
             scrollLeft,
             scrollTop,
             scrollWidth,
@@ -272,12 +288,22 @@ export default createClass({
     },
 
     handleScroll(event) {
-        const { onScroll, onScrollFrame } = this.props;
+        const { onScroll, onScrollFrame,
+                onScrollAtTop, onScrollAtBottom,
+                onScrollAtLeft, onScrollAtRight 
+        } = this.props;
         if (onScroll) onScroll(event);
         this.update(values => {
-            const { scrollLeft, scrollTop } = values;
+            const { scrollLeft, scrollTop, 
+                    atTop, atBottom,
+                    atLeft, atRight
+            } = values;
             this.viewScrollLeft = scrollLeft;
             this.viewScrollTop = scrollTop;
+            if (onScrollAtTop && atTop) onScrollAtTop();
+            if (onScrollAtBottom && atBottom) onScrollAtBottom();
+            if (onScrollAtLeft && atLeft) onScrollAtLeft();
+            if (onScrollAtRight && atRight) onScrollAtRight();
             if (onScrollFrame) onScrollFrame(values);
         });
         this.detectScrolling();
@@ -519,6 +545,10 @@ export default createClass({
         const {
             onScroll,
             onScrollFrame,
+            onScrollAtLeft,
+            onScrollAtRight,
+            onScrollAtTop,
+            onScrollAtBottom,
             onScrollStart,
             onScrollStop,
             onUpdate,
@@ -528,6 +558,8 @@ export default createClass({
             renderThumbHorizontal,
             renderThumbVertical,
             tagName,
+            edgeXThreshold,
+            edgeYThreshold,
             hideTracksWhenNotNeeded,
             autoHide,
             autoHideTimeout,

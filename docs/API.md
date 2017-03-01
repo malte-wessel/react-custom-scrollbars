@@ -7,7 +7,7 @@
 * `onScroll`: (Function) Event handler
   * Signature: `onScroll(event)`
 * `onScrollFrame`: (Function) Runs inside the animation frame.
-  * Signature: `onScroll(values)`
+  * Signature: `onScrollFrame(values)`
   * `values`: (Object) Values about the current position
     * `values.top`: (Number) scrollTop progess, from 0 to 1
     * `values.left`: (Number) scrollLeft progess, from 0 to 1
@@ -17,6 +17,10 @@
     * `values.scrollHeight`: (Number) Native scrollHeight
     * `values.scrollLeft`: (Number) Native scrollLeft
     * `values.scrollTop`: (Number) Native scrollTop
+* `onScrollAtTop` (Function) Called on scroll event if scroll is at top edge
+* `onScrollAtBottom` (Function) Called on scroll event if scroll is at bottom edge
+* `onScrollAtRight` (Function) Called on scroll event if scroll is at left edge
+* `onScrollAtLeft` (Function) Called on scroll event if scroll is at right edge
 * `onScrollStart` (Function) Called when scrolling starts
 * `onScrollStop` (Function) Called when scrolling stops
 * `onUpdate` (Function) Called when ever the component is updated. Runs inside the animation frame
@@ -27,6 +31,8 @@
 * `renderThumbHorizontal`: (Function) Horizontal thumb element
 * `renderThumbVertical`: (Function) Vertical thumb element
 * `hideTracksWhenNotNeeded`: (Boolean) Hide tracks (`visibility: hidden`) when content does not overflow container. (default: false)
+* `edgeXThreshold`: (Number) Set a threshold for `onScrollAtRight` and `onScrollAtLeft` methods
+* `edgeYThreshold`: (Number) Set a threshold for `onScrollAtTop` and `onScrollAtBottom` methods
 * `thumbSize`: (Number) Set a fixed size for thumbs in px.
 * `thumbMinSize`: (Number) Minimal thumb size in px. (default: 30)
 * `autoHide`: (Boolean) Enable auto-hide mode (default: `false`)
