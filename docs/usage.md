@@ -45,6 +45,8 @@ class App extends Component {
         onScrollStart={this.handleScrollStart}
         // Called when scrolling stops
         onScrollStop={this.handlenScrollStop}>
+        // Called when ever the component is updated. Runs inside the animation frame
+        onUpdate={this.handleUpdate}
         <p>Some great content...</p>
       </Scrollbars>
     );
@@ -53,9 +55,9 @@ class App extends Component {
 ```
 
 
-## Auto hide
+## Auto-hide
 
-You can activate auto hide by setting the `autoHide` property.
+You can activate auto-hide by setting the `autoHide` property.
 
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -70,6 +72,27 @@ class App extends Component {
         autoHideTimeout={1000}
         // Duration for hide animation in ms.
         autoHideDuration={200}>
+        <p>Some great content...</p>
+      </Scrollbars>
+    );
+  }
+}
+```
+
+## Auto-height
+
+You can active auto-height by setting the `autoHeight` property.
+```javascript
+import { Scrollbars } from 'react-custom-scrollbars';
+
+class App extends Component {
+  render() {
+    return (
+      <Scrollbars
+        // This will activate auto-height
+        autoHeight
+        autoHeightMin={100}
+        autoHeightMax={200}>
         <p>Some great content...</p>
       </Scrollbars>
     );

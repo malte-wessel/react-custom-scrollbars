@@ -1,4 +1,5 @@
 import React from 'react';
+/* eslint-disable react/prop-types */
 
 export function renderViewDefault(props) {
     return <div {...props}/>;
@@ -10,8 +11,7 @@ export function renderTrackHorizontalDefault({ style, ...props }) {
         right: 2,
         bottom: 2,
         left: 2,
-        borderRadius: 3,
-        cursor: 'pointer'
+        borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
 }
@@ -22,8 +22,7 @@ export function renderTrackVerticalDefault({ style, ...props }) {
         right: 2,
         bottom: 2,
         top: 2,
-        borderRadius: 3,
-        cursor: 'pointer'
+        borderRadius: 3
     };
     return <div style={finalStyle} {...props} />;
 }

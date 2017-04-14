@@ -1,16 +1,19 @@
 import random from 'lodash/number/random';
-import React, { createClass } from 'react';
+import React, { Component } from 'react';
 import SpringScrollbars from './SpringScrollbars';
 
-export default createClass({
+export default class App extends Component {
 
-    displayName: 'App',
+    constructor(props, ...rest) {
+        super(props, ...rest);
+        this.handleClickRandomPosition = this.handleClickRandomPosition.bind(this);
+    }
 
     handleClickRandomPosition() {
         const { scrollbars } = this.refs;
         const scrollHeight = scrollbars.getScrollHeight();
         scrollbars.scrollTop(random(scrollHeight));
-    },
+    }
 
     render() {
         return (
@@ -42,4 +45,4 @@ export default createClass({
             </div>
         );
     }
-});
+}
