@@ -4,8 +4,8 @@
   "description": "Simple example",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=development node server.js",
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack",
+    "start": "cross-env NODE_ENV=development node server.js",
+    "build": "cross-env NODE_ENV=production node_modules/.bin/webpack",
     "build:pages": "npm run build && cp index.html ../../ && rm -rf ../../static && mv static ../../"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.0",
     "bootstrap-sass": "^3.3.6",
+    "cross-env": "^3.1.3",
     "dom-css": "^2.0.0",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^9.0.1",
