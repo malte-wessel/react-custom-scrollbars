@@ -1,6 +1,6 @@
 import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
-import React, { createClass } from 'react';
+import React, { Component } from 'react';
 
 export default function createTests() {
     let node;
@@ -14,7 +14,7 @@ export default function createTests() {
     });
     describe('when scrollbars are in flexbox environment', () => {
         it('should still work', done => {
-            const Root = createClass({
+            class Root extends Component {
                 render() {
                     return (
                         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column' }}>
@@ -24,7 +24,7 @@ export default function createTests() {
                         </div>
                     );
                 }
-            });
+            }
             render(<Root/>, node, function callback() {
                 setTimeout(() => {
                     const { scrollbars } = this.refs;

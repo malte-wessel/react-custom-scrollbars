@@ -1,6 +1,6 @@
 import { Scrollbars } from 'react-custom-scrollbars';
 import { render, unmountComponentAtNode, findDOMNode } from 'react-dom';
-import React, { createClass } from 'react';
+import React, { Component } from 'react';
 
 export default function createTests(scrollbarWidth, envScrollbarWidth) {
     describe('autoHeight', () => {
@@ -148,7 +148,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
 
         describe('when using perecentages', () => {
             it('should use calc', done => {
-                const Root = createClass({
+                class Root extends Component {
                     render() {
                         return (
                             <div style={{ width: 500, height: 500 }}>
@@ -162,7 +162,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                             </div>
                         );
                     }
-                });
+                }
                 render(<Root/>, node, function callback() {
                     setTimeout(() => {
                         const { scrollbars } = this.refs;
