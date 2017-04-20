@@ -47,13 +47,9 @@ export default class Scrollbars extends Component {
       this.handleDrag = this.handleDrag.bind(this);
       this.handleDragEnd = this.handleDragEnd.bind(this);
 
-      this.state = this.getInitialState();
-    }
-
-    getInitialState() {
-        return {
-            didMountUniversal: false
-        };
+      this.state = {
+	      didMountUniversal: false
+      };
     }
 
     componentDidMount() {
