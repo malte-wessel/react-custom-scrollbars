@@ -81,7 +81,7 @@ class App extends Component {
 
 ## Auto-height
 
-You can active auto-height by setting the `autoHeight` property.
+You can activate auto-height by setting the `autoHeight` property.
 ```javascript
 import { Scrollbars } from 'react-custom-scrollbars';
 
