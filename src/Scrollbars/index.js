@@ -34,22 +34,22 @@ import {
 export default class Scrollbars extends Component {
 
     constructor(props, ...rest) {
-      super(props, ...rest);
+        super(props, ...rest);
 
-      this.handleTrackMouseEnter = this.handleTrackMouseEnter.bind(this);
-      this.handleTrackMouseLeave = this.handleTrackMouseLeave.bind(this);
-      this.handleHorizontalTrackMouseDown = this.handleHorizontalTrackMouseDown.bind(this);
-      this.handleVerticalTrackMouseDown = this.handleVerticalTrackMouseDown.bind(this);
-      this.handleHorizontalThumbMouseDown = this.handleHorizontalThumbMouseDown.bind(this);
-      this.handleVerticalThumbMouseDown = this.handleVerticalThumbMouseDown.bind(this);
-      this.handleWindowResize = this.handleWindowResize.bind(this);
-      this.handleScroll = this.handleScroll.bind(this);
-      this.handleDrag = this.handleDrag.bind(this);
-      this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleTrackMouseEnter = this.handleTrackMouseEnter.bind(this);
+        this.handleTrackMouseLeave = this.handleTrackMouseLeave.bind(this);
+        this.handleHorizontalTrackMouseDown = this.handleHorizontalTrackMouseDown.bind(this);
+        this.handleVerticalTrackMouseDown = this.handleVerticalTrackMouseDown.bind(this);
+        this.handleHorizontalThumbMouseDown = this.handleHorizontalThumbMouseDown.bind(this);
+        this.handleVerticalThumbMouseDown = this.handleVerticalThumbMouseDown.bind(this);
+        this.handleWindowResize = this.handleWindowResize.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
 
-      this.state = {
-	      didMountUniversal: false
-      };
+        this.state = {
+            didMountUniversal: false
+        };
     }
 
     componentDidMount() {
