@@ -44,9 +44,9 @@ class App extends Component {
         // Called when scrolling starts
         onScrollStart={this.handleScrollStart}
         // Called when scrolling stops
-        onScrollStop={this.handlenScrollStop}>
+        onScrollStop={this.handlenScrollStop}
         // Called when ever the component is updated. Runs inside the animation frame
-        onUpdate={this.handleUpdate}
+        onUpdate={this.handleUpdate}>
         <p>Some great content...</p>
       </Scrollbars>
     );
