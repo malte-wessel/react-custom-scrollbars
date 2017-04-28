@@ -27,7 +27,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </ScrollbarsTest>
                     ), node, function callback() {
-                        const { view, trackHorizontal, trackVertical } = this.refs;
+                        const { view, trackHorizontal, trackVertical } = this;
                         expect(view.style.position).toEqual('absolute');
                         expect(view.style.overflow).toEqual('hidden');
                         expect(view.style.top).toEqual('0px');
@@ -49,7 +49,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { view } = this.refs;
+                        const { view } = this;
                         expect(view.style.overflow).toEqual('scroll');
                         expect(view.style.marginBottom).toEqual(`${-scrollbarWidth}px`);
                         expect(view.style.marginRight).toEqual(`${-scrollbarWidth}px`);
@@ -71,7 +71,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </ScrollbarsTest>
                     ), node, function callback() {
-                        const { view, trackHorizontal, trackVertical } = this.refs;
+                        const { view, trackHorizontal, trackVertical } = this;
                         expect(view.style.position).toEqual('relative');
                         expect(view.style.overflow).toEqual('hidden');
                         expect(view.style.marginBottom).toEqual('0px');
@@ -91,7 +91,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { view } = this.refs;
+                        const { view } = this;
                         expect(view.style.overflow).toEqual('scroll');
                         expect(view.style.marginBottom).toEqual(`${-scrollbarWidth}px`);
                         expect(view.style.marginRight).toEqual(`${-scrollbarWidth}px`);

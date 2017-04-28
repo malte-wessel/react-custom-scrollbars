@@ -18,7 +18,7 @@ export default function createTests() {
                 render() {
                     return (
                         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column' }}>
-                            <Scrollbars ref="scrollbars">
+                            <Scrollbars ref={(ref) => { this.scrollbars = ref; }}>
                                 <div style={{ width: 10000, height: 10000 }}/>
                             </Scrollbars>
                         </div>
@@ -27,9 +27,9 @@ export default function createTests() {
             }
             render(<Root/>, node, function callback() {
                 setTimeout(() => {
-                    const { scrollbars } = this.refs;
+                    const { scrollbars } = this;
                     const $scrollbars = findDOMNode(scrollbars);
-                    const $view = scrollbars.refs.view;
+                    const $view = scrollbars.view;
                     expect($scrollbars.clientHeight).toBeGreaterThan(0);
                     expect($view.clientHeight).toBeGreaterThan(0);
                     done();
