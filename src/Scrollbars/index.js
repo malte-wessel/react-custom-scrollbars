@@ -294,6 +294,8 @@ export default class Scrollbars extends Component {
 
     handleHorizontalThumbMouseDown(event) {
         event.preventDefault();
+        const { onDragStartHorizontal } = this.props;
+        if (onDragStartHorizontal) onDragStartHorizontal();
         this.handleDragStart(event);
         const { target, clientX } = event;
         const { offsetWidth } = target;
@@ -303,6 +305,8 @@ export default class Scrollbars extends Component {
 
     handleVerticalThumbMouseDown(event) {
         event.preventDefault();
+        const { onDragStartVertical } = this.props;
+        if (onDragStartVertical) onDragStartVertical();
         this.handleDragStart(event);
         const { target, clientY } = event;
         const { offsetHeight } = target;
@@ -353,6 +357,8 @@ export default class Scrollbars extends Component {
     }
 
     handleDragEnd() {
+        const { onDragEnd } = this.props;
+        if (onDragEnd) onDragEnd();
         this.dragging = false;
         this.prevPageX = this.prevPageY = 0;
         this.teardownDragging();
@@ -482,6 +488,9 @@ export default class Scrollbars extends Component {
             onScrollFrame,
             onScrollStart,
             onScrollStop,
+            onDragStartHorizontal,
+            onDragStartVertical,
+            onDragEnd,
             onUpdate,
             renderView,
             renderTrackHorizontal,
@@ -593,6 +602,9 @@ Scrollbars.propTypes = {
     onScrollFrame: PropTypes.func,
     onScrollStart: PropTypes.func,
     onScrollStop: PropTypes.func,
+    onDragStartHorizontal: PropTypes.func,
+    onDragStartVertical: PropTypes.func,
+    onDragEnd: PropTypes.func,
     onUpdate: PropTypes.func,
     renderView: PropTypes.func,
     renderTrackHorizontal: PropTypes.func,
