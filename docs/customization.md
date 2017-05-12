@@ -52,7 +52,7 @@ class CustomScrollbars extends Component {
     return (
       <Scrollbars
         renderTrackHorizontal={({ style, ...props }) =>
-            <div {...props} style={{ ...style, backgroundColor: 'blue' }}>
+            <div {...props} style={{ ...style, backgroundColor: 'blue' }}/>
         }>
         {this.props.children}
       </Scrollbars>
