@@ -27,11 +27,11 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
                     setTimeout(() => {
                         if (scrollbarWidth) {
                             // 50 / (200 - 100) * (96 - 48) = 24
-                            expect(this.refs.thumbVertical.style.transform).toEqual('translateY(24px)');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('translateX(24px)');
+                            expect(this.thumbVertical.style.transform).toEqual('translateY(24px)');
+                            expect(this.thumbHorizontal.style.transform).toEqual('translateX(24px)');
                         } else {
-                            expect(this.refs.thumbVertical.style.transform).toEqual('');
-                            expect(this.refs.thumbHorizontal.style.transform).toEqual('');
+                            expect(this.thumbVertical.style.transform).toEqual('');
+                            expect(this.thumbHorizontal.style.transform).toEqual('');
                         }
                         done();
                     }, 100);

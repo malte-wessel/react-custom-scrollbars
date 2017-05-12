@@ -25,9 +25,8 @@ export default function createTests(scrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const { trackHorizontal, trackVertical } = this.refs;
-                    expect(trackHorizontal.style.opacity).toEqual('0');
-                    expect(trackVertical.style.opacity).toEqual('0');
+                    expect(this.trackHorizontal.style.opacity).toEqual('0');
+                    expect(this.trackVertical.style.opacity).toEqual('0');
                     done();
                 });
             });
@@ -40,7 +39,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackHorizontal: track } = this.refs;
+                        const { trackHorizontal: track } = this;
                         simulant.fire(track, 'mouseenter');
                         expect(track.style.opacity).toEqual('1');
                         done();
@@ -55,7 +54,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackHorizontal: track } = this.refs;
+                        const { trackHorizontal: track } = this;
                         simulant.fire(track, 'mouseenter');
                         setTimeout(() => this.hideTracks(), 10);
                         setTimeout(() => {
@@ -76,7 +75,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackHorizontal: track } = this.refs;
+                        const { trackHorizontal: track } = this;
                         simulant.fire(track, 'mouseenter');
                         simulant.fire(track, 'mouseleave');
                         setTimeout(() => {
@@ -93,7 +92,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackVertical: track } = this.refs;
+                        const { trackVertical: track } = this;
                         simulant.fire(track, 'mouseenter');
                         expect(track.style.opacity).toEqual('1');
                         done();
@@ -108,7 +107,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackVertical: track } = this.refs;
+                        const { trackVertical: track } = this;
                         simulant.fire(track, 'mouseenter');
                         setTimeout(() => this.hideTracks(), 10);
                         setTimeout(() => {
@@ -129,7 +128,7 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const { trackVertical: track } = this.refs;
+                        const { trackVertical: track } = this;
                         simulant.fire(track, 'mouseenter');
                         simulant.fire(track, 'mouseleave');
                         setTimeout(() => {
@@ -149,7 +148,7 @@ export default function createTests(scrollbarWidth) {
                 ), node, function callback() {
                     this.scrollTop(50);
                     setTimeout(() => {
-                        const { trackHorizontal, trackVertical } = this.refs;
+                        const { trackHorizontal, trackVertical } = this;
                         expect(trackHorizontal.style.opacity).toEqual('1');
                         expect(trackVertical.style.opacity).toEqual('1');
                         done();
@@ -168,7 +167,7 @@ export default function createTests(scrollbarWidth) {
                 ), node, function callback() {
                     this.scrollTop(50);
                     setTimeout(() => {
-                        const { trackHorizontal, trackVertical } = this.refs;
+                        const { trackHorizontal, trackVertical } = this;
                         expect(trackHorizontal.style.opacity).toEqual('0');
                         expect(trackVertical.style.opacity).toEqual('0');
                         done();
@@ -187,7 +186,7 @@ export default function createTests(scrollbarWidth) {
                     this.scrollTop(50);
                     setTimeout(() => this.hideTracks());
                     setTimeout(() => {
-                        const { trackHorizontal, trackVertical } = this.refs;
+                        const { trackHorizontal, trackVertical } = this;
                         expect(trackHorizontal.style.opacity).toEqual('1');
                         expect(trackVertical.style.opacity).toEqual('1');
                         done();
@@ -206,7 +205,7 @@ export default function createTests(scrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const { thumbHorizontal: thumb, trackHorizontal: track } = this.refs;
+                    const { thumbHorizontal: thumb, trackHorizontal: track } = this;
                     const { left } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
                         target: thumb,
@@ -232,7 +231,7 @@ export default function createTests(scrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const { thumbHorizontal: thumb, trackHorizontal: track } = this.refs;
+                    const { thumbHorizontal: thumb, trackHorizontal: track } = this;
                     const { left } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
                         target: thumb,
@@ -258,7 +257,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            const { thumbHorizontal: thumb, trackHorizontal: track } = this.refs;
+                            const { thumbHorizontal: thumb, trackHorizontal: track } = this;
                             const { left } = thumb.getBoundingClientRect();
                             simulant.fire(thumb, 'mousedown', {
                                 target: thumb,
@@ -288,7 +287,7 @@ export default function createTests(scrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const { thumbVertical: thumb, trackVertical: track } = this.refs;
+                    const { thumbVertical: thumb, trackVertical: track } = this;
                     const { top } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
                         target: thumb,
@@ -313,7 +312,7 @@ export default function createTests(scrollbarWidth) {
                         <div style={{ width: 200, height: 200 }}/>
                     </Scrollbars>
                 ), node, function callback() {
-                    const { thumbVertical: thumb, trackVertical: track } = this.refs;
+                    const { thumbVertical: thumb, trackVertical: track } = this;
                     const { top } = thumb.getBoundingClientRect();
                     simulant.fire(thumb, 'mousedown', {
                         target: thumb,
@@ -338,7 +337,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         setTimeout(() => {
-                            const { thumbVertical: thumb, trackVertical: track } = this.refs;
+                            const { thumbVertical: thumb, trackVertical: track } = this;
                             const { top } = thumb.getBoundingClientRect();
                             simulant.fire(thumb, 'mousedown', {
                                 target: thumb,
@@ -369,7 +368,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         const spy = spyOn(this, 'showTracks');
-                        const { trackHorizontal: track } = this.refs;
+                        const { trackHorizontal: track } = this;
                         simulant.fire(track, 'mouseenter');
                         expect(spy.calls.length).toEqual(0);
                         done();
@@ -384,7 +383,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         const spy = spyOn(this, 'hideTracks');
-                        const { trackHorizontal: track } = this.refs;
+                        const { trackHorizontal: track } = this;
                         simulant.fire(track, 'mouseenter');
                         simulant.fire(track, 'mouseleave');
                         setTimeout(() => {
@@ -402,7 +401,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         const spy = spyOn(this, 'showTracks');
-                        const { trackVertical: track } = this.refs;
+                        const { trackVertical: track } = this;
                         simulant.fire(track, 'mouseenter');
                         expect(spy.calls.length).toEqual(0);
                         done();
@@ -417,7 +416,7 @@ export default function createTests(scrollbarWidth) {
                         </Scrollbars>
                     ), node, function callback() {
                         const spy = spyOn(this, 'hideTracks');
-                        const { trackVertical: track } = this.refs;
+                        const { trackVertical: track } = this;
                         simulant.fire(track, 'mouseenter');
                         simulant.fire(track, 'mouseleave');
                         setTimeout(() => {
