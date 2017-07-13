@@ -13,7 +13,10 @@ export default class ColoredScrollbars extends Component {
 
     handleUpdate(values) {
         const { top } = values;
-        this.setState({ top });
+		// prevented infinite loop
+		if (top !== this.state.top) {
+			this.setState({ top });
+		}
     }
 
     renderView({ style, ...props }) {

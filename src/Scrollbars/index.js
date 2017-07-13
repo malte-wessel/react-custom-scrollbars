@@ -8,6 +8,7 @@ import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
+import throttle from '../utils/throttle';
 
 import {
     containerStyleDefault,
@@ -34,22 +35,23 @@ import {
 export default class Scrollbars extends Component {
 
     constructor(props, ...rest) {
-      super(props, ...rest);
+        super(props, ...rest);
 
-      this.handleTrackMouseEnter = this.handleTrackMouseEnter.bind(this);
-      this.handleTrackMouseLeave = this.handleTrackMouseLeave.bind(this);
-      this.handleHorizontalTrackMouseDown = this.handleHorizontalTrackMouseDown.bind(this);
-      this.handleVerticalTrackMouseDown = this.handleVerticalTrackMouseDown.bind(this);
-      this.handleHorizontalThumbMouseDown = this.handleHorizontalThumbMouseDown.bind(this);
-      this.handleVerticalThumbMouseDown = this.handleVerticalThumbMouseDown.bind(this);
-      this.handleWindowResize = this.handleWindowResize.bind(this);
-      this.handleScroll = this.handleScroll.bind(this);
-      this.handleDrag = this.handleDrag.bind(this);
-      this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleTrackMouseEnter = this.handleTrackMouseEnter.bind(this);
+        this.handleTrackMouseLeave = this.handleTrackMouseLeave.bind(this);
+        this.handleHorizontalTrackMouseDown = this.handleHorizontalTrackMouseDown.bind(this);
+        this.handleVerticalTrackMouseDown = this.handleVerticalTrackMouseDown.bind(this);
+        this.handleHorizontalThumbMouseDown = this.handleHorizontalThumbMouseDown.bind(this);
+        this.handleVerticalThumbMouseDown = this.handleVerticalThumbMouseDown.bind(this);
+        this.handleWindowResize = this.handleWindowResize.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
 
-      this.state = {
-	      didMountUniversal: false
-      };
+        this.state = {
+            didMountUniversal: false,
+            scrollbarWidth: getScrollbarWidth()
+        };
     }
 
     componentDidMount() {
@@ -269,7 +271,17 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
-        this.update();
+        throttle(() => {
+            // In most of the browsers on zoom-out event
+            // scrollbar width changes between 15-60px
+            // due to this on resize event scrollbar width must be recalculated
+            const { scrollbarWidth } = this.state;
+            const recalculatedScrollbarWidth = getScrollbarWidth(true);
+            if (scrollbarWidth !== recalculatedScrollbarWidth) {
+                this.setState({ scrollbarWidth: recalculatedScrollbarWidth });
+            }
+            this.update();
+        }, 150)();
     }
 
     handleHorizontalTrackMouseDown(event) {
