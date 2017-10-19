@@ -5,3 +5,4 @@ dist
 lib
 coverage
 examples/simple/static
+.idea/
