@@ -92,10 +92,12 @@ export default function createTests(scrollbarWidth) {
                             <div style={{ width: 200, height: 200 }}/>
                         </Scrollbars>
                     ), node, function callback() {
-                        const width = `-${scrollbarWidth}px`;
-                        expect(this.view.style.marginRight).toEqual(width);
-                        expect(this.view.style.marginBottom).toEqual(width);
-                        done();
+                        setTimeout(() => {
+                            const width = `-${scrollbarWidth}px`;
+                            expect(this.view.style.marginRight).toEqual(width);
+                            expect(this.view.style.marginBottom).toEqual(width);
+                            done();
+                        }, 100);
                     });
                 });
 
