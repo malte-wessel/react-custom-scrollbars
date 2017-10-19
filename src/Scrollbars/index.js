@@ -200,7 +200,7 @@ export default class Scrollbars extends Component {
 
     addListeners() {
         /* istanbul ignore if */
-        if (typeof document === 'undefined') return;
+        if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
@@ -217,7 +217,7 @@ export default class Scrollbars extends Component {
 
     removeListeners() {
         /* istanbul ignore if */
-        if (typeof document === 'undefined') return;
+        if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
