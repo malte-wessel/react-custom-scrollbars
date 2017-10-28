@@ -95,38 +95,44 @@ export default class Scrollbars extends Component {
     }
 
     getScrollLeft() {
+        if (!this.view) return 0;
         return this.view.scrollLeft;
     }
 
     getScrollTop() {
+        if (!this.view) return 0;
         return this.view.scrollTop;
     }
 
     getScrollWidth() {
+        if (!this.view) return 0;
         return this.view.scrollWidth;
     }
 
     getScrollHeight() {
+        if (!this.view) return 0;
         return this.view.scrollHeight;
     }
 
     getClientWidth() {
+        if (!this.view) return 0;
         return this.view.clientWidth;
     }
 
     getClientHeight() {
+        if (!this.view) return 0;
         return this.view.clientHeight;
     }
 
     getValues() {
         const {
-            scrollLeft,
-            scrollTop,
-            scrollWidth,
-            scrollHeight,
-            clientWidth,
-            clientHeight
-        } = this.view;
+            scrollLeft = 0,
+            scrollTop = 0,
+            scrollWidth = 0,
+            scrollHeight = 0,
+            clientWidth = 0,
+            clientHeight = 0
+        } = this.view || {};
 
         return {
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
@@ -175,26 +181,32 @@ export default class Scrollbars extends Component {
     }
 
     scrollLeft(left = 0) {
+        if (!this.view) return;
         this.view.scrollLeft = left;
     }
 
     scrollTop(top = 0) {
+        if (!this.view) return;
         this.view.scrollTop = top;
     }
 
     scrollToLeft() {
+        if (!this.view) return;
         this.view.scrollLeft = 0;
     }
 
     scrollToTop() {
+        if (!this.view) return;
         this.view.scrollTop = 0;
     }
 
     scrollToRight() {
+        if (!this.view) return;
         this.view.scrollLeft = this.view.scrollWidth;
     }
 
     scrollToBottom() {
+        if (!this.view) return;
         this.view.scrollTop = this.view.scrollHeight;
     }
 
