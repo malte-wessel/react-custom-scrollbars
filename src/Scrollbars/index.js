@@ -148,7 +148,7 @@ export default class Scrollbars extends Component {
             scrollHeight = 0,
             clientWidth = 0,
             clientHeight = 0
-        } = this.view = {};
+        } = this.view || {};
 
         return {
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
