@@ -57,6 +57,18 @@ export const thumbVerticalStyleDefault = {
     width: '100%'
 };
 
+export const arrowVerticalStyleDefault = {
+    position: 'absolute',
+    height: 6,
+    width: '100%'
+};
+
+export const arrowHorizontalStyleDefault = {
+    position: 'absolute',
+    height: '100%',
+    width: 6
+};
+
 export const disableSelectStyle = {
     userSelect: 'none'
 };
