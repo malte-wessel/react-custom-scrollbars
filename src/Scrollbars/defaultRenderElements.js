@@ -47,7 +47,6 @@ export function renderThumbVerticalDefault({ style, ...props }) {
     return <div style={finalStyle} {...props} />;
 }
 
-
 export function renderArrowLeftHorizontalDefault({ style, ...props }) {
     const finalStyle = {
         ...style,
@@ -67,7 +66,6 @@ export function renderArrowRightHorizontalDefault({ style, ...props }) {
     };
     return <div style={finalStyle} {...props} />;
 }
-
 
 export function renderArrowTopVerticalDefault({ style, ...props }) {
     const finalStyle = {
