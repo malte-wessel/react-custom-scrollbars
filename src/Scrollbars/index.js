@@ -8,6 +8,7 @@ import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
+import throttle from '../utils/throttle';
 
 import {
     containerStyleDefault,
@@ -67,7 +68,8 @@ export default class Scrollbars extends Component {
         this.handleDragEnd = this.handleDragEnd.bind(this);
 
         this.state = {
-            didMountUniversal: false
+            didMountUniversal: false,
+            scrollbarWidth: getScrollbarWidth(),
         };
     }
 
@@ -283,7 +285,16 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
-        this.update();
+        throttle(() => {
+            // In most of the browsers on zoom-out event
+            // scrollbar width changes between 15-60px
+            // due to this on resize event scrollbar width must be recalculated
+            const recalculatedScrollbarWidth = getScrollbarWidth(true);
+            if (this.state.scrollbarWidth !== recalculatedScrollbarWidth) {
+                this.setState({ scrollbarWidth: recalculatedScrollbarWidth });
+            }
+            this.update();
+        }, 150)();
     }
 
     handleHorizontalTrackMouseDown(event) {
