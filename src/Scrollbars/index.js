@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
+import scrollBarAlwaysShow from '../utils/scrollBarAlwaysShow';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -527,8 +528,8 @@ export default class Scrollbars extends Component {
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-            marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
+            marginRight: -scrollbarWidth,
+            marginBottom: -scrollbarWidth,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
                 // Add scrollbarWidth to autoHeight in order to compensate negative margins
@@ -573,7 +574,12 @@ export default class Scrollbars extends Component {
             cloneElement(
                 renderView({ style: viewStyle }),
                 { key: 'view', ref: (ref) => { this.view = ref; } },
-                children
+                scrollBarAlwaysShow() ? children :
+                createElement('div', {style: {
+                  float: 'left', 
+                  paddingRight: scrollbarWidth, 
+                  paddingBottom: scrollbarWidth
+                }}, children)
             ),
             cloneElement(
                 renderTrackHorizontal({ style: trackHorizontalStyle }),
