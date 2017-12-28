@@ -1,6 +1,6 @@
 import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
-import { Component, createElement, cloneElement } from 'react';
+import { Component, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import isString from '../utils/isString';
@@ -10,8 +10,6 @@ import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
 
 import {
-    containerStyleDefault,
-    containerStyleAutoHeight,
     viewStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
@@ -28,7 +26,8 @@ import {
     renderTrackHorizontalDefault,
     renderTrackVerticalDefault,
     renderThumbHorizontalDefault,
-    renderThumbVerticalDefault
+    renderThumbVerticalDefault,
+    renderLayoutDefault
 } from './defaultRenderElements';
 
 export default class Scrollbars extends Component {
@@ -483,46 +482,23 @@ export default class Scrollbars extends Component {
 
     render() {
         const scrollbarWidth = getScrollbarWidth();
-        /* eslint-disable no-unused-vars */
         const {
-            onScroll,
-            onScrollFrame,
-            onScrollStart,
-            onScrollStop,
-            onUpdate,
             renderView,
             renderTrackHorizontal,
             renderTrackVertical,
             renderThumbHorizontal,
             renderThumbVertical,
-            tagName,
-            hideTracksWhenNotNeeded,
+            renderLayout,
             autoHide,
-            autoHideTimeout,
             autoHideDuration,
-            thumbSize,
-            thumbMinSize,
             universal,
             autoHeight,
             autoHeightMin,
             autoHeightMax,
-            style,
             children,
-            ...props
         } = this.props;
-        /* eslint-enable no-unused-vars */
 
         const { didMountUniversal } = this.state;
-
-        const containerStyle = {
-            ...containerStyleDefault,
-            ...(autoHeight && {
-                ...containerStyleAutoHeight,
-                minHeight: autoHeightMin,
-                maxHeight: autoHeightMax
-            }),
-            ...style
-        };
 
         const viewStyle = {
             ...viewStyleDefault,
@@ -569,29 +545,41 @@ export default class Scrollbars extends Component {
             })
         };
 
-        return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
-            cloneElement(
-                renderView({ style: viewStyle }),
-                { key: 'view', ref: (ref) => { this.view = ref; } },
-                children
-            ),
-            cloneElement(
-                renderTrackHorizontal({ style: trackHorizontalStyle }),
-                { key: 'trackHorizontal', ref: (ref) => { this.trackHorizontal = ref; } },
-                cloneElement(
-                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
-                    { ref: (ref) => { this.thumbHorizontal = ref; } }
-                )
-            ),
-            cloneElement(
-                renderTrackVertical({ style: trackVerticalStyle }),
-                { key: 'trackVertical', ref: (ref) => { this.trackVertical = ref; } },
-                cloneElement(
-                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
-                    { ref: (ref) => { this.thumbVertical = ref; } }
-                )
-            )
-        ]);
+        const view = cloneElement(
+            renderView({ style: viewStyle }),
+            { key: 'view', ref: (ref) => { this.view = ref; } },
+            children
+        );
+
+        const thumbHorizontal = cloneElement(
+            renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
+            { ref: (ref) => { this.thumbHorizontal = ref; } }
+        );
+
+        const trackHorizontal = cloneElement(
+            renderTrackHorizontal({ style: trackHorizontalStyle }),
+            { key: 'trackHorizontal', ref: (ref) => { this.trackHorizontal = ref; } },
+        );
+
+        const thumbVertical = cloneElement(
+            renderThumbVertical({ style: thumbVerticalStyleDefault }),
+            { ref: (ref) => { this.thumbVertical = ref; } }
+        );
+
+        const trackVertical = cloneElement(
+            renderTrackVertical({ style: trackVerticalStyle }),
+            { key: 'trackVertical', ref: (ref) => { this.trackVertical = ref; } }
+        );
+
+        const layout = renderLayout({
+            view,
+            thumbHorizontal,
+            thumbVertical,
+            trackHorizontal,
+            trackVertical
+        }, this.props);
+
+        return cloneElement(layout, { ref: (ref) => { this.container = ref; } });
     }
 }
 
@@ -602,10 +590,12 @@ Scrollbars.propTypes = {
     onScrollStop: PropTypes.func,
     onUpdate: PropTypes.func,
     renderView: PropTypes.func,
+    renderViewWrapper: PropTypes.func,
     renderTrackHorizontal: PropTypes.func,
     renderTrackVertical: PropTypes.func,
     renderThumbHorizontal: PropTypes.func,
     renderThumbVertical: PropTypes.func,
+    renderLayout: PropTypes.func,
     tagName: PropTypes.string,
     thumbSize: PropTypes.number,
     thumbMinSize: PropTypes.number,
@@ -629,6 +619,7 @@ Scrollbars.propTypes = {
 
 Scrollbars.defaultProps = {
     renderView: renderViewDefault,
+    renderLayout: renderLayoutDefault,
     renderTrackHorizontal: renderTrackHorizontalDefault,
     renderTrackVertical: renderTrackVerticalDefault,
     renderThumbHorizontal: renderThumbHorizontalDefault,
