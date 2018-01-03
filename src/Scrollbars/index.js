@@ -179,34 +179,49 @@ export default class Scrollbars extends Component {
         return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
     }
 
+    doScroll(axis, value) {
+        const {smoothScroll} = this.props;
+
+        if (smoothScroll && this.view.scrollTo) {
+            this.view.scrollTo({
+                [axis]: value,
+                behavior: 'smooth'
+            });
+        } else {
+            const axisUpper = axis.toUpperCase();
+            const axisUpperFirst = axisUpper[0] + axis.slice(1);
+            this.view['scroll' + axisUpperFirst] = value;
+        }
+    }
+
     scrollLeft(left = 0) {
         if (!this.view) return;
-        this.view.scrollLeft = left;
+        this.doScroll('left', left);
     }
 
     scrollTop(top = 0) {
         if (!this.view) return;
-        this.view.scrollTop = top;
+        this.doScroll('top', top);
     }
 
     scrollToLeft() {
         if (!this.view) return;
-        this.view.scrollLeft = 0;
+        this.doScroll('left', 0);
     }
 
     scrollToTop() {
         if (!this.view) return;
-        this.view.scrollTop = 0;
+        this.doScroll('top', 0);
     }
 
     scrollToRight() {
         if (!this.view) return;
-        this.view.scrollLeft = this.view.scrollWidth;
+        this.doScroll('left', this.view.scrollWidth);
     }
 
     scrollToBottom() {
         if (!this.view) return;
-        this.view.scrollTop = this.view.scrollHeight;
+        this.doScroll('top', this.view.scrollHeight);
     }
 
     addListeners() {
@@ -291,7 +306,7 @@ export default class Scrollbars extends Component {
         const { left: targetLeft } = target.getBoundingClientRect();
         const thumbWidth = this.getThumbHorizontalWidth();
         const offset = Math.abs(targetLeft - clientX) - thumbWidth / 2;
-        this.view.scrollLeft = this.getScrollLeftForOffset(offset);
+        this.scrollLeft(this.getScrollLeftForOffset(offset));
     }
 
     handleVerticalTrackMouseDown(event) {
@@ -300,7 +315,7 @@ export default class Scrollbars extends Component {
         const { top: targetTop } = target.getBoundingClientRect();
         const thumbHeight = this.getThumbVerticalHeight();
         const offset = Math.abs(targetTop - clientY) - thumbHeight / 2;
-        this.view.scrollTop = this.getScrollTopForOffset(offset);
+        this.scrollTop(this.getScrollTopForOffset(offset));
     }
 
     handleHorizontalThumbMouseDown(event) {
@@ -348,6 +363,7 @@ export default class Scrollbars extends Component {
             const thumbWidth = this.getThumbHorizontalWidth();
             const clickPosition = thumbWidth - this.prevPageX;
             const offset = -trackLeft + clientX - clickPosition;
+            //don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
             this.view.scrollLeft = this.getScrollLeftForOffset(offset);
         }
         if (this.prevPageY) {
@@ -356,6 +372,7 @@ export default class Scrollbars extends Component {
             const thumbHeight = this.getThumbVerticalHeight();
             const clickPosition = thumbHeight - this.prevPageY;
             const offset = -trackTop + clientY - clickPosition;
+            //don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
             this.view.scrollTop = this.getScrollTopForOffset(offset);
         }
         return false;
@@ -634,4 +651,5 @@ Scrollbars.defaultProps = {
     autoHeightMin: 0,
     autoHeightMax: 200,
     universal: false,
+    smoothScroll: false
 };
