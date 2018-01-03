@@ -180,7 +180,7 @@ export default class Scrollbars extends Component {
     }
 
     doScroll(axis, value) {
-        const {smoothScroll} = this.props;
+        const { smoothScroll } = this.props;
 
         if (smoothScroll && this.view.scrollTo) {
             this.view.scrollTo({
@@ -190,7 +190,7 @@ export default class Scrollbars extends Component {
         } else {
             const axisUpper = axis.toUpperCase();
             const axisUpperFirst = axisUpper[0] + axis.slice(1);
-            this.view['scroll' + axisUpperFirst] = value;
+            this.view[`scroll${axisUpperFirst}`] = value;
         }
     }
 
@@ -363,7 +363,7 @@ export default class Scrollbars extends Component {
             const thumbWidth = this.getThumbHorizontalWidth();
             const clickPosition = thumbWidth - this.prevPageX;
             const offset = -trackLeft + clientX - clickPosition;
-            //don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
+            // don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
             this.view.scrollLeft = this.getScrollLeftForOffset(offset);
         }
         if (this.prevPageY) {
@@ -372,7 +372,7 @@ export default class Scrollbars extends Component {
             const thumbHeight = this.getThumbVerticalHeight();
             const clickPosition = thumbHeight - this.prevPageY;
             const offset = -trackTop + clientY - clickPosition;
-            //don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
+            // don't apply smooth scroll on drag. scroll by drag is smooth enough by itself
             this.view.scrollTop = this.getScrollTopForOffset(offset);
         }
         return false;
@@ -630,6 +630,7 @@ Scrollbars.propTypes = {
         PropTypes.string
     ]),
     universal: PropTypes.bool,
+    smoothScroll: PropTypes.bool,
     style: PropTypes.object,
     children: PropTypes.node,
 };
