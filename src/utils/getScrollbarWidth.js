@@ -64,4 +64,6 @@ export default function getScrollbarWidth() {
     return scrollbarWidth;
 }
 
-window.addEventListener('resize', () => scrollbarWidth = false);
+window.addEventListener('resize', function updateScrollbarWidthOnResize() {
+    scrollbarWidth = false;
+});
