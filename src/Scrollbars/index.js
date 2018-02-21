@@ -70,6 +70,8 @@ export default class Scrollbars extends Component {
         this.state = {
             didMountUniversal: false
         };
+
+        this.currentScrollbarWidth = false;
     }
 
     componentDidMount() {
@@ -182,6 +184,7 @@ export default class Scrollbars extends Component {
     }
 
     getScrollbarWidth() {
+        if (this.currentScrollbarWidth !== false) return this.currentScrollbarWidth;
         return getScrollbarWidth(this.props.defaultScrollbarWidth);
     }
 
@@ -445,6 +448,7 @@ export default class Scrollbars extends Component {
     }
 
     update(callback) {
+        this.currentScrollbarWidth = false;
         this.raf(() => this._update(callback));
     }
 
