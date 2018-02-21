@@ -47,6 +47,7 @@ export default class Scrollbars extends Component {
         this.getThumbVerticalHeight = this.getThumbVerticalHeight.bind(this);
         this.getScrollLeftForOffset = this.getScrollLeftForOffset.bind(this);
         this.getScrollTopForOffset = this.getScrollTopForOffset.bind(this);
+        this.getScrollbarWidth = this.getScrollbarWidth.bind(this);
 
         this.scrollLeft = this.scrollLeft.bind(this);
         this.scrollTop = this.scrollTop.bind(this);
@@ -69,6 +70,8 @@ export default class Scrollbars extends Component {
         this.state = {
             didMountUniversal: false
         };
+
+        this.currentScrollbarWidth = false;
     }
 
     componentDidMount() {
@@ -81,6 +84,12 @@ export default class Scrollbars extends Component {
         const { universal } = this.props;
         if (!universal) return;
         this.setState({ didMountUniversal: true });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.defaultScrollbarWidth !== nextProps.defaultScrollbarWidth) {
+            this.currentScrollbarWidth = false;
+        }
     }
 
     componentDidUpdate() {
@@ -180,6 +189,11 @@ export default class Scrollbars extends Component {
         return offset / (trackHeight - thumbHeight) * (scrollHeight - clientHeight);
     }
 
+    getScrollbarWidth() {
+        if (this.currentScrollbarWidth !== false) return this.currentScrollbarWidth;
+        return getScrollbarWidth(this.props.defaultScrollbarWidth);
+    }
+
     scrollLeft(left = 0) {
         if (!this.view) return;
         this.view.scrollLeft = left;
@@ -215,7 +229,7 @@ export default class Scrollbars extends Component {
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.addEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!this.getScrollbarWidth()) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -232,7 +246,7 @@ export default class Scrollbars extends Component {
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.removeEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!this.getScrollbarWidth()) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -446,7 +460,7 @@ export default class Scrollbars extends Component {
     _update(callback) {
         const { onUpdate, hideTracksWhenNotNeeded } = this.props;
         const values = this.getValues();
-        if (getScrollbarWidth()) {
+        if (this.getScrollbarWidth()) {
             const { scrollLeft, clientWidth, scrollWidth } = values;
             const trackHorizontalWidth = getInnerWidth(this.trackHorizontal);
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
@@ -482,9 +496,10 @@ export default class Scrollbars extends Component {
     }
 
     render() {
-        const scrollbarWidth = getScrollbarWidth();
+        const scrollbarWidth = this.getScrollbarWidth();
         /* eslint-disable no-unused-vars */
         const {
+            defaultScrollbarWidth,
             onScroll,
             onScrollFrame,
             onScrollStart,
@@ -610,6 +625,7 @@ Scrollbars.propTypes = {
     thumbSize: PropTypes.number,
     thumbMinSize: PropTypes.number,
     hideTracksWhenNotNeeded: PropTypes.bool,
+    defaultScrollbarWidth: PropTypes.number,
     autoHide: PropTypes.bool,
     autoHideTimeout: PropTypes.number,
     autoHideDuration: PropTypes.number,
@@ -642,5 +658,6 @@ Scrollbars.defaultProps = {
     autoHeight: false,
     autoHeightMin: 0,
     autoHeightMax: 200,
+    defaultScrollbarWidth: 0,
     universal: false,
 };

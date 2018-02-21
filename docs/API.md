@@ -33,6 +33,7 @@
   * When `true` tracks will hide automatically and are only visible while scrolling.
 * `autoHideTimeout`: (Number) Hide delay in ms. (default: 1000)
 * `autoHideDuration`: (Number) Duration for hide animation in ms. (default: 200)
+* `defaultScrollbarWidth`: (Number) Default width for scrollbar when it was not determine. (default: 0)
 * `autoHeight`: (Boolean) Enable auto-height mode. (default: false)
   * When `true` container grows with content
 * `autoHeightMin`: (Number) Set a minimum height for auto-height mode (default: 0)
