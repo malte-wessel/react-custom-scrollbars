@@ -151,7 +151,7 @@ export default class Scrollbars extends Component {
         const { scrollWidth, clientWidth } = this.view;
         const trackWidth = getInnerWidth(this.trackHorizontal);
         const width = Math.ceil(clientWidth / scrollWidth * trackWidth);
-		if (trackWidth === width || (trackWidth === 0 && isNaN(width))) return 0;
+	if (trackWidth === width || (trackWidth === 0 && isNaN(width))) return 0;
         if (thumbSize) return thumbSize;
         return Math.max(width, thumbMinSize);
     }
