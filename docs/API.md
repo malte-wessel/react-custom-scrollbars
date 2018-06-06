@@ -38,7 +38,7 @@
 * `autoHeightMin`: (Number) Set a minimum height for auto-height mode (default: 0)
 * `autoHeightMax`: (Number) Set a maximum height for auto-height mode (default: 200)
 * `universal`: (Boolean) Enable universal rendering (default: `false`)
-    * [Learn how to use universal rendering](#link)
+    * [Learn how to use universal rendering](usage.md#universal-rendering)
 
 ### Methods
 
