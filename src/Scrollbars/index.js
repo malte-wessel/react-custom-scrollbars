@@ -277,8 +277,8 @@ export default class Scrollbars extends Component {
     }
 
     handleScrollStopAutoHide() {
-        const { autoHide } = this.props;
-        if (!autoHide) return;
+        const { autoHide, autoHideOnScrollEnd } = this.props;
+        if (!autoHide || !autoHideOnScrollEnd) return;
         this.hideTracks();
     }
 
@@ -611,6 +611,7 @@ Scrollbars.propTypes = {
     thumbMinSize: PropTypes.number,
     hideTracksWhenNotNeeded: PropTypes.bool,
     autoHide: PropTypes.bool,
+    autoHideOnScrollEnd: PropTypes.bool,
     autoHideTimeout: PropTypes.number,
     autoHideDuration: PropTypes.number,
     autoHeight: PropTypes.bool,
@@ -637,6 +638,7 @@ Scrollbars.defaultProps = {
     thumbMinSize: 30,
     hideTracksWhenNotNeeded: false,
     autoHide: false,
+    autoHideOnScrollEnd: false,
     autoHideTimeout: 1000,
     autoHideDuration: 200,
     autoHeight: false,
