@@ -66,6 +66,8 @@ export default class Scrollbars extends Component {
         this.handleDrag = this.handleDrag.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
 
+        this.devicesHaveChanged = false;
+
         this.state = {
             didMountUniversal: false
         };
@@ -85,6 +87,14 @@ export default class Scrollbars extends Component {
 
     componentDidUpdate() {
         this.update();
+    }
+
+    devicesChanged() {
+        this.devicesHaveChanged = true;
+    }
+
+    handledDevicesChanged() {
+        this.devicesHaveChanged = false;
     }
 
     componentWillUnmount() {
@@ -215,7 +225,7 @@ export default class Scrollbars extends Component {
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.addEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!getScrollbarWidth(this.devicesHaveChanged)) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -232,7 +242,7 @@ export default class Scrollbars extends Component {
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.removeEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!getScrollbarWidth(this.devicesHaveChanged)) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -446,7 +456,7 @@ export default class Scrollbars extends Component {
     _update(callback) {
         const { onUpdate, hideTracksWhenNotNeeded } = this.props;
         const values = this.getValues();
-        if (getScrollbarWidth()) {
+        if (getScrollbarWidth(this.devicesHaveChanged)) {
             const { scrollLeft, clientWidth, scrollWidth } = values;
             const trackHorizontalWidth = getInnerWidth(this.trackHorizontal);
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
@@ -476,13 +486,15 @@ export default class Scrollbars extends Component {
             css(this.thumbHorizontal, thumbHorizontalStyle);
             css(this.thumbVertical, thumbVerticalStyle);
         }
+        this.handledDevicesChanged();
         if (onUpdate) onUpdate(values);
         if (typeof callback !== 'function') return;
         callback(values);
     }
 
     render() {
-        const scrollbarWidth = getScrollbarWidth();
+        const scrollbarWidth = getScrollbarWidth(this.devicesHaveChanged);
+        this.handledDevicesChanged();
         /* eslint-disable no-unused-vars */
         const {
             onScroll,
