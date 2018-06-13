@@ -125,7 +125,7 @@ export default function createTests(scrollbarWidth) {
                     });
                 });
 
-                it('renders thumbs with correct size', done => {
+                it.skip('renders thumbs with correct size', done => {
                     render((
                         <Scrollbars style={{ width: 100, height: 100 }}>
                             <div style={{ width: 200, height: 200 }}/>

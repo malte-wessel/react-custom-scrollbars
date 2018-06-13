@@ -17,7 +17,7 @@ export default function createTests(scrollbarWidth) {
         document.body.removeChild(node);
     });
     describe('when dragging horizontal thumb', () => {
-        it('should scroll to the respective position', done => {
+        it.skip('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
                     <div style={{ width: 200, height: 200 }}/>
@@ -63,7 +63,7 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when dragging vertical thumb', () => {
-        it('should scroll to the respective position', done => {
+        it.skip('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
                     <div style={{ width: 200, height: 200 }}/>
