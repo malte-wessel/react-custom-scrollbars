@@ -1268,7 +1268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    tagName: 'div',
 	    thumbMinSize: 30,
 	    hideTracksWhenNotNeeded: false,
-	    alwaysShowTracksWhenMouseOver: false,
+	    alwaysShowTracksWhenMouseOver: true,
 	    autoHide: false,
 	    autoHideTimeout: 1000,
 	    autoHideDuration: 200,
