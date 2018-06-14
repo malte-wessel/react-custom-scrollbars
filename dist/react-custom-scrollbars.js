@@ -773,15 +773,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                trackHorizontal = this.trackHorizontal,
 	                trackVertical = this.trackVertical,
 	                thumbHorizontal = this.thumbHorizontal,
-	                thumbVertical = this.thumbVertical;
+	                thumbVertical = this.thumbVertical,
+	                container = this.container;
 	            var alwaysShowTracksWhenMouseOver = this.props.alwaysShowTracksWhenMouseOver;
 
 	            view.addEventListener('scroll', this.handleScroll);
+	            trackVertical.addEventListener('scroll', this.handleScroll);
 	            if (!(0, _getScrollbarWidth2.default)()) return;
 
 	            if (alwaysShowTracksWhenMouseOver) {
-	                view.addEventListener('mouseenter', this.handleTrackMouseEnter);
-	                view.addEventListener('mouseleave', this.handleTrackMouseLeave);
+	                container.addEventListener('mouseenter', this.handleTrackMouseEnter);
+	                container.addEventListener('mouseleave', this.handleTrackMouseLeave);
 	            } else {
 	                trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
 	                trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
@@ -803,14 +805,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                trackHorizontal = this.trackHorizontal,
 	                trackVertical = this.trackVertical,
 	                thumbHorizontal = this.thumbHorizontal,
-	                thumbVertical = this.thumbVertical;
+	                thumbVertical = this.thumbVertical,
+	                container = this.container;
 	            var alwaysShowTracksWhenMouseOver = this.props.alwaysShowTracksWhenMouseOver;
 
 	            view.removeEventListener('scroll', this.handleScroll);
+	            trackVertical.removeEventListener('scroll', this.handleScroll);
+
 	            if (!(0, _getScrollbarWidth2.default)()) return;
 	            if (alwaysShowTracksWhenMouseOver) {
-	                view.removeEventListener('mouseenter', this.handleTrackMouseEnter);
-	                view.removeEventListener('mouseleave', this.handleTrackMouseLeave);
+	                container.removeEventListener('mouseenter', this.handleTrackMouseEnter);
+	                container.removeEventListener('mouseleave', this.handleTrackMouseLeave);
 	            } else {
 	                trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
 	                trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
@@ -1150,6 +1155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            /* eslint-disable no-unused-vars */
 
 	            var _props5 = this.props,
+	                alwaysShowTracksWhenMouseOver = _props5.alwaysShowTracksWhenMouseOver,
 	                onScroll = _props5.onScroll,
 	                onScrollFrame = _props5.onScrollFrame,
 	                onScrollStart = _props5.onScrollStart,
@@ -1173,7 +1179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                autoHeightMax = _props5.autoHeightMax,
 	                style = _props5.style,
 	                children = _props5.children,
-	                props = _objectWithoutProperties(_props5, ['onScroll', 'onScrollFrame', 'onScrollStart', 'onScrollStop', 'onUpdate', 'renderView', 'renderTrackHorizontal', 'renderTrackVertical', 'renderThumbHorizontal', 'renderThumbVertical', 'tagName', 'hideTracksWhenNotNeeded', 'autoHide', 'autoHideTimeout', 'autoHideDuration', 'thumbSize', 'thumbMinSize', 'universal', 'autoHeight', 'autoHeightMin', 'autoHeightMax', 'style', 'children']);
+	                props = _objectWithoutProperties(_props5, ['alwaysShowTracksWhenMouseOver', 'onScroll', 'onScrollFrame', 'onScrollStart', 'onScrollStop', 'onUpdate', 'renderView', 'renderTrackHorizontal', 'renderTrackVertical', 'renderThumbHorizontal', 'renderThumbVertical', 'tagName', 'hideTracksWhenNotNeeded', 'autoHide', 'autoHideTimeout', 'autoHideDuration', 'thumbSize', 'thumbMinSize', 'universal', 'autoHeight', 'autoHeightMin', 'autoHeightMax', 'style', 'children']);
 	            /* eslint-enable no-unused-vars */
 
 	            var didMountUniversal = this.state.didMountUniversal;
