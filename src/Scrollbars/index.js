@@ -574,7 +574,8 @@ export default class Scrollbars extends Component {
                         style: {
                             float: 'left',
                             paddingRight: scrollbarWidth,
-                            paddingBottom: scrollbarWidth
+                            paddingBottom: scrollbarWidth,
+                            minWidth: '100%',
                         }
                     },
                     children
