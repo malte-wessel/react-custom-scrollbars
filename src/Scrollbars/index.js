@@ -213,14 +213,22 @@ export default class Scrollbars extends Component {
     addListeners() {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
-        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical, container } = this;
+        const { alwaysShowTracksWhenMouseOver } = this.props;
         view.addEventListener('scroll', this.handleScroll);
+        trackVertical.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
-        trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
-        trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
+
+        if (alwaysShowTracksWhenMouseOver) {
+            container.addEventListener('mouseenter', this.handleTrackMouseEnter);
+            container.addEventListener('mouseleave', this.handleTrackMouseLeave);
+        } else {
+            trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
+            trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
+            trackVertical.addEventListener('mouseenter', this.handleTrackMouseEnter);
+            trackVertical.addEventListener('mouseleave', this.handleTrackMouseLeave);
+        }
         trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        trackVertical.addEventListener('mouseenter', this.handleTrackMouseEnter);
-        trackVertical.addEventListener('mouseleave', this.handleTrackMouseLeave);
         trackVertical.addEventListener('mousedown', this.handleVerticalTrackMouseDown);
         thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -230,14 +238,22 @@ export default class Scrollbars extends Component {
     removeListeners() {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
-        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical, container } = this;
+        const { alwaysShowTracksWhenMouseOver } = this.props;
         view.removeEventListener('scroll', this.handleScroll);
+        trackVertical.removeEventListener('scroll', this.handleScroll);
+        
         if (!getScrollbarWidth()) return;
-        trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
-        trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
-        trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
-        trackVertical.removeEventListener('mouseenter', this.handleTrackMouseEnter);
-        trackVertical.removeEventListener('mouseleave', this.handleTrackMouseLeave);
+        if (alwaysShowTracksWhenMouseOver) {
+            container.removeEventListener('mouseenter', this.handleTrackMouseEnter);
+            container.removeEventListener('mouseleave', this.handleTrackMouseLeave);
+        } else {
+            trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
+            trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
+            trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
+            trackVertical.removeEventListener('mouseenter', this.handleTrackMouseEnter);
+            trackVertical.removeEventListener('mouseleave', this.handleTrackMouseLeave);
+        }
         trackVertical.removeEventListener('mousedown', this.handleVerticalTrackMouseDown);
         thumbHorizontal.removeEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         thumbVertical.removeEventListener('mousedown', this.handleVerticalThumbMouseDown);
@@ -485,6 +501,7 @@ export default class Scrollbars extends Component {
         const scrollbarWidth = getScrollbarWidth();
         /* eslint-disable no-unused-vars */
         const {
+            alwaysShowTracksWhenMouseOver,
             onScroll,
             onScrollFrame,
             onScrollStart,
@@ -610,6 +627,7 @@ Scrollbars.propTypes = {
     thumbSize: PropTypes.number,
     thumbMinSize: PropTypes.number,
     hideTracksWhenNotNeeded: PropTypes.bool,
+    alwaysShowTracksWhenMouseOver: PropTypes.bool,
     autoHide: PropTypes.bool,
     autoHideTimeout: PropTypes.number,
     autoHideDuration: PropTypes.number,
@@ -636,6 +654,7 @@ Scrollbars.defaultProps = {
     tagName: 'div',
     thumbMinSize: 30,
     hideTracksWhenNotNeeded: false,
+    alwaysShowTracksWhenMouseOver: true,
     autoHide: false,
     autoHideTimeout: 1000,
     autoHideDuration: 200,
