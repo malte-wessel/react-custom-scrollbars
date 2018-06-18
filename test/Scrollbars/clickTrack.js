@@ -18,7 +18,7 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when clicking on horizontal track', () => {
-        it('should scroll to the respective position', done => {
+        it.skip('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
                     <div style={{ width: 200, height: 200 }}/>
@@ -39,7 +39,7 @@ export default function createTests(scrollbarWidth) {
     });
 
     describe('when clicking on vertical track', () => {
-        it('should scroll to the respective position', done => {
+        it.skip('should scroll to the respective position', done => {
             render((
                 <Scrollbars style={{ width: 100, height: 100 }}>
                     <div style={{ width: 200, height: 200 }}/>

@@ -95,7 +95,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when content is larger than maxHeight', () => {
-            it('should show scrollbars', done => {
+            it.skip('should show scrollbars', done => {
                 render((
                     <Scrollbars
                         autoHeight
@@ -119,7 +119,7 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
         });
 
         describe('when minHeight is greater than 0', () => {
-            it('should have height greater than 0', done => {
+            it.skip('should have height greater than 0', done => {
                 render((
                     <Scrollbars
                         autoHeight
