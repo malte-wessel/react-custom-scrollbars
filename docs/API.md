@@ -7,7 +7,7 @@
 * `onScroll`: (Function) Event handler
   * Signature: `onScroll(event)`
 * `onScrollFrame`: (Function) Runs inside the animation frame.
-  * Signature: `onScroll(values)`
+  * Signature: `onScrollFrame(values)`
   * `values`: (Object) Values about the current position
     * `values.top`: (Number) scrollTop progess, from 0 to 1
     * `values.left`: (Number) scrollLeft progess, from 0 to 1
