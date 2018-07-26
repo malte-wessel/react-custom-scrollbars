@@ -508,6 +508,7 @@ export default class Scrollbars extends Component {
             autoHeightMax,
             style,
             children,
+            rtl,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -527,7 +528,10 @@ export default class Scrollbars extends Component {
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: scrollbarWidth ? -scrollbarWidth : 0,
+            ...(rtl ? 
+                {marginLeft: scrollbarWidth ? -scrollbarWidth : 0} :
+                {marginRight: scrollbarWidth ? -scrollbarWidth : 0}
+            ),
             marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
