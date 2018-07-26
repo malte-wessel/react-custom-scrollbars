@@ -35,6 +35,12 @@ export const viewStyleUniversalInitial = {
     marginBottom: 0,
 };
 
+export const viewStyleRtlUniversalInitial = {
+    ...viewStyleUniversalInitial,
+    marginRight: undefined,
+    marginLeft: 0,
+};
+
 export const trackHorizontalStyleDefault = {
     position: 'absolute',
     height: 6
