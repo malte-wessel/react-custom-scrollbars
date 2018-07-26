@@ -15,6 +15,7 @@ import {
     viewStyleDefault,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
+    viewStyleRtlUniversalInitial,
     trackHorizontalStyleDefault,
     trackVerticalStyleDefault,
     thumbHorizontalStyleDefault,
@@ -549,7 +550,7 @@ export default class Scrollbars extends Component {
                 maxHeight: autoHeightMax
             }),
             // Override
-            ...((universal && !didMountUniversal) && viewStyleUniversalInitial)
+            ...((universal && !didMountUniversal) && (rtl ? viewStyleRtlUniversalInitial : viewStyleUniversalInitial))
         };
 
         const trackAutoHeightStyle = {
