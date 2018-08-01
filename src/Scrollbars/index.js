@@ -8,7 +8,7 @@ import getScrollbarWidth from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
-import scrollBarAlwaysShow from '../utils/scrollBarAlwaysShow';
+import scrollbarAlwaysShow from '../utils/scrollbarAlwaysShow';
 
 import {
     viewStyleDefault,
@@ -566,7 +566,7 @@ export default class Scrollbars extends Component {
         const view = cloneElement(
             renderView({ style: viewStyle }),
             { key: 'view', ref: (ref) => { this.view = ref; } },
-            scrollBarAlwaysShow()
+            scrollbarAlwaysShow()
                 ? children
                 : createElement(
                     'div',
