@@ -1,8 +1,7 @@
 import css from 'dom-css';
-let scrollbarWidth = false;
+let scrollbarWidth;
 
 export default function getScrollbarWidth() {
-    if (scrollbarWidth !== false) return scrollbarWidth;
     /* istanbul ignore else */
     if (typeof document !== 'undefined') {
         const div = document.createElement('div');
