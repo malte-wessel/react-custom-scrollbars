@@ -514,6 +514,7 @@ export default class Scrollbars extends Component {
             autoHeightMin,
             autoHeightMax,
             children,
+            hasHorizontalScroll,
         } = this.props;
 
         const { didMountUniversal } = this.state;
@@ -572,7 +573,7 @@ export default class Scrollbars extends Component {
                     'div',
                     {
                         style: {
-                            float: 'left',
+                            float: hasHorizontalScroll ? 'left' : 'none',
                             paddingRight: scrollbarWidth,
                             paddingBottom: scrollbarWidth,
                             minWidth: '100%',
