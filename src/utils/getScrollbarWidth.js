@@ -3,6 +3,8 @@ import css from 'dom-css';
 let scrollbarWidth = false;
 let updateScrollbarWidth = null;
 
+export const OSX_FAKE_SCROLLBAR_WIDTH = 20;
+
 export function actualScrollbarWidth() {
     if (scrollbarWidth !== false) {
         return scrollbarWidth;
@@ -65,7 +67,7 @@ export function actualScrollbarWidth() {
 }
 
 export default function getScrollbarWidth() {
-    return actualScrollbarWidth() || 20;
+    return actualScrollbarWidth() || OSX_FAKE_SCROLLBAR_WIDTH;
 }
 
 window.addEventListener('resize', function updateScrollbarWidthOnResize() {
