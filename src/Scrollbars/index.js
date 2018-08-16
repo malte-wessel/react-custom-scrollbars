@@ -4,7 +4,7 @@ import { Component, cloneElement, createElement } from 'react';
 import PropTypes from 'prop-types';
 
 import isString from '../utils/isString';
-import getScrollbarWidth from '../utils/getScrollbarWidth';
+import getScrollbarWidth, { actualScrollbarWidth, OSX_FAKE_SCROLLBAR_WIDTH } from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -134,6 +134,7 @@ export default class Scrollbars extends Component {
             clientHeight = 0
         } = this.view || {};
 
+
         return {
             left: (scrollLeft / (scrollWidth - clientWidth)) || 0,
             top: (scrollTop / (scrollHeight - clientHeight)) || 0,
@@ -141,7 +142,7 @@ export default class Scrollbars extends Component {
             scrollTop,
             scrollWidth,
             scrollHeight,
-            clientWidth,
+            clientWidth: actualScrollbarWidth() !== 0 ? clientWidth : clientWidth - OSX_FAKE_SCROLLBAR_WIDTH,
             clientHeight
         };
     }
