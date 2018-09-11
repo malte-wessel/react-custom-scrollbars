@@ -1,10 +1,10 @@
-import { actualScrollbarWidth } from './getScrollbarWidth';
+import { getActualScrollbarWidth } from './getScrollbarWidth';
 
 let isScrollbarAlwaysShow;
 
 export default function scrollbarAlwaysShow() {
     if (isScrollbarAlwaysShow === undefined) {
-        isScrollbarAlwaysShow = !!actualScrollbarWidth();
+        isScrollbarAlwaysShow = !!getActualScrollbarWidth();
     }
     return isScrollbarAlwaysShow;
 }
