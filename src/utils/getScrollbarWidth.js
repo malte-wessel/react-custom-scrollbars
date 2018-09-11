@@ -5,7 +5,7 @@ let updateScrollbarWidth = null;
 
 export const OSX_FAKE_SCROLLBAR_WIDTH = 20;
 
-export function actualScrollbarWidth() {
+export function getActualScrollbarWidth() {
     if (scrollbarWidth !== false) {
         return scrollbarWidth;
     }
@@ -66,8 +66,14 @@ export function actualScrollbarWidth() {
     return scrollbarWidth;
 }
 
+export function fixMacOsContentWidth(width) {
+  return getActualScrollbarWidth() !== 0
+    ? width
+    : width - OSX_FAKE_SCROLLBAR_WIDTH;
+}
+
 export default function getScrollbarWidth() {
-    return actualScrollbarWidth() || OSX_FAKE_SCROLLBAR_WIDTH;
+    return getActualScrollbarWidth() || OSX_FAKE_SCROLLBAR_WIDTH;
 }
 
 window.addEventListener('resize', function updateScrollbarWidthOnResize() {
