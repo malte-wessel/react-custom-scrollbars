@@ -571,24 +571,22 @@ export default class Scrollbars extends Component {
 
         return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
             cloneElement(
-                renderView({ style: viewStyle }),
-                { key: 'view', ref: (ref) => { this.view = ref; } },
+                renderView({ style: viewStyle, ref: (ref) => { this.view = ref; } }),
+                { key: 'view' },
                 children
             ),
             cloneElement(
-                renderTrackHorizontal({ style: trackHorizontalStyle }),
-                { key: 'trackHorizontal', ref: (ref) => { this.trackHorizontal = ref; } },
+                renderTrackHorizontal({ style: trackHorizontalStyle, ref: (ref) => { this.trackHorizontal = ref; } }),
+                { key: 'trackHorizontal' },
                 cloneElement(
-                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
-                    { ref: (ref) => { this.thumbHorizontal = ref; } }
+                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault, ref: (ref) => { this.thumbHorizontal = ref; } }),
                 )
             ),
             cloneElement(
-                renderTrackVertical({ style: trackVerticalStyle }),
-                { key: 'trackVertical', ref: (ref) => { this.trackVertical = ref; } },
+                renderTrackVertical({ style: trackVerticalStyle, ref: (ref) => { this.trackVertical = ref; } }),
+                { key: 'trackVertical' },
                 cloneElement(
-                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
-                    { ref: (ref) => { this.thumbVertical = ref; } }
+                    renderThumbVertical({ style: thumbVerticalStyleDefault, ref: (ref) => { this.thumbVertical = ref; } }),
                 )
             )
         ]);
