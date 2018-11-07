@@ -432,7 +432,7 @@ export default class Scrollbars extends Component {
     }
 
     raf(callback) {
-        if (this.requestFrame) raf.cancel(this.requestFrame);
+        if (this.requestFrame) caf(this.requestFrame);
         this.requestFrame = raf(() => {
             this.requestFrame = undefined;
             callback();
