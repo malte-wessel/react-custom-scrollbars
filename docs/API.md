@@ -9,8 +9,8 @@
 * `onScrollFrame`: (Function) Runs inside the animation frame.
   * Signature: `onScroll(values)`
   * `values`: (Object) Values about the current position
-    * `values.top`: (Number) scrollTop progess, from 0 to 1
-    * `values.left`: (Number) scrollLeft progess, from 0 to 1
+    * `values.top`: (Number) scrollTop progress, from 0 to 1
+    * `values.left`: (Number) scrollLeft progress, from 0 to 1
     * `values.clientWidth`: (Number) Width of the view
     * `values.clientHeight`: (Number) Height of the view
     * `values.scrollWidth`: (Number) Native scrollWidth
