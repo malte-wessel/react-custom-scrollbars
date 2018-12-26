@@ -69,6 +69,7 @@ export default class Scrollbars extends Component {
         this.state = {
             didMountUniversal: false
         };
+        this.unmounted = false;
     }
 
     componentDidMount() {
@@ -88,8 +89,9 @@ export default class Scrollbars extends Component {
     }
 
     componentWillUnmount() {
-        this.removeListeners();
+        this.unmounted = true;
         caf(this.requestFrame);
+        this.removeListeners();
         clearTimeout(this.hideTracksTimeout);
         clearInterval(this.detectScrollingInterval);
     }
@@ -283,6 +285,11 @@ export default class Scrollbars extends Component {
     }
 
     handleWindowResize() {
+        // If an EventListener is removed from an EventTarget while it is processing an event,
+        // it will not be triggered by the current actions.
+        // EventListeners can never be invoked after being removed.
+        // See: https://www.w3.org/TR/DOM-Level-2-Events/events.html
+        if (this.unmounted) return;
         this.update();
     }
 
