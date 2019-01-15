@@ -1,3 +1,5 @@
+import { MOBILE_SCROLLBAR_WIDTH } from '../utils/getScrollbarWidth';
+
 export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
@@ -16,6 +18,18 @@ export const viewStyleDefault = {
     left: 0,
     right: 0,
     bottom: 0,
+    overflow: 'scroll',
+    WebkitOverflowScrolling: 'touch'
+};
+
+export const viewStyleMobile = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingRight: `${MOBILE_SCROLLBAR_WIDTH}px`,
+    paddingBottom: `${MOBILE_SCROLLBAR_WIDTH}px`,
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch'
 };

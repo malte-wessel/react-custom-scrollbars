@@ -1,5 +1,6 @@
 const getScrollbarWidthModule = require('../src/utils/getScrollbarWidth');
 const envScrollbarWidth = getScrollbarWidthModule.default();
+import { MOBILE_SCROLLBAR_WIDTH } from '../src/utils/getScrollbarWidth';
 import createTests from './Scrollbars';
 
 describe('Scrollbars (mobile)', () => {
@@ -8,7 +9,7 @@ describe('Scrollbars (mobile)', () => {
 
     before(() => {
         getScrollbarWidthSpy = spyOn(getScrollbarWidthModule, 'default');
-        getScrollbarWidthSpy.andReturn(mobileScrollbarsWidth);
+        getScrollbarWidthSpy.andCall(forceMobile => (forceMobile ? MOBILE_SCROLLBAR_WIDTH : mobileScrollbarsWidth));
     });
 
     after(() => {

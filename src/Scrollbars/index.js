@@ -4,7 +4,7 @@ import { Component, createElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import isString from '../utils/isString';
-import getScrollbarWidth from '../utils/getScrollbarWidth';
+import getScrollbarWidth, { isForcedMobile } from '../utils/getScrollbarWidth';
 import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
@@ -13,6 +13,7 @@ import {
     containerStyleDefault,
     containerStyleAutoHeight,
     viewStyleDefault,
+    viewStyleMobile,
     viewStyleAutoHeight,
     viewStyleUniversalInitial,
     trackHorizontalStyleDefault,
@@ -214,8 +215,9 @@ export default class Scrollbars extends Component {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { mobile } = this.props;
         view.addEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!getScrollbarWidth(mobile)) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -231,8 +233,9 @@ export default class Scrollbars extends Component {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { mobile } = this.props;
         view.removeEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!getScrollbarWidth(mobile)) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -444,9 +447,9 @@ export default class Scrollbars extends Component {
     }
 
     _update(callback) {
-        const { onUpdate, hideTracksWhenNotNeeded } = this.props;
+        const { onUpdate, hideTracksWhenNotNeeded, mobile } = this.props;
         const values = this.getValues();
-        if (getScrollbarWidth()) {
+        if (getScrollbarWidth(mobile)) {
             const { scrollLeft, clientWidth, scrollWidth } = values;
             const trackHorizontalWidth = getInnerWidth(this.trackHorizontal);
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
@@ -482,7 +485,6 @@ export default class Scrollbars extends Component {
     }
 
     render() {
-        const scrollbarWidth = getScrollbarWidth();
         /* eslint-disable no-unused-vars */
         const {
             onScroll,
@@ -508,9 +510,11 @@ export default class Scrollbars extends Component {
             autoHeightMax,
             style,
             children,
+            mobile,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
+        const scrollbarWidth = getScrollbarWidth(mobile);
 
         const { didMountUniversal } = this.state;
 
@@ -524,8 +528,10 @@ export default class Scrollbars extends Component {
             ...style
         };
 
+        const baseViewStyle = isForcedMobile(mobile) ? viewStyleMobile : viewStyleDefault;
+
         const viewStyle = {
-            ...viewStyleDefault,
+            ...baseViewStyle,
             // Hide scrollbars by setting a negative margin
             marginRight: scrollbarWidth ? -scrollbarWidth : 0,
             marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
@@ -625,6 +631,7 @@ Scrollbars.propTypes = {
     universal: PropTypes.bool,
     style: PropTypes.object,
     children: PropTypes.node,
+    mobile: PropTypes.bool,
 };
 
 Scrollbars.defaultProps = {
@@ -643,4 +650,5 @@ Scrollbars.defaultProps = {
     autoHeightMin: 0,
     autoHeightMax: 200,
     universal: false,
+    mobile: false
 };
