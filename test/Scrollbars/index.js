@@ -9,6 +9,7 @@ import autoHide from './autoHide';
 import autoHeight from './autoHeight';
 import hideTracks from './hideTracks';
 import universal from './universal';
+import mobile from './mobile';
 import onUpdate from './onUpdate';
 
 export default function createTests(scrollbarWidth, envScrollbarWidth) {
@@ -23,5 +24,6 @@ export default function createTests(scrollbarWidth, envScrollbarWidth) {
     autoHeight(scrollbarWidth, envScrollbarWidth);
     hideTracks(scrollbarWidth, envScrollbarWidth);
     universal(scrollbarWidth, envScrollbarWidth);
+    mobile(scrollbarWidth, envScrollbarWidth);
     onUpdate(scrollbarWidth, envScrollbarWidth);
 }

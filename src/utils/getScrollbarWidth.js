@@ -1,8 +1,10 @@
 import css from 'dom-css';
 let scrollbarWidth = false;
 
-export default function getScrollbarWidth() {
-    if (scrollbarWidth !== false) return scrollbarWidth;
+export const MOBILE_SCROLLBAR_WIDTH = 12;
+
+const getScrollbarWidth = (forceMobile) => {
+    if (scrollbarWidth !== false) return scrollbarWidth || (forceMobile ? MOBILE_SCROLLBAR_WIDTH : 0);
     /* istanbul ignore else */
     if (typeof document !== 'undefined') {
         const div = document.createElement('div');
@@ -20,5 +22,10 @@ export default function getScrollbarWidth() {
     } else {
         scrollbarWidth = 0;
     }
-    return scrollbarWidth || 0;
-}
+
+    return scrollbarWidth || (forceMobile ? MOBILE_SCROLLBAR_WIDTH : 0);
+};
+
+export const isForcedMobile = (forceMobile) => forceMobile && getScrollbarWidth();
+
+export default getScrollbarWidth;
