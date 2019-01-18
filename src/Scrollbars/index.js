@@ -213,7 +213,8 @@ export default class Scrollbars extends Component {
     addListeners() {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
-        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { container, view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        container.addEventListener('scroll', this.handleContainerScroll);
         view.addEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
@@ -230,7 +231,8 @@ export default class Scrollbars extends Component {
     removeListeners() {
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
-        const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        const { container, view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
+        container.addEventListener('scroll', this.handleContainerScroll);
         view.removeEventListener('scroll', this.handleScroll);
         if (!getScrollbarWidth()) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
@@ -244,6 +246,12 @@ export default class Scrollbars extends Component {
         window.removeEventListener('resize', this.handleWindowResize);
         // Possibly setup by `handleDragStart`
         this.teardownDragging();
+    }
+
+    handleContainerScroll(event) {
+        const view = event.target;
+        view.scrollTop = 0;
+        view.scrollLeft = 0;
     }
 
     handleScroll(event) {
