@@ -573,7 +573,7 @@ export default class Scrollbars extends Component {
         return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
             cloneElement(
                 renderView({ style: viewStyle }),
-                { key: 'view', ref: (ref) => { this.view = ref; renderViewRef ? renderViewRef(ref) : null; } },
+                { key: 'view', ref: (ref) => { this.view = ref; if (renderViewRef) { renderViewRef(ref); } } },
                 children
             ),
             cloneElement(
