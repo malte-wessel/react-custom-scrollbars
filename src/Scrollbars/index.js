@@ -578,7 +578,7 @@ export default class Scrollbars extends Component {
                         style: {
                             float: hasHorizontalScroll ? 'left' : 'none',
                             paddingRight: scrollbarWidth,
-                            paddingBottom: scrollbarWidth,
+                            paddingBottom: hasHorizontalScroll ? scrollbarWidth : 0,
                             minWidth: '100%',
                         }
                     },
