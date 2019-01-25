@@ -1,6 +1,6 @@
 {
   "name": "@influxdata/react-custom-scrollbars",
-  "version": "4.3.4",
+  "version": "4.3.5",
   "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
