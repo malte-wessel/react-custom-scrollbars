@@ -1,6 +1,6 @@
 import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
-import { Component, createElement, cloneElement } from 'react';
+import React, { Component, createElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import isString from '../utils/isString';
@@ -513,7 +513,7 @@ export default class Scrollbars extends Component {
             ...style
         };
 
-        const isFirefox = navigator.vendor === '' && navigator.userAgent.includes('Firefox')
+        const isFirefox = navigator.vendor === '' && navigator.userAgent.includes('Firefox');
 
         const viewStyle = {
             ...viewStyleDefault,
@@ -563,12 +563,12 @@ export default class Scrollbars extends Component {
         const thumbHorizontalStyle = {
             ...thumbHorizontalStyleDefault,
             background: `linear-gradient(to right, ${thumbStartColor} 0%, ${thumbStopColor} 100%)`
-        }
+        };
 
         const thumbVerticalStyle = {
             ...thumbVerticalStyleDefault,
             background: `linear-gradient(to bottom, ${thumbStartColor} 0%, ${thumbStopColor} 100%)`
-        }
+        };
 
         return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
             cloneElement(
