@@ -23,14 +23,6 @@ import {
     disableSelectStyleReset
 } from './styles';
 
-import {
-    renderViewDefault,
-    renderTrackHorizontalDefault,
-    renderTrackVerticalDefault,
-    renderThumbHorizontalDefault,
-    renderThumbVerticalDefault
-} from './defaultRenderElements';
-
 export default class Scrollbars extends Component {
 
     constructor(props, ...rest) {
@@ -490,11 +482,6 @@ export default class Scrollbars extends Component {
             onScrollStart,
             onScrollStop,
             onUpdate,
-            renderView,
-            renderTrackHorizontal,
-            renderTrackVertical,
-            renderThumbHorizontal,
-            renderThumbVertical,
             tagName,
             hideTracksWhenNotNeeded,
             autoHide,
@@ -508,6 +495,8 @@ export default class Scrollbars extends Component {
             autoHeightMax,
             style,
             children,
+            thumbStartColor,
+            thumbStopColor,
             ...props
         } = this.props;
         /* eslint-enable no-unused-vars */
@@ -524,11 +513,13 @@ export default class Scrollbars extends Component {
             ...style
         };
 
+        const isFirefox = navigator.vendor === '' && navigator.userAgent.includes('Firefox')
+
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-            marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
+            marginRight: isFirefox ? '-15px' : 0,
+            marginBottom: isFirefox ? '-15px' : 0,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
                 // Add scrollbarWidth to autoHeight in order to compensate negative margins
@@ -569,25 +560,35 @@ export default class Scrollbars extends Component {
             })
         };
 
+        const thumbHorizontalStyle = {
+            ...thumbHorizontalStyleDefault,
+            background: `linear-gradient(to right, ${thumbStartColor} 0%, ${thumbStopColor} 100%)`
+        }
+
+        const thumbVerticalStyle = {
+            ...thumbVerticalStyleDefault,
+            background: `linear-gradient(to bottom, ${thumbStartColor} 0%, ${thumbStopColor} 100%)`
+        }
+
         return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
             cloneElement(
-                renderView({ style: viewStyle }),
+                <div className="fancy-scroll--view" style={viewStyle} />,
                 { key: 'view', ref: (ref) => { this.view = ref; } },
                 children
             ),
             cloneElement(
-                renderTrackHorizontal({ style: trackHorizontalStyle }),
+                <div className="fancy-scroll--track-h" style={trackHorizontalStyle} />,
                 { key: 'trackHorizontal', ref: (ref) => { this.trackHorizontal = ref; } },
                 cloneElement(
-                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
+                    <div className="fancy-scroll--thumb-h" style={thumbHorizontalStyle} />,
                     { ref: (ref) => { this.thumbHorizontal = ref; } }
                 )
             ),
             cloneElement(
-                renderTrackVertical({ style: trackVerticalStyle }),
+                <div className="fancy-scroll--track-v" style={trackVerticalStyle} />,
                 { key: 'trackVertical', ref: (ref) => { this.trackVertical = ref; } },
                 cloneElement(
-                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
+                    <div className="fancy-scroll--thumb-v" style={thumbVerticalStyle} />,
                     { ref: (ref) => { this.thumbVertical = ref; } }
                 )
             )
@@ -601,11 +602,6 @@ Scrollbars.propTypes = {
     onScrollStart: PropTypes.func,
     onScrollStop: PropTypes.func,
     onUpdate: PropTypes.func,
-    renderView: PropTypes.func,
-    renderTrackHorizontal: PropTypes.func,
-    renderTrackVertical: PropTypes.func,
-    renderThumbHorizontal: PropTypes.func,
-    renderThumbVertical: PropTypes.func,
     tagName: PropTypes.string,
     thumbSize: PropTypes.number,
     thumbMinSize: PropTypes.number,
@@ -625,22 +621,21 @@ Scrollbars.propTypes = {
     universal: PropTypes.bool,
     style: PropTypes.object,
     children: PropTypes.node,
+    thumbStartColor: PropTypes.string,
+    thumbStopColor: PropTypes.string,
 };
 
 Scrollbars.defaultProps = {
-    renderView: renderViewDefault,
-    renderTrackHorizontal: renderTrackHorizontalDefault,
-    renderTrackVertical: renderTrackVerticalDefault,
-    renderThumbHorizontal: renderThumbHorizontalDefault,
-    renderThumbVertical: renderThumbVerticalDefault,
     tagName: 'div',
     thumbMinSize: 30,
     hideTracksWhenNotNeeded: false,
     autoHide: false,
     autoHideTimeout: 1000,
-    autoHideDuration: 200,
+    autoHideDuration: 250,
     autoHeight: false,
     autoHeightMin: 0,
     autoHeightMax: 200,
     universal: false,
+    thumbStartColor: '#22ADF6',
+    thumnStopColor: '#9394FF',
 };
