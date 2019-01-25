@@ -637,5 +637,5 @@ Scrollbars.defaultProps = {
     autoHeightMax: 200,
     universal: false,
     thumbStartColor: '#22ADF6',
-    thumnStopColor: '#9394FF',
+    thumbStopColor: '#9394FF',
 };
