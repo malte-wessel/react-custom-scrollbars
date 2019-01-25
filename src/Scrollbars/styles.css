@@ -2,33 +2,3 @@
   width: 0;
   height: 0;
 }
-.fancy-scroll--track-h:hover,
-.fancy-scroll--track-v:hover {
-  cursor: pointer;
-}
-.fancy-scroll--track-h,
-.fancy-scroll--track-v {
-  padding: 3px;
-}
-.fancy-scroll--thumb-h,
-.fancy-scroll--thumb-v {
-  border-radius: 3px;
-}
-.fancy-scroll--track-h,
-.fancy-scroll--thumb-h {
-  height: 6px;
-}
-.fancy-scroll--track-h {
-  width: 100%;
-  bottom: 0;
-  left: 0;
-}
-.fancy-scroll--track-v,
-.fancy-scroll--thumb-v {
-  width: 6px;
-}
-.fancy-scroll--track-v {
-  height: 100%;
-  top: 0;
-  right: 0;
-}
