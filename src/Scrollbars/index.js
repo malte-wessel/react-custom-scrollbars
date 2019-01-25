@@ -23,8 +23,6 @@ import {
     disableSelectStyleReset
 } from './styles';
 
-import './styles.css';
-
 export default class Scrollbars extends Component {
 
     constructor(props, ...rest) {
