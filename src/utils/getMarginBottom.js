@@ -5,9 +5,6 @@ export function getMarginBottom(hasHorizontalScroll) {
     const scrollbarWidth = getScrollbarWidth();
     if (hasHorizontalScroll) {
         return -scrollbarWidth;
-    } else {
-        return scrollbarAlwaysShow()
-            ? -scrollbarWidth
-            : 0;
     }
+    return scrollbarAlwaysShow() ? -scrollbarWidth : 0;
 }

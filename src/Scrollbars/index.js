@@ -11,7 +11,7 @@ import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
 import scrollbarAlwaysShow from '../utils/scrollbarAlwaysShow';
-import {getMarginBottom} from '../utils/getMarginBottom';
+import { getMarginBottom } from '../utils/getMarginBottom';
 
 import {
     viewStyleDefault,
