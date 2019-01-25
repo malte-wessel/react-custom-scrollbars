@@ -11,6 +11,7 @@ import returnFalse from '../utils/returnFalse';
 import getInnerWidth from '../utils/getInnerWidth';
 import getInnerHeight from '../utils/getInnerHeight';
 import scrollbarAlwaysShow from '../utils/scrollbarAlwaysShow';
+import {getMarginBottom} from '../utils/getMarginBottom';
 
 import {
     viewStyleDefault,
@@ -526,7 +527,7 @@ export default class Scrollbars extends Component {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
             marginRight: -scrollbarWidth,
-            marginBottom: -scrollbarWidth,
+            marginBottom: getMarginBottom(hasHorizontalScroll),
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
                 // Add scrollbarWidth to autoHeight in order to compensate negative margins
