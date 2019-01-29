@@ -91,6 +91,7 @@ export default class Scrollbars extends Component {
     }
 
     componentWillUnmount() {
+        this.isUnmounted = true;
         this.removeListeners();
         caf(this.requestFrame);
         clearTimeout(this.hideTracksTimeout);
@@ -465,6 +466,9 @@ export default class Scrollbars extends Component {
     }
 
     _update(callback) {
+        if (this.isUnmounted) {
+            return;
+        }
         const { onUpdate, hideTracksWhenNotNeeded } = this.props;
         const values = this.getValues();
         if (getScrollbarWidth()) {
