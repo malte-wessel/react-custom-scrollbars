@@ -465,6 +465,9 @@ export default class Scrollbars extends Component {
     }
 
     _update(callback) {
+        if (!this.canUpdate()) {
+            return;
+        }
         const { onUpdate, hideTracksWhenNotNeeded } = this.props;
         const values = this.getValues();
         if (getScrollbarWidth()) {
@@ -500,6 +503,14 @@ export default class Scrollbars extends Component {
         if (onUpdate) onUpdate(values);
         if (typeof callback !== 'function') return;
         callback(values);
+    }
+
+    canUpdate() {
+        return this.view
+            && this.thumbHorizontal
+            && this.trackHorizontal
+            && this.thumbVertical
+            && this.trackVertical;
     }
 
     render() {
