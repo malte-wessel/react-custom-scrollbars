@@ -1,6 +1,8 @@
 import css from 'dom-css';
 let scrollbarWidth = false;
 
+const minScrollbarWidth = 15;
+
 export default function getScrollbarWidth() {
     if (scrollbarWidth !== false) return scrollbarWidth;
     /* istanbul ignore else */
@@ -15,10 +17,10 @@ export default function getScrollbarWidth() {
             MsOverflowStyle: 'scrollbar'
         });
         document.body.appendChild(div);
-        scrollbarWidth = (div.offsetWidth - div.clientWidth);
+        scrollbarWidth = Math.max(div.offsetWidth - div.clientWidth, minScrollbarWidth);
         document.body.removeChild(div);
     } else {
-        scrollbarWidth = 0;
+        scrollbarWidth = minScrollbarWidth;
     }
-    return scrollbarWidth || 0;
+    return scrollbarWidth || minScrollbarWidth;
 }
