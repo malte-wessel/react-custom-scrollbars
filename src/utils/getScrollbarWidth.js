@@ -20,5 +20,5 @@ export default function getScrollbarWidth() {
     } else {
         scrollbarWidth = 0;
     }
-    return scrollbarWidth || 0;
+    return scrollbarWidth || 15;
 }
