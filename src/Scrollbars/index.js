@@ -323,17 +323,19 @@ export default class Scrollbars extends Component {
     }
 
     setupDragging() {
-        css(document.body, disableSelectStyle);
-        document.addEventListener('mousemove', this.handleDrag);
-        document.addEventListener('mouseup', this.handleDragEnd);
-        document.onselectstart = returnFalse;
+        const doc = this.view.ownerDocument;
+        css(doc.body, disableSelectStyle);
+        doc.addEventListener('mousemove', this.handleDrag);
+        doc.addEventListener('mouseup', this.handleDragEnd);
+        doc.onselectstart = returnFalse;
     }
 
     teardownDragging() {
-        css(document.body, disableSelectStyleReset);
-        document.removeEventListener('mousemove', this.handleDrag);
-        document.removeEventListener('mouseup', this.handleDragEnd);
-        document.onselectstart = undefined;
+        const doc = this.view.ownerDocument;
+        css(doc.body, disableSelectStyleReset);
+        doc.removeEventListener('mousemove', this.handleDrag);
+        doc.removeEventListener('mouseup', this.handleDragEnd);
+        doc.onselectstart = undefined;
     }
 
     handleDragStart(event) {
