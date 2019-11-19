@@ -452,7 +452,7 @@ export default class Scrollbars extends Component {
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
             const thumbHorizontalX = scrollLeft / (scrollWidth - clientWidth) * (trackHorizontalWidth - thumbHorizontalWidth);
             const thumbHorizontalStyle = {
-                width: thumbHorizontalWidth,
+                width: thumbHorizontalWidth || 0,
                 transform: `translateX(${thumbHorizontalX}px)`
             };
             const { scrollTop, clientHeight, scrollHeight } = values;
@@ -460,7 +460,7 @@ export default class Scrollbars extends Component {
             const thumbVerticalHeight = this.getThumbVerticalHeight();
             const thumbVerticalY = scrollTop / (scrollHeight - clientHeight) * (trackVerticalHeight - thumbVerticalHeight);
             const thumbVerticalStyle = {
-                height: thumbVerticalHeight,
+                height: thumbVerticalHeight || 0,
                 transform: `translateY(${thumbVerticalY}px)`
             };
             if (hideTracksWhenNotNeeded) {
