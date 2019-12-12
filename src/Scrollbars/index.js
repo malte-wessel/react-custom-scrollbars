@@ -518,8 +518,8 @@ export default class Scrollbars extends Component {
         const viewStyle = {
             ...viewStyleDefault,
             // Hide scrollbars by setting a negative margin
-            marginRight: isFirefox ? '-15px' : 0,
-            marginBottom: isFirefox ? '-15px' : 0,
+            marginRight: 0,
+            marginBottom: 0,
             ...(autoHeight && {
                 ...viewStyleAutoHeight,
                 // Add scrollbarWidth to autoHeight in order to compensate negative margins
