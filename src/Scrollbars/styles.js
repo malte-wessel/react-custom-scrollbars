@@ -1,3 +1,5 @@
+const scrollTrackSize = 12;
+
 export const containerStyleDefault = {
     position: 'relative',
     overflow: 'hidden',
@@ -37,24 +39,36 @@ export const viewStyleUniversalInitial = {
 
 export const trackHorizontalStyleDefault = {
     position: 'absolute',
-    height: 6
+    width: '100%',
+    height: `${scrollTrackSize}px`,
+    bottom: '0',
+    left: '0',
+    padding: `${scrollTrackSize / 4}px`,
+    cursor: 'pointer',
 };
 
 export const trackVerticalStyleDefault = {
     position: 'absolute',
-    width: 6
+    width: `${scrollTrackSize}px`,
+    height: '100%',
+    top: '0',
+    right: '0',
+    padding: `${scrollTrackSize / 4}px`,
+    cursor: 'pointer',
 };
 
 export const thumbHorizontalStyleDefault = {
     position: 'relative',
     display: 'block',
-    height: '100%'
+    height: `${scrollTrackSize / 2}px`,
+    borderRadius: `${scrollTrackSize / 4}px`,
 };
 
 export const thumbVerticalStyleDefault = {
     position: 'relative',
     display: 'block',
-    width: '100%'
+    width: `${scrollTrackSize / 2}px`,
+    borderRadius: `${scrollTrackSize / 4}px`,
 };
 
 export const disableSelectStyle = {
