@@ -568,26 +568,26 @@ export default class Scrollbars extends Component {
                 display: 'none'
             })
         };
-
-        return createElement(tagName, { ...props, style: containerStyle, ref: (ref) => { this.container = ref; } }, [
+//         Added classes to the div elements to change its css as per requirements
+        return createElement(tagName, { ...props, classname: "scrollbar-container", style: containerStyle, ref: (ref) => { this.container = ref; } }, [
             cloneElement(
-                renderView({ style: viewStyle }),
+                renderView({ classname: "scrollbar-container-inner", style: viewStyle }),
                 { key: 'view', ref: (ref) => { this.view = ref; } },
                 children
             ),
             cloneElement(
-                renderTrackHorizontal({ style: trackHorizontalStyle }),
+                renderTrackHorizontal({ className: "scrollbar-horizontal-track", style: trackHorizontalStyle }),
                 { key: 'trackHorizontal', ref: (ref) => { this.trackHorizontal = ref; } },
                 cloneElement(
-                    renderThumbHorizontal({ style: thumbHorizontalStyleDefault }),
+                    renderThumbHorizontal({ className: "scrollbar-horizontal-thumb", style: thumbHorizontalStyleDefault }),
                     { ref: (ref) => { this.thumbHorizontal = ref; } }
                 )
             ),
             cloneElement(
-                renderTrackVertical({ style: trackVerticalStyle }),
+                renderTrackVertical({ className: "scrollbar-vertical-track", style: trackVerticalStyle }),
                 { key: 'trackVertical', ref: (ref) => { this.trackVertical = ref; } },
                 cloneElement(
-                    renderThumbVertical({ style: thumbVerticalStyleDefault }),
+                    renderThumbVertical({ className: "scrollbar-vertical-thumb", style: thumbVerticalStyleDefault }),
                     { ref: (ref) => { this.thumbVertical = ref; } }
                 )
             )
