@@ -211,11 +211,12 @@ export default class Scrollbars extends Component {
     }
 
     addListeners() {
+        const { forceActivate } = this.props;
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.addEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!forceActivate && !getScrollbarWidth()) return;
         trackHorizontal.addEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.addEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.addEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -228,11 +229,12 @@ export default class Scrollbars extends Component {
     }
 
     removeListeners() {
+        const { forceActivate } = this.props;
         /* istanbul ignore if */
         if (typeof document === 'undefined' || !this.view) return;
         const { view, trackHorizontal, trackVertical, thumbHorizontal, thumbVertical } = this;
         view.removeEventListener('scroll', this.handleScroll);
-        if (!getScrollbarWidth()) return;
+        if (!forceActivate && !getScrollbarWidth()) return;
         trackHorizontal.removeEventListener('mouseenter', this.handleTrackMouseEnter);
         trackHorizontal.removeEventListener('mouseleave', this.handleTrackMouseLeave);
         trackHorizontal.removeEventListener('mousedown', this.handleHorizontalTrackMouseDown);
@@ -444,9 +446,9 @@ export default class Scrollbars extends Component {
     }
 
     _update(callback) {
-        const { onUpdate, hideTracksWhenNotNeeded } = this.props;
+        const { onUpdate, hideTracksWhenNotNeeded, forceActivate } = this.props;
         const values = this.getValues();
-        if (getScrollbarWidth()) {
+        if (forceActivate || getScrollbarWidth()) {
             const { scrollLeft, clientWidth, scrollWidth } = values;
             const trackHorizontalWidth = getInnerWidth(this.trackHorizontal);
             const thumbHorizontalWidth = this.getThumbHorizontalWidth();
@@ -625,6 +627,7 @@ Scrollbars.propTypes = {
     universal: PropTypes.bool,
     style: PropTypes.object,
     children: PropTypes.node,
+    forceActivate: PropTypes.bool
 };
 
 Scrollbars.defaultProps = {
@@ -643,4 +646,5 @@ Scrollbars.defaultProps = {
     autoHeightMin: 0,
     autoHeightMax: 200,
     universal: false,
+    forceActivate: false
 };
