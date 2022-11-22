@@ -1,6 +1,6 @@
 {
   "name": "react-custom-scrollbars",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "test": "cross-env NODE_ENV=test karma start",
     "test:watch": "cross-env NODE_ENV=test karma start --auto-watch --no-single-run",
     "test:cov": "cross-env NODE_ENV=test COVERAGE=true karma start --single-run",
-    "prepublish": "npm run lint && npm run test && npm run clean && npm run build && npm run build:umd && npm run build:umd:min && node ./prepublish"
+    "prepublish": "npm run lint && npm run clean && npm run build && npm run build:umd && npm run build:umd:min && node ./prepublish"
   },
   "repository": {
     "type": "git",
