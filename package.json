@@ -1,6 +1,6 @@
 {
-  "name": "react-custom-scrollbars",
-  "version": "4.2.1",
+  "name": "@pezhmanparsaee/react-custom-scrollbars",
+  "version": "4.3.1",
   "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/malte-wessel/react-custom-scrollbars.git"
+    "url": "https://github.com/peZhmanParsaee/react-custom-scrollbars.git"
   },
   "keywords": [
     "scroll",
@@ -29,9 +29,9 @@
   "author": "Malte Wessel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/malte-wessel/react-custom-scrollbars/issues"
+    "url": "https://github.com/peZhmanParsaee/react-custom-scrollbars/issues"
   },
-  "homepage": "https://github.com/malte-wessel/react-custom-scrollbars",
+  "homepage": "https://github.com/peZhmanParsaee/react-custom-scrollbars",
   "devDependencies": {
     "babel-cli": "^6.2.0",
     "babel-core": "^6.2.1",
@@ -61,16 +61,16 @@
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.6.0",
     "mocha": "^2.2.5",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "rimraf": "^2.3.4",
     "simulant": "^0.2.2",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "dom-css": "^2.0.0",

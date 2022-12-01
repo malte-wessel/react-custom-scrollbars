@@ -5,6 +5,8 @@ react-custom-scrollbars
 [![npm version](https://img.shields.io/npm/v/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 [![npm downloads](https://img.shields.io/npm/dm/react-custom-scrollbars.svg?style=flat-square)](https://www.npmjs.com/package/react-custom-scrollbars)
 
+Because reac-custom-scrollbars is not updated since some while ago, then this is a fork from it to solve its latest issues
+
 * frictionless native browser scrolling
 * native scrollbars for mobile devices
 * [fully customizable](https://github.com/malte-wessel/react-custom-scrollbars/blob/master/docs/customization.md)
@@ -19,7 +21,7 @@ react-custom-scrollbars
 
 ## Installation
 ```bash
-npm install react-custom-scrollbars --save
+npm install @pezhmanparsaee/react-custom-scrollbars --save
 ```
 
 This assumes that you’re using [npm](http://npmjs.com/) package manager with a module bundler like [Webpack](http://webpack.github.io) or [Browserify](http://browserify.org/) to consume [CommonJS modules](http://webpack.github.io/docs/commonjs.html).
