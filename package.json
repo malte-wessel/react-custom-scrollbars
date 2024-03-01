@@ -1,6 +1,6 @@
 {
   "name": "react-custom-scrollbars",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "description": "React scrollbars component",
   "main": "lib/index.js",
   "scripts": {
@@ -75,6 +75,7 @@
   "dependencies": {
     "dom-css": "^2.0.0",
     "prop-types": "^15.5.10",
-    "raf": "^3.1.0"
+    "raf": "^3.1.0",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }

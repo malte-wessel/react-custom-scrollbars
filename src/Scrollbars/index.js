@@ -2,6 +2,7 @@ import raf, { cancel as caf } from 'raf';
 import css from 'dom-css';
 import { Component, createElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
+import ResizeObserver from 'resize-observer-polyfill';
 
 import isString from '../utils/isString';
 import getScrollbarWidth from '../utils/getScrollbarWidth';
@@ -65,6 +66,8 @@ export default class Scrollbars extends Component {
         this.handleScroll = this.handleScroll.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.handleDragEnd = this.handleDragEnd.bind(this);
+
+        this.resizeObserver = null;
 
         this.state = {
             didMountUniversal: false
@@ -226,6 +229,12 @@ export default class Scrollbars extends Component {
         thumbHorizontal.addEventListener('mousedown', this.handleHorizontalThumbMouseDown);
         thumbVertical.addEventListener('mousedown', this.handleVerticalThumbMouseDown);
         window.addEventListener('resize', this.handleWindowResize);
+
+        this.resizeObserver = new ResizeObserver(() => {
+            this.update();
+        });
+
+        this.resizeObserver.observe(view);
     }
 
     removeListeners() {
@@ -246,6 +255,10 @@ export default class Scrollbars extends Component {
         window.removeEventListener('resize', this.handleWindowResize);
         // Possibly setup by `handleDragStart`
         this.teardownDragging();
+
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
     }
 
     handleScroll(event) {
